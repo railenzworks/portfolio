@@ -2,31 +2,19 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "serve",
+      "label": "dev",
       "type": "shell",
-      "command": "npx serve -l 3000 .",
+      "command": "npm run dev",
       "isBackground": true,
       "problemMatcher": {
         "pattern": { "regexp": "^$" },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "INFO",
-          "endsPattern": "Accepting connections"
+          "beginsPattern": "▲ Next.js",
+          "endsPattern": "Local:\\s+http://localhost"
         }
       },
       "presentation": { "reveal": "silent", "panel": "dedicated" }
-    },
-    {
-      "label": "deploy",
-      "type": "shell",
-      "command": "$env:PATH = 'C:\\Users\\matia\\AppData\\Local\\pnpm\\bin;' + $env:PATH; netlify deploy --dir . --prod",
-      "options": { "shell": { "executable": "powershell.exe" } },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "problemMatcher": []
     }
   ]
 }

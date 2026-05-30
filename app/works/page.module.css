@@ -1,0 +1,41 @@
+.wHero {
+  padding: clamp(120px, 17vh, 210px) 0 clamp(30px, 5vh, 60px);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+.wHero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-top: 0.1em;
+}
+
+.wHero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  transition: color 0.5s var(--ease);
+}
+
+.sub {
+  max-width: 46ch;
+  margin-top: 24px;
+  color: var(--ink-70);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+}
+
+/* chip styles are in globals.css */
