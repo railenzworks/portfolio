@@ -2,26 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Serve & Open (Chrome)",
+      "name": "Open in Opera GX",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeExecutable": "C:\\Users\\matia\\AppData\\Local\\Programs\\Opera GX\\opera.exe",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "dev"
+    },
+    {
+      "name": "Open in Chrome",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "serve"
+      "preLaunchTask": "dev"
     },
     {
-      "name": "Serve & Open (Edge)",
+      "name": "Open in Edge",
       "type": "msedge",
       "request": "launch",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "serve"
-    },
-    {
-      "name": "Open File (no server)",
-      "type": "chrome",
-      "request": "launch",
-      "file": "${workspaceFolder}/index.html"
+      "preLaunchTask": "dev"
     }
   ]
 }

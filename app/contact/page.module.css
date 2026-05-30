@@ -1,0 +1,118 @@
+.cHero {
+  padding: clamp(120px, 16vh, 200px) 0 clamp(20px, 3vh, 40px);
+}
+
+.top {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cHero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(3rem, 11vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-top: 0.12em;
+}
+
+.cHero h1 em { font-style: italic; color: var(--accent); }
+
+.cAvail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2faa6a;
+  box-shadow: 0 0 0 0 rgba(47, 170, 106, 0.5);
+  animation: pulse 2s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(47, 170, 106, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(47, 170, 106, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 170, 106, 0); }
+}
+
+.cGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(30px, 5vw, 80px) 24px;
+  padding: clamp(40px, 7vh, 90px) 0 clamp(70px, 11vh, 150px);
+  align-items: start;
+}
+
+/* aside */
+.aside {
+  grid-column: 9 / 13;
+}
+
+.blk {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+
+.k {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  margin-bottom: 10px;
+}
+
+.aside .blk a,
+.v {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  display: block;
+}
+
+.aside .blk a { transition: color 0.3s; }
+.aside .blk a:hover { color: var(--accent); }
+
+.socs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cAvatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--teal);
+  overflow: hidden;
+  margin-bottom: 26px;
+  position: relative;
+}
+
+@media (max-width: 880px) {
+  .aside { grid-column: 1 / 13; }
+}
+
+@media (max-width: 480px) {
+  .cHero h1 { font-size: clamp(3rem, 12vw, 6rem); }
+  .aside .blk a, .v { font-size: 1.25rem; }
+}

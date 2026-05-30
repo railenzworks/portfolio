@@ -1,0 +1,17 @@
+.brand {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+.brand b {
+  font-style: normal;
+  font-weight: 700;
+}
+
+@media (max-width: 540px) {
+  .brand {
+    font-size: 1.2rem;
+  }
+}

@@ -40,7 +40,15 @@
       "Bash(curl -s -X POST https://api.netlify.com/api/v1/sites/2d455d1e-4aa0-40ae-b67f-8e71f6a15463/deploys/6a1ae196cc6b73b820c1d989/restore -H 'Authorization: Bearer __TRACKED_VAR__' -H 'Content-Type: application/json')",
       "Bash(node -e \"process.stdin.resume\\(\\);let b='';process.stdin.on\\('data',d=>b+=d\\);process.stdin.on\\('end',\\(\\)=>{const d=JSON.parse\\(b\\);console.log\\('state:',d.state||d.errors||d.message||JSON.stringify\\(d\\).slice\\(0,120\\)\\)}\\)\")",
       "Bash(chromium-cli --session review)",
-      "Bash(node -e \"require\\('playwright'\\)\")"
+      "Bash(node -e \"require\\('playwright'\\)\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\public\\\\images\\\\work\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\app\\\\works\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\app\\\\about\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\app\\\\contact\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\components\\\\works\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\components\\\\contact\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\hooks\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\git\\\\Railenz\\\\portfolio\\\\lib\")"
     ]
   }
 }
