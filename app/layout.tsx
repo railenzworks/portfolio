@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import { Sora, Manrope, Space_Mono } from 'next/font/google';
 import './globals.css';
-import { Nav } from '@/components/Nav';
-import { CustomCursor } from '@/components/CustomCursor';
-import { PageTransition } from '@/components/PageTransition';
 
 const sora = Sora({
   subsets: ['latin'],
@@ -28,11 +25,8 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: 'María Railenz — Illustration & Graphic Design',
-    template: '%s — María Railenz',
-  },
-  description: 'Illustration & Graphic Design. Madrid — Worldwide.',
+  title: 'María Railenz — Coming Soon',
+  description: 'Illustration & Graphic Design. Portfolio coming soon.',
   icons: { icon: '/favicon.png' },
 };
 
@@ -42,12 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${sora.variable} ${manrope.variable} ${spaceMono.variable}`}
     >
-      <body>
-        <CustomCursor />
-        <PageTransition />
-        <Nav />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
