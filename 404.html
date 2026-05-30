@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — María Railenz</title>
+<link rel="icon" type="image/png" href="assets/maria-cut.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  body{--accent:#17150f;}
+  .not-found{
+    min-height:100svh;display:flex;flex-direction:column;
+    justify-content:center;align-items:flex-start;padding:var(--pad);
+  }
+  .not-found__num{
+    font-family:var(--serif);font-size:clamp(8rem,28vw,24rem);
+    line-height:.82;letter-spacing:-.03em;color:var(--teal-deep);
+    pointer-events:none;
+  }
+  .not-found__msg{
+    font-family:var(--read);font-style:italic;
+    font-size:clamp(1.2rem,2.5vw,2rem);
+    color:var(--ink-70);margin-top:16px;
+  }
+  .not-found__back{margin-top:40px;}
+</style>
+</head>
+<body data-page="404">
+
+<nav class="nav">
+  <a href="index.html" class="brand">María <b>Railenz</b></a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="works.html" data-accent="#17150f">Works</a>
+    <a href="about.html" data-accent="#8ad2d4">About</a>
+    <a href="contact.html" data-accent="#3a67f0">Contact</a>
+  </div>
+</nav>
+
+<div class="not-found wrap">
+  <div class="not-found__num reveal">404</div>
+  <p class="not-found__msg reveal reveal-d1">This page wandered off.</p>
+  <a href="index.html" class="btn not-found__back reveal reveal-d2" data-accent="#17150f"><span>Back to Index</span></a>
+</div>
+
+<script src="site.js"></script>
+</body>
+</html>

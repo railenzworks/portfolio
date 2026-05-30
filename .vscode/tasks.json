@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "serve",
+      "type": "shell",
+      "command": "npx serve -l 3000 .",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "INFO",
+          "endsPattern": "Accepting connections"
+        }
+      },
+      "presentation": { "reveal": "silent", "panel": "dedicated" }
+    },
+    {
+      "label": "deploy",
+      "type": "shell",
+      "command": "$env:PATH = 'C:\\Users\\matia\\AppData\\Local\\pnpm\\bin;' + $env:PATH; netlify deploy --dir . --prod",
+      "options": { "shell": { "executable": "powershell.exe" } },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
