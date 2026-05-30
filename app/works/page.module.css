@@ -1,5 +1,6 @@
 .wHero {
-  padding: clamp(120px, 17vh, 210px) 0 clamp(30px, 5vh, 60px);
+  padding-top: clamp(120px, 17vh, 210px);
+  padding-bottom: clamp(30px, 5vh, 60px);
 }
 
 .top {
