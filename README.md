@@ -1,7 +1,7 @@
 # María Railenz — Portfolio
 
 Live at **[mariarailenz.qzz.io](https://mariarailenz.qzz.io)**  
-Netlify fallback: [jade-sfogliatella-c0887e.netlify.app](https://jade-sfogliatella-c0887e.netlify.app)
+Netlify fallback: [jade-sfogliatella-c0887e.netlify.app](https://jade-sfogliatella-c0887e.netlify.app) 
 
 ## Project structure
 
