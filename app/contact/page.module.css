@@ -1,5 +1,6 @@
 .cHero {
-  padding: clamp(120px, 16vh, 200px) 0 clamp(20px, 3vh, 40px);
+  padding-top: clamp(120px, 16vh, 200px);
+  padding-bottom: clamp(20px, 3vh, 40px);
 }
 
 .top {
@@ -59,7 +60,8 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: clamp(30px, 5vw, 80px) 24px;
-  padding: clamp(40px, 7vh, 90px) 0 clamp(70px, 11vh, 150px);
+  padding-top: clamp(40px, 7vh, 90px);
+  padding-bottom: clamp(70px, 11vh, 150px);
   align-items: start;
 }
 

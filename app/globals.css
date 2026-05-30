@@ -261,6 +261,7 @@ body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity
    ============================================================ */
 @media (hover: none) {
   body { cursor: auto; }
+  .cursor, .cursor-ring, .cursor-label { display: none; }
   .btn, .chip, .pill, .card, .work, .disc, .ov__close, .ov__next { cursor: pointer !important; }
 }
 

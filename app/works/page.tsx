@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { PROJECTS } from '@/lib/projects';
 import { WorksGrid } from '@/components/works/WorksGrid';
 import { Footer } from '@/components/Footer';
+import { ScrollRevealWrapper } from '@/components/ScrollRevealWrapper';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function WorksPage() {
   return (
-    <>
+    <ScrollRevealWrapper>
       <header className={`${styles.wHero} wrap`}>
         <div className={`${styles.top} reveal`}>
           <span>Archive — {PROJECTS.length} projects</span>
@@ -31,6 +32,6 @@ export default function WorksPage() {
         headline="what you see?"
         cta={{ label: 'Start a project', href: '/contact', accent: '#3a67f0' }}
       />
-    </>
+    </ScrollRevealWrapper>
   );
 }

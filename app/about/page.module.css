@@ -1,5 +1,6 @@
 .aHero {
-  padding: clamp(120px, 17vh, 210px) 0 clamp(40px, 6vh, 80px);
+  padding-top: clamp(120px, 17vh, 210px);
+  padding-bottom: clamp(40px, 6vh, 80px);
 }
 
 .top {
@@ -169,7 +170,8 @@
 
 /* practice */
 .practice {
-  padding: clamp(60px, 11vh, 140px) 0;
+  padding-top: clamp(60px, 11vh, 140px);
+  padding-bottom: clamp(60px, 11vh, 140px);
 }
 
 .practiceRow {
@@ -232,7 +234,8 @@
 
 /* recognition */
 .reco {
-  padding: clamp(40px, 7vh, 90px) 0 clamp(70px, 11vh, 150px);
+  padding-top: clamp(40px, 7vh, 90px);
+  padding-bottom: clamp(70px, 11vh, 150px);
 }
 
 .recoHead {
