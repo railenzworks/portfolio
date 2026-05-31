@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Active",
+      "type": "node",
+      "request": "launch",
+      "preLaunchTask": "dev",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
       "name": "Open in Chrome",
       "type": "chrome",
       "request": "launch",
