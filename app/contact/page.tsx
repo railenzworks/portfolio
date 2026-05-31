@@ -41,7 +41,7 @@ export default function ContactPage() {
           </div>
           <div className={styles.blk} style={{ borderTop: 0, paddingTop: 0 }}>
             <div className={styles.k}>Email</div>
-            <a href="mailto:hola@mariarailenz.com">hola@mariarailenz.com</a>
+            <a href="mailto:railenzworks@gmail.com">railenzworks@gmail.com</a>
           </div>
           <div className={styles.blk}>
             <div className={styles.k}>Studio</div>

@@ -2,15 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Open in Opera GX",
-      "type": "chrome",
-      "request": "launch",
-      "runtimeExecutable": "C:\\Users\\matia\\AppData\\Local\\Programs\\Opera GX\\opera.exe",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "dev"
-    },
-    {
       "name": "Open in Chrome",
       "type": "chrome",
       "request": "launch",

@@ -154,7 +154,7 @@ export default function HomePage() {
       <Footer
         preword="Say"
         headline="hello —"
-        cta={{ label: 'hola@mariarailenz.com', href: 'mailto:hola@mariarailenz.com' }}
+        cta={{ label: 'railenzworks@gmail.com', href: 'mailto:railenzworks@gmail.com' }}
       />
     </ScrollRevealWrapper>
   );
