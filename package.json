@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "next": "^15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -17,8 +18,8 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5",
     "eslint": "^9",
-    "eslint-config-next": "^15.3.3"
+    "eslint-config-next": "^15.3.3",
+    "typescript": "^5"
   }
 }
