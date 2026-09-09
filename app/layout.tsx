@@ -4,6 +4,7 @@ import './globals.css';
 import { Nav } from '@/components/Nav';
 import { CustomCursor } from '@/components/CustomCursor';
 import { PageTransition } from '@/components/PageTransition';
+import { FloatingCat } from '@/components/FloatingCat';
 
 const sora = Sora({
   subsets: ['latin'],
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     default: 'María Railenz — Illustration & Graphic Design',
     template: '%s — María Railenz',
   },
-  description: 'Illustration & Graphic Design. Madrid — Worldwide.',
+  description: 'Illustration & Graphic Design. From the mountains.',
   icons: { icon: '/favicon.png' },
 };
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <PageTransition />
         <Nav />
         {children}
+        <FloatingCat />
       </body>
     </html>
   );

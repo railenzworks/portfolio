@@ -34,7 +34,7 @@
 .cardMedia {
   position: relative;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--radius);
   background: var(--paper);
 }
 

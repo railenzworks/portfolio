@@ -49,7 +49,7 @@
 .frame {
   aspect-ratio: 4/5;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--radius);
   background: var(--teal);
   position: relative;
 }
@@ -179,7 +179,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 0;
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -266,6 +266,8 @@
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .clients div {

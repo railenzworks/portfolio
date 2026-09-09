@@ -1,0 +1,33 @@
+.wrap {
+  position: fixed;
+  right: clamp(12px, 3vw, 28px);
+  bottom: 0;
+  width: 128px;
+  height: 210px;
+  z-index: 150;
+  pointer-events: none;
+}
+
+.wrap svg[role] {
+  pointer-events: auto;
+  outline: none;
+  /* thin dark outline so the white cat still reads over light sections */
+  filter:
+    drop-shadow(1px 0 0 #17150f)
+    drop-shadow(-1px 0 0 #17150f)
+    drop-shadow(0 1px 0 #17150f)
+    drop-shadow(0 -1px 0 #17150f);
+}
+
+.wrap svg[role]:focus-visible {
+  outline: 2px solid #17150f;
+  outline-offset: 6px;
+}
+
+@media (hover: none) {
+  .wrap { display: none; }
+}
+
+@media (max-width: 640px) {
+  .wrap { width: 96px; height: 170px; }
+}
