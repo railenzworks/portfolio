@@ -34,14 +34,14 @@ export default function ContactPage() {
             <Image
               src="/images/maria-cut.png"
               alt="María Railenz"
-              width={185}
-              height={140}
-              style={{ position: 'absolute', left: '50%', top: '-30px', transform: 'translateX(-50%)' }}
+              fill
+              sizes="96px"
+              style={{ objectFit: 'cover' }}
             />
           </div>
           <div className={styles.blk} style={{ borderTop: 0, paddingTop: 0 }}>
             <div className={styles.k}>Email</div>
-            <a href="mailto:hola@mariarailenz.com">hola@mariarailenz.com</a>
+            <a href="mailto:railenzworks@gmail.com">railenzworks@gmail.com</a>
           </div>
           <div className={styles.blk}>
             <div className={styles.k}>Studio</div>
