@@ -6,41 +6,19 @@
   padding: clamp(24px, 4vw, 52px) clamp(24px, 5vw, 80px);
 }
 
-/* ── Top bar ── */
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 16px;
-}
-
-.brand {
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-}
-
-.brand b {
-  font-weight: 700;
-}
-
-.copy {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-70);
-}
-
 /* ── Center ── */
 .center {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
   padding-block: clamp(60px, 12vh, 140px);
+}
+
+.catWrap {
+  margin-bottom: clamp(16px, 3vw, 32px);
 }
 
 .label {
@@ -55,22 +33,23 @@
 .heading {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: clamp(3.2rem, 12vw, 11rem);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
-  margin-bottom: clamp(28px, 4vw, 52px);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(20px, 3vw, 36px);
 }
 
-.heading em {
-  font-style: italic;
-  color: var(--teal-deep);
+.heading .accent {
+  color: var(--blue);
 }
 
 .sub {
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-family: var(--read);
+  font-size: clamp(0.85rem, 1.6vw, 1.35rem);
   color: var(--ink-70);
   line-height: 1.6;
-  max-width: 40ch;
+  max-width: 44ch;
+  white-space: nowrap;
 }
 
 /* ── Bottom bar ── */
@@ -80,8 +59,6 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 12px;
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
 }
 
 .location {
@@ -93,9 +70,9 @@
 }
 
 .email {
-  font-family: var(--serif);
+  font-family: var(--read);
   font-size: clamp(1rem, 1.8vw, 1.4rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
   transition: color 0.3s;
 }
@@ -107,4 +84,8 @@
 @media (max-width: 480px) {
   .heading { letter-spacing: -0.02em; }
   .bottom { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 380px) {
+  .sub { font-size: 0.72rem; }
 }

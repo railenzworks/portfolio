@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
+import { FloatingCat } from '@/components/FloatingCat';
 
 export const metadata: Metadata = {
   title: 'María Railenz — Coming Soon',
@@ -9,16 +10,13 @@ export const metadata: Metadata = {
 export default function WIPPage() {
   return (
     <main className={styles.root}>
-      <div className={styles.top}>
-        <span className={styles.brand}>María <b>Railenz</b></span>
-        <span className={styles.copy}>© 2026</span>
-      </div>
-
       <div className={styles.center}>
+        <div className={styles.catWrap}>
+          <FloatingCat />
+        </div>
         <p className={styles.label}>Illustration &amp; Graphic Design</p>
         <h1 className={styles.heading}>
-          New portfolio<br />
-          <em>in progress.</em>
+          New <span className={styles.accent}>portfolio</span> in <span className={styles.accent}>progress</span>.
         </h1>
         <p className={styles.sub}>
           Something worth looking at is on its way.<br />

@@ -1,0 +1,73 @@
+.wrap {
+  position: relative;
+  width: clamp(150px, 20vw, 210px);
+  aspect-ratio: 268 / 214;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.wrap svg[role] {
+  pointer-events: auto;
+  outline: none;
+}
+
+.wrap svg[role]:focus-visible {
+  outline: 2px solid #17150f;
+  outline-offset: 6px;
+}
+
+.picker {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  box-shadow: 0 10px 24px rgba(23, 21, 15, 0.14);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(6px) scale(0.92);
+  transform-origin: center bottom;
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+}
+
+.picker.open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.pickerBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pickerBtn:hover {
+  background: var(--line);
+}
+
+.pickerBtnActive {
+  background: var(--accent);
+  color: var(--cream);
+}
+

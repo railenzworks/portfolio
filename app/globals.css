@@ -10,10 +10,12 @@
   --teal: #8ad2d4;
   --teal-deep: #3f8d90;
   --blue: #3a67f0;
+  --accent: #17150f;
   --serif: var(--font-serif), sans-serif;
   --read: var(--font-read), sans-serif;
   --mono: var(--font-mono), ui-monospace, monospace;
-  --bg: #f5f4ef;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg: #ffffff;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,3 +30,21 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 ::selection { background: var(--teal-deep); color: var(--cream); }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed; top: clamp(14px, 2.4vw, 28px); left: 50%; z-index: 200;
+  transform: translateX(-50%);
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(12px, 1.6vw, 18px) clamp(20px, 2.8vw, 32px);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  border-radius: 100px;
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+  color: var(--ink);
+}
