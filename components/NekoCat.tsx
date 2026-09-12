@@ -663,7 +663,8 @@ export function NekoCat(props: NekoCatProps) {
               />
               {patchColor && (
                 <g clipPath={`url(#${tailClipId})`}>
-                  <ellipse cx="210" cy="60" rx="8" ry="6.5" fill={patchColor} />
+                  <ellipse cx="212" cy="62" rx="15" ry="13" fill={patchColor} />
+                  <ellipse cx="192" cy="98" rx="11" ry="9" fill={patchColor} />
                 </g>
               )}
             </g>
@@ -674,8 +675,8 @@ export function NekoCat(props: NekoCatProps) {
             </g>
             {patchColor && (
               <g clipPath={`url(#${furClipId})`}>
-                <ellipse cx="76" cy="102" rx="15" ry="12" fill={patchColor} />
-                <ellipse cx="140" cy="102" rx="15" ry="12" fill={patchColor} />
+                <ellipse cx="70" cy="92" rx="19" ry="16" fill={patchColor} />
+                <ellipse cx="146" cy="92" rx="19" ry="16" fill={patchColor} />
               </g>
             )}
             {eyeColor && (

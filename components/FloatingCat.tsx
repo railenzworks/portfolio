@@ -70,7 +70,7 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
       <NekoCat
         furColor="#ffffff"
         eyeColor="#3a67f0"
-        patchColor="#ef6a43"
+        patchColor="#e3ab7c"
         emotion={emotion}
         message="hey — scroll around"
         font={{ fontFamily: 'var(--read)', fontSize: 14 }}
