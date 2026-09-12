@@ -6,7 +6,6 @@ import { TransitionLink } from './TransitionLink';
 import styles from './Nav.module.css';
 
 const LINKS = [
-  { href: '/', label: 'Home', accent: '#17150f' },
   { href: '/works', label: 'Works', accent: '#17150f' },
   { href: '/about', label: 'About', accent: '#8ad2d4' },
   { href: '/contact', label: 'Contact', accent: '#3a67f0' },

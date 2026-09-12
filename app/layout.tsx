@@ -1,29 +1,35 @@
 import type { Metadata } from 'next';
-import { Sora, Manrope, Space_Mono } from 'next/font/google';
+import { Parkinsans } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { Nav } from '@/components/Nav';
 import { CustomCursor } from '@/components/CustomCursor';
 import { PageTransition } from '@/components/PageTransition';
 import { FloatingCat } from '@/components/FloatingCat';
 
-const sora = Sora({
-  subsets: ['latin'],
-  weight: ['400', '700', '800'],
+const valleySans = localFont({
+  src: [
+    { path: './fonts/ValleySans-Regular.ttf', weight: '400', style: 'normal' },
+    { path: './fonts/ValleySans-Italic.ttf', weight: '400', style: 'italic' },
+    { path: './fonts/ValleySans-Bold.ttf', weight: '700', style: 'normal' },
+    { path: './fonts/ValleySans-BoldItalic.ttf', weight: '700', style: 'italic' },
+    { path: './fonts/ValleySans-ExtraBold.ttf', weight: '800', style: 'normal' },
+    { path: './fonts/ValleySans-ExtraBoldItalic.ttf', weight: '800', style: 'italic' },
+  ],
   variable: '--font-serif',
   display: 'swap',
 });
 
-const manrope = Manrope({
+const parkinsansRead = Parkinsans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-read',
   display: 'swap',
 });
 
-const spaceMono = Space_Mono({
+const parkinsansMono = Parkinsans({
   subsets: ['latin'],
   weight: ['400', '700'],
-  style: ['normal', 'italic'],
   variable: '--font-mono',
   display: 'swap',
 });
@@ -41,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${manrope.variable} ${spaceMono.variable}`}
+      className={`${valleySans.variable} ${parkinsansRead.variable} ${parkinsansMono.variable}`}
     >
       <body>
         <CustomCursor />

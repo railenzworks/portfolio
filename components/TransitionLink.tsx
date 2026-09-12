@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import type { ComponentPropsWithoutRef } from 'react';
 
 interface TransitionLinkProps extends ComponentPropsWithoutRef<typeof Link> {
@@ -10,10 +10,17 @@ interface TransitionLinkProps extends ComponentPropsWithoutRef<typeof Link> {
 
 export function TransitionLink({ href, accent, onClick, children, ...props }: TransitionLinkProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) onClick(e);
     if (e.defaultPrevented) return;
+
+    if (href === pathname) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
