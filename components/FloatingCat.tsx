@@ -72,7 +72,6 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
         eyeColor="#3a67f0"
         patchColor="#e3ab7c"
         emotion={emotion}
-        message="hey — scroll around"
         font={{ fontFamily: 'var(--read)', fontSize: 14 }}
         textColor="#17150f"
       />
