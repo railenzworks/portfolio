@@ -99,6 +99,7 @@
   line-height: 1.6;
   color: var(--ink);
   max-width: 52ch;
+  white-space: pre-line;
 }
 
 .facts {

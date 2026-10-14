@@ -26,10 +26,13 @@ export const PROJECTS: Project[] = [
     disc: 'illustration',
     cat: 'Editorial',
     year: '2025',
-    img: '/images/work/ill-1.png',
+    img: '/images/work/las-caras-de-la-mente.webp',
     role: 'Illustration, Art Direction',
     med: 'Digital · Risograph',
-    desc: 'A series of editorial illustrations exploring states of growth and decay for a quarterly culture magazine. Organic forms bleed across the gutter, treating each spread as a single breathing image.',
+    desc:
+      'Las caras de la mente es un proyecto que surge al unir dos pasiones personales; el interés por el funcionamiento de la mente y el arte.\n\n' +
+      'Las caras de la mente es una interpretación de algunos trastornos mentales en forma de ilustración y poesía cuya intención es invitar a la reflexión individual.\n\n' +
+      'Para complementar y contextualizar, cada apartado cuenta con un anexo que contiene información de cada trastorno tratado; pero este libro no tiene por finalidad educar o diagnosticar. Las caras de la mente quiere transmitir, provocar y mover emociones.',
   },
   {
     id: 'paper-creatures',
@@ -115,12 +118,7 @@ export const DISC_LABEL: Record<Discipline, string> = {
   graphic: 'Graphic Design',
 };
 
-export const FEATURED_PROJECT_IDS = [
-  'bloom-states',
-  'northbound',
-  'paper-creatures',
-  'format-01',
-] as const;
+export const FEATURED_PROJECT_IDS = ['bloom-states'] as const;
 
 export function getFeaturedProjects(): Project[] {
   return FEATURED_PROJECT_IDS

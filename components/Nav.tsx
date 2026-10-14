@@ -1,19 +1,28 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { TransitionLink } from './TransitionLink';
 import styles from './Nav.module.css';
 
 const LINKS = [
-  { href: '/works', label: 'Works', accent: '#17150f' },
-  { href: '/about', label: 'About', accent: '#8ad2d4' },
-  { href: '/contact', label: 'Contact', accent: '#3a67f0' },
+  { href: '/works', label: 'Works' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Nav() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
+  const linksRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLSpanElement>(null);
+  const pillShown = useRef(false);
+
+  // The pill jumps to the clicked link right away instead of waiting
+  // for the route change, then follows the real pathname.
+  const [clicked, setClicked] = useState<string | null>(null);
+  useEffect(() => setClicked(null), [pathname]);
+  const activeHref = clicked ?? LINKS.find((l) => pathname.startsWith(l.href))?.href ?? null;
 
   useEffect(() => {
     const nav = navRef.current;
@@ -27,26 +36,57 @@ export function Nav() {
     return () => ro.disconnect();
   }, []);
 
+  // Slide the single background pill under the active link.
+  useLayoutEffect(() => {
+    const links = linksRef.current;
+    const pill = pillRef.current;
+    if (!links || !pill) return;
+
+    const place = () => {
+      const target = activeHref
+        ? links.querySelector<HTMLElement>(`a[href="${activeHref}"]`)
+        : null;
+      if (!target) {
+        pill.style.opacity = '0';
+        pillShown.current = false;
+        return;
+      }
+      // Appearing from nothing (e.g. leaving the home page): snap into
+      // place and fade in rather than sliding in from a stale spot.
+      if (!pillShown.current) pill.style.transition = 'opacity 0.25s';
+      pill.style.width = `${target.offsetWidth}px`;
+      pill.style.transform = `translateX(${target.offsetLeft}px)`;
+      pill.style.opacity = '1';
+      if (!pillShown.current) {
+        pill.getBoundingClientRect();
+        pill.style.transition = '';
+        pillShown.current = true;
+      }
+    };
+
+    place();
+    const ro = new ResizeObserver(place);
+    Array.from(links.children).forEach((el) => ro.observe(el));
+    return () => ro.disconnect();
+  }, [activeHref]);
+
   return (
     <nav className="nav" ref={navRef}>
-      <TransitionLink href="/" className={styles.brand} accent="#17150f">
+      <TransitionLink href="/" className={styles.brand}>
         MARÍA <span className={styles.accent}>RAILENZ</span>
       </TransitionLink>
-      <div className="links">
-        {LINKS.map(({ href, label, accent }) => {
-          const current =
-            href === '/' ? pathname === '/' : pathname.startsWith(href);
-          return (
-            <TransitionLink
-              key={href}
-              href={href}
-              accent={accent}
-              aria-current={current ? 'page' : undefined}
-            >
-              {label}
-            </TransitionLink>
-          );
-        })}
+      <div className="links" ref={linksRef}>
+        <span className="nav-pill" ref={pillRef} aria-hidden="true" />
+        {LINKS.map(({ href, label }) => (
+          <TransitionLink
+            key={href}
+            href={href}
+            aria-current={href === activeHref ? 'page' : undefined}
+            onClick={() => setClicked(href)}
+          >
+            {label}
+          </TransitionLink>
+        ))}
       </div>
     </nav>
   );

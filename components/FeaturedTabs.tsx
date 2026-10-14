@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type MouseEvent } from 'react';
 import type { Project, Discipline } from '@/lib/projects';
 import { TransitionLink } from './TransitionLink';
 import styles from './FeaturedTabs.module.css';
@@ -51,11 +51,31 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
   const next = useCallback(() => setActive((i) => (i + 1) % count), [count]);
   const prev = useCallback(() => setActive((i) => (i - 1 + count) % count), [count]);
 
+  // Hover parallax: the image drifts slightly away from the cursor.
+  const onMediaMove = (e: MouseEvent<HTMLAnchorElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mx', String((e.clientX - r.left) / r.width - 0.5));
+    e.currentTarget.style.setProperty('--my', String((e.clientY - r.top) / r.height - 0.5));
+  };
+  const onMediaLeave = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.setProperty('--mx', '0');
+    e.currentTarget.style.setProperty('--my', '0');
+  };
+
   if (!current) return null;
+  const single = count === 1;
 
   return (
-    <div className={`${styles.root} reveal`}>
-      <div className={styles.media}>
+    <div className={`${styles.root} ${single ? styles.single : ''} reveal`}>
+      <TransitionLink
+        href={`/works#${current.id}`}
+        className={styles.media}
+        data-cursor="view"
+        data-label="Open"
+        aria-label={`Open ${current.title}`}
+        onMouseMove={onMediaMove}
+        onMouseLeave={onMediaLeave}
+      >
         {projects.map((p, i) => (
           <div
             key={p.id}
@@ -73,9 +93,10 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
           </div>
         ))}
         <div className={styles.grain} />
-      </div>
+      </TransitionLink>
 
       <div className={styles.card}>
+        {!single && (
         <div className={styles.tabs} role="tablist" aria-label="Selected works">
           {projects.map((p, i) => (
             <button
@@ -90,6 +111,7 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
             </button>
           ))}
         </div>
+        )}
 
         <div className={styles.body} key={current.id}>
           <div className={styles.eyebrow}>
@@ -97,26 +119,26 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
             {DISC_LABEL[current.disc]} · {current.cat} · {current.year}
           </div>
           <h3 className={styles.title}>{current.title}</h3>
-          <p className={styles.desc}>{current.desc}</p>
+          <p className={styles.desc}>{current.desc.split('\n\n')[0]}</p>
         </div>
 
         <div className={styles.actions}>
           <TransitionLink
             href={`/works#${current.id}`}
             className={styles.primary}
-            accent="#17150f"
             data-cursor="view"
             data-label="Open"
           >
             <span>Open project</span>
             <Arrow />
           </TransitionLink>
-          <TransitionLink href="/works" className={styles.secondary} accent="#17150f">
+          <TransitionLink href="/works" className={styles.secondary}>
             All projects ({totalProjects})
           </TransitionLink>
         </div>
       </div>
 
+      {!single && (
       <div className={styles.nav}>
         <div className={styles.counter}>
           {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
@@ -130,6 +152,7 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 }

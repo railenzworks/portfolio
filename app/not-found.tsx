@@ -11,7 +11,7 @@ export default function NotFound() {
           <p style={{ marginTop: '24px', maxWidth: '36ch', color: 'var(--ink-70)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)' }}>
             That page doesn&apos;t exist. Let&apos;s get you back on track.
           </p>
-          <TransitionLink href="/" className="btn" style={{ marginTop: '40px' }} accent="#17150f">
+          <TransitionLink href="/" className="btn" style={{ marginTop: '40px' }}>
             <span>Back home</span>
           </TransitionLink>
         </div>
@@ -19,7 +19,7 @@ export default function NotFound() {
       <Footer
         preword="See"
         headline="the work —"
-        cta={{ label: 'Browse projects', href: '/works', accent: '#17150f' }}
+        cta={{ label: 'Browse projects', href: '/works' }}
       />
     </>
   );

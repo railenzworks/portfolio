@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { NekoCat, type NekoEmotion } from './NekoCat';
 import styles from './FloatingCat.module.css';
@@ -20,6 +21,7 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
   const [emotion, setEmotion] = useState<NekoEmotion>(initialEmotion);
   const [pickerOpen, setPickerOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onFirstScroll = () => {
@@ -29,6 +31,37 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
     window.addEventListener('scroll', onFirstScroll, { passive: true });
     return () => window.removeEventListener('scroll', onFirstScroll);
   }, []);
+
+  // The cat rides fixed to the bottom of the screen until the word marquee
+  // (or the footer, on pages without one) scrolls up to meet it; from then
+  // on it stays perched on top of it and scrolls away with the page.
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    let raf = 0;
+
+    const update = () => {
+      raf = 0;
+      const floor = document.querySelector('.marquee') ?? document.querySelector('.foot');
+      const lift = floor ? Math.max(0, window.innerHeight - floor.getBoundingClientRect().top) : 0;
+      wrap.style.transform = lift ? `translateY(${-lift}px)` : '';
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    const ro = new ResizeObserver(schedule);
+    ro.observe(document.body);
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      ro.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (!pickerOpen) return;

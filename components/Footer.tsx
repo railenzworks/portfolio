@@ -3,7 +3,7 @@ import { TransitionLink } from './TransitionLink';
 interface FooterProps {
   preword: string;
   headline: string;
-  cta: { label: string; href: string; accent?: string };
+  cta: { label: string; href: string };
 }
 
 export function Footer({ preword, headline, cta }: FooterProps) {
@@ -15,7 +15,7 @@ export function Footer({ preword, headline, cta }: FooterProps) {
         {isExternal ? (
           <a href={cta.href}>{cta.label}</a>
         ) : (
-          <TransitionLink href={cta.href} accent={cta.accent}>
+          <TransitionLink href={cta.href}>
             {cta.label}
           </TransitionLink>
         )}

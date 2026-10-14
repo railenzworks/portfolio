@@ -64,7 +64,7 @@ export default function ContactPage() {
       <Footer
         preword="See"
         headline="the work —"
-        cta={{ label: 'Browse projects', href: '/works', accent: '#17150f' }}
+        cta={{ label: 'Browse projects', href: '/works' }}
       />
     </ScrollRevealWrapper>
   );

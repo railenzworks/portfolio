@@ -12,9 +12,12 @@
   top: 0;
   width: 68%;
   height: 88%;
+  display: block;
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--accent-soft);
+  --mx: 0;
+  --my: 0;
 }
 
 .img {
@@ -28,6 +31,12 @@
 .imgOn {
   opacity: 1;
   transform: scale(1);
+}
+
+/* hover: slow zoom-in while the image drifts away from the cursor */
+.media:hover .imgOn {
+  transform: scale(1.06) translate(calc(var(--mx) * -2.4%), calc(var(--my) * -2.4%));
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .grain {
@@ -226,9 +235,33 @@
 }
 .next:hover { background: var(--blue); }
 
+/* ---------- single project: image left in its native 16:9,
+   card bottom-right so it only overlaps the image's empty corner ---------- */
+.single {
+  height: auto;
+  padding-bottom: clamp(40px, 6vw, 90px);
+}
+.single .media {
+  position: relative;
+  top: 0;
+  width: 72%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.single .card {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  height: auto;
+}
+.single .body { padding-top: 0; }
+
 /* ---------- tablet ---------- */
 @media (max-width: 1000px) {
   .card { width: 58%; top: 10%; height: 70%; padding: 28px 28px 30px; }
+  .single .card { width: 52%; }
 }
 
 /* ---------- mobile: stack image, card, nav ---------- */
@@ -254,6 +287,10 @@
     padding: 24px 22px 26px;
   }
   .body { padding: 22px 0 18px; }
+  .single { padding-bottom: 0; }
+  .single .media { width: 100%; aspect-ratio: 16 / 9; }
+  .single .card { right: auto; bottom: auto; width: calc(100% - 24px); }
+  .single .body { padding-top: 0; }
   .title { font-size: 2rem; }
   .nav {
     position: relative;

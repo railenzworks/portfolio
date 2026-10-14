@@ -30,7 +30,7 @@ export default function WorksPage() {
       <Footer
         preword="Like"
         headline="what you see?"
-        cta={{ label: 'Start a project', href: '/contact', accent: '#3a67f0' }}
+        cta={{ label: 'Start a project', href: '/contact' }}
       />
     </ScrollRevealWrapper>
   );

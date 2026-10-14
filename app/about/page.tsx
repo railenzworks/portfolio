@@ -144,7 +144,7 @@ export default function AboutPage() {
       <Footer
         preword="Work"
         headline="together?"
-        cta={{ label: 'Get in touch', href: '/contact', accent: '#3a67f0' }}
+        cta={{ label: 'Get in touch', href: '/contact' }}
       />
     </ScrollRevealWrapper>
   );

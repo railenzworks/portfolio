@@ -32,54 +32,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* DISCIPLINES SPLIT */}
-      <section className={styles.split}>
-        <TransitionLink
-          href="/works#illustration"
-          className={`${styles.disc} ${styles.discIll}`}
-          accent="#8ad2d4"
-          data-cursor="view"
-          data-label="Enter teal"
-        >
-          <div className={`${styles.discNum} reveal`}>01 / Illustration</div>
-          <div>
-            <h3 className={`${styles.discTitle} reveal reveal-d1`}>Drawn<br /><em>worlds</em></h3>
-            <div className={`${styles.discList} reveal reveal-d2`} data-stagger>
-              <span>Editorial</span>
-              <span>Character Design</span>
-              <span>Illustration</span>
-              <span>Posters</span>
-            </div>
-            <span className={styles.discGo}>Explore illustration <span className={styles.arr}>→</span></span>
-          </div>
-          <span className={styles.discBgnum}>01</span>
-        </TransitionLink>
-
-        <TransitionLink
-          href="/works#graphic-design"
-          className={`${styles.disc} ${styles.discGfx}`}
-          accent="#3a67f0"
-          data-cursor="view"
-          data-label="Enter blue"
-        >
-          <div className={`${styles.discNum} reveal`}>02 / Graphic Design</div>
-          <div>
-            <h3 className={`${styles.discTitle} reveal reveal-d1`}>Designed<br /><em>systems</em></h3>
-            <div className={`${styles.discList} reveal reveal-d2`} data-stagger>
-              <span>Branding</span>
-              <span>Posters</span>
-              <span>Events</span>
-              <span>Art Direction</span>
-            </div>
-            <span className={styles.discGo}>Explore design <span className={styles.arr}>→</span></span>
-          </div>
-          <span className={styles.discBgnum}>02</span>
-        </TransitionLink>
-      </section>
-
-      {/* MARQUEE */}
-      <Marquee style={{ borderBlock: '1px solid var(--line)', paddingBlock: '18px' }} />
-
       {/* CTA */}
       <section className={styles.cta}>
         <div className="wrap">
@@ -89,11 +41,14 @@ export default function HomePage() {
           <p className="reveal reveal-d1">
             Open for commissions, collaborations and full identity projects from early 2026.
           </p>
-          <TransitionLink href="/contact" className="btn reveal reveal-d2" accent="#3a67f0">
+          <TransitionLink href="/contact" className="btn reveal reveal-d2">
             <span>Start a project</span>
           </TransitionLink>
         </div>
       </section>
+
+      {/* MARQUEE */}
+      <Marquee style={{ borderBlock: '1px solid var(--line)', paddingBlock: '18px' }} />
 
       <Footer
         preword="Say"

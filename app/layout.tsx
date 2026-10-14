@@ -4,8 +4,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { Nav } from '@/components/Nav';
 import { CustomCursor } from '@/components/CustomCursor';
-import { PageTransition } from '@/components/PageTransition';
 import { FloatingCat } from '@/components/FloatingCat';
+import { BottomBlur } from '@/components/BottomBlur';
 
 const valleySans = localFont({
   src: [
@@ -59,12 +59,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <CustomCursor />
-        <PageTransition />
         <Nav />
         {children}
-        <div className="bottom-blur" aria-hidden="true">
-          <span /><span /><span /><span />
-        </div>
+        <BottomBlur />
         <FloatingCat />
       </body>
     </html>

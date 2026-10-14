@@ -1,15 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import type { ComponentPropsWithoutRef } from 'react';
 
-interface TransitionLinkProps extends ComponentPropsWithoutRef<typeof Link> {
-  accent?: string;
-}
+type TransitionLinkProps = ComponentPropsWithoutRef<typeof Link>;
 
-export function TransitionLink({ href, accent, onClick, children, ...props }: TransitionLinkProps) {
-  const router = useRouter();
+// Plain Next link that scrolls back to the top instead of re-navigating
+// when it points at the page you're already on.
+export function TransitionLink({ href, onClick, children, ...props }: TransitionLinkProps) {
   const pathname = usePathname();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -19,17 +18,7 @@ export function TransitionLink({ href, accent, onClick, children, ...props }: Tr
     if (href === pathname) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
     }
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-
-    e.preventDefault();
-    window.dispatchEvent(
-      new CustomEvent('page-transition-start', { detail: { accent } })
-    );
-    setTimeout(() => router.push(href as string), 560);
   };
 
   return (

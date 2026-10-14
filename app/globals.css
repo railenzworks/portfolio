@@ -147,29 +147,6 @@ body.cur-view .cursor-label { opacity: 1; }
 }
 
 /* ============================================================
-   PAGE TRANSITION OVERLAY
-   ============================================================ */
-.transition {
-  position: fixed; inset: 0; z-index: 10000; pointer-events: none;
-  background: var(--accent);
-  transform: scaleY(0); transform-origin: bottom;
-}
-.transition.cover {
-  transform: scaleY(1); transform-origin: bottom;
-  transition: transform 0.55s var(--ease);
-}
-.transition.reveal {
-  transform: scaleY(0); transform-origin: top;
-  transition: transform 0.6s var(--ease);
-}
-.transition .t-word {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--serif); font-style: italic; color: var(--cream);
-  font-size: clamp(2rem, 7vw, 5rem); opacity: 0; transition: opacity 0.3s;
-}
-.transition.cover .t-word { opacity: 1; }
-
-/* ============================================================
    NAV
    ============================================================ */
 .nav {
@@ -178,7 +155,7 @@ body.cur-view .cursor-label { opacity: 1; }
   width: max-content; max-width: calc(100% - 24px);
   display: flex; align-items: center; justify-content: flex-start;
   gap: 0;
-  padding: 6px 6px 6px 18px;
+  padding: 9px 9px 9px 22px;
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(10px) saturate(1.4);
   -webkit-backdrop-filter: blur(10px) saturate(1.4);
@@ -193,19 +170,28 @@ body.cur-view .cursor-label { opacity: 1; }
   letter-spacing: 0.01em; font-weight: 400;
 }
 .nav .brand b { font-style: normal; font-weight: 700; }
-.nav .links { display: flex; gap: 0; align-items: center; margin-left: 14px; }
+.nav .links { position: relative; display: flex; gap: 0; align-items: center; margin-left: 14px; }
 .nav .links a {
   font-family: var(--mono); font-size: 0.6rem;
   letter-spacing: 0.14em; text-transform: uppercase;
-  position: relative; padding: 8px 14px;
+  position: relative; z-index: 1; padding: 8px 14px;
   border-radius: 100px;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  transition: color 0.3s var(--ease);
+}
+/* one shared pill that slides under the active link (fast, no-bounce spring) */
+.nav-pill {
+  position: absolute; top: 0; left: 0; height: 100%; width: 0;
+  border-radius: 100px; background: var(--blue);
+  opacity: 0; pointer-events: none;
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s;
 }
 .nav .links a:hover:not([aria-current="page"]) {
   color: var(--blue);
 }
 .nav .links a[aria-current="page"] {
-  background: var(--blue);
   color: var(--cream);
   font-weight: 700;
 }
@@ -302,7 +288,7 @@ body.cur-view .cursor-label { opacity: 1; }
 }
 
 @media (max-width: 540px) {
-  .nav { padding: 5px 5px 5px 14px; }
+  .nav { padding: 7px 7px 7px 16px; }
   .nav .links { margin-left: 10px; }
   .nav .links a { font-size: 0.56rem; letter-spacing: 0.08em; padding: 7px 9px; }
 }
