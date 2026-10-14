@@ -91,7 +91,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
    ============================================================ */
 .cursor-arrow {
   position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
-  width: 28px; height: 31px;
+  width: 18px; height: 20px;
   transition: opacity 0.25s;
   will-change: transform;
 }
@@ -107,10 +107,12 @@ h1 em, h2 em, h3 em { font-style: normal; }
   transform: translate(-50%, -50%) scale(0.4); opacity: 0;
   transition: transform 0.3s var(--ease), opacity 0.25s, background 0.3s;
 }
-body.cur-hover { cursor: pointer; }
-body.cur-hover .cursor-arrow { opacity: 0; }
-body.cur-view .cursor-arrow { opacity: 0; }
-body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+body.cur-view .cursor-label { opacity: 1; }
+/* the custom arrow is the only cursor on mouse devices — never let links,
+   buttons or component styles bring back the native hand */
+@media (hover: hover) and (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
 
 /* ============================================================
    PAGE TRANSITION OVERLAY
@@ -141,10 +143,10 @@ body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity
 .nav {
   position: fixed; top: clamp(14px, 2.4vw, 28px); left: 50%; z-index: 200;
   transform: translateX(-50%);
-  width: min(calc(100% - 40px), 920px);
-  display: flex; align-items: center; justify-content: space-between;
-  gap: clamp(20px, 4vw, 56px);
-  padding: clamp(12px, 1.6vw, 18px) clamp(20px, 2.8vw, 32px);
+  width: max-content; max-width: calc(100% - 24px);
+  display: flex; align-items: center; justify-content: flex-start;
+  gap: 0;
+  padding: 6px 6px 6px 18px;
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(10px) saturate(1.4);
   -webkit-backdrop-filter: blur(10px) saturate(1.4);
@@ -155,15 +157,15 @@ body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity
 }
 .nav a { color: var(--ink); transition: color 0.3s var(--ease); }
 .nav .brand {
-  font-family: var(--serif); font-size: 1.5rem;
+  font-family: var(--serif); font-size: 1.05rem;
   letter-spacing: 0.01em; font-weight: 400;
 }
 .nav .brand b { font-style: normal; font-weight: 700; }
-.nav .links { display: flex; gap: clamp(10px, 1.4vw, 24px); align-items: center; }
+.nav .links { display: flex; gap: 0; align-items: center; margin-left: 14px; }
 .nav .links a {
-  font-family: var(--mono); font-size: 0.72rem;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  position: relative; padding: 8px 16px;
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  position: relative; padding: 8px 14px;
   border-radius: 100px;
   transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
@@ -173,6 +175,7 @@ body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity
 .nav .links a[aria-current="page"] {
   background: var(--blue);
   color: var(--cream);
+  font-weight: 700;
 }
 .nav .links a[aria-current="page"]::after { display: none; }
 
@@ -267,17 +270,9 @@ body.cur-view .cursor-label { transform: translate(-50%, -50%) scale(1); opacity
 }
 
 @media (max-width: 540px) {
-  .nav {
-    width: calc(100% - 24px);
-    padding: 14px clamp(16px, 4vw, 22px);
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 10px;
-    border-radius: 28px;
-  }
-  .nav .brand { font-size: 1.2rem; white-space: nowrap; }
-  .nav .links { width: 100%; justify-content: center; gap: clamp(8px, 2.8vw, 14px); }
-  .nav .links a { font-size: 0.6rem; letter-spacing: 0.08em; }
+  .nav { padding: 5px 5px 5px 14px; }
+  .nav .links { margin-left: 10px; }
+  .nav .links a { font-size: 0.56rem; letter-spacing: 0.08em; padding: 7px 9px; }
 }
 
 @media (max-width: 480px) {

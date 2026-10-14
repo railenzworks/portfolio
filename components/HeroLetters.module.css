@@ -38,7 +38,7 @@
 }
 
 .letter.line2 {
-  color: var(--teal-deep);
+  color: var(--blue);
 }
 
 .statement {
@@ -51,15 +51,10 @@
   will-change: transform, opacity;
 }
 
-.statement b {
-  font-style: normal;
-  font-family: var(--read);
-  font-weight: 600;
-  font-size: 1em;
+.amp {
+  font-weight: 700;
+  color: var(--teal-deep);
 }
-
-.teal { color: var(--teal-deep); }
-.blue { color: var(--blue); }
 
 .scrollIcon {
   position: absolute;

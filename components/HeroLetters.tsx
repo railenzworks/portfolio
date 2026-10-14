@@ -114,8 +114,9 @@ export function HeroLetters() {
         </div>
 
         <p className={styles.statement} ref={statementRef}>
-          I make pictures that talk — <b className={styles.teal}>illustration</b> — and the{' '}
-          <b className={styles.blue}>graphic design</b> that holds them together. Two crafts, one hand.
+          DESIGN<b className={styles.amp}>&amp;</b>ILLUSTRATION
+          <br />
+          Arts<b className={styles.amp}>&amp;</b>Cats
         </p>
 
         <div className={styles.scrollIcon} ref={scrollIconRef}>

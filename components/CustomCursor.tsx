@@ -20,9 +20,6 @@ export function CustomCursor() {
     let ry = my;
     let lastRx = rx;
     let lastRy = ry;
-    let facingAngle = 0;
-    let accumulatedRotation = 0;
-    let appliedRotation = 0;
     let appliedScale = 1;
     let frameId: number;
 
@@ -30,12 +27,12 @@ export function CustomCursor() {
       mx = e.clientX;
       my = e.clientY;
       const isView = document.body.classList.contains('cur-view');
-      label.style.transform = `translate(${mx}px,${my - 44}px) translate(-50%,-50%) scale(${isView ? 1 : 0.4})`;
+      label.style.transform = `translate(${mx + 20}px,${my}px) translate(0,-50%) scale(${isView ? 1 : 0.4})`;
     };
 
     const loop = () => {
-      rx += (mx - rx) * 0.065;
-      ry += (my - ry) * 0.065;
+      rx += (mx - rx) * 0.22;
+      ry += (my - ry) * 0.22;
 
       const dx = rx - lastRx;
       const dy = ry - lastRy;
@@ -43,44 +40,30 @@ export function CustomCursor() {
       lastRy = ry;
       const speed = Math.sqrt(dx * dx + dy * dy);
 
-      let targetScale = 1;
-      if (speed > 0.4) {
-        const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-        let diff = rawAngle - facingAngle;
-        if (diff > 180) diff -= 360;
-        if (diff < -180) diff += 360;
-        accumulatedRotation += diff;
-        facingAngle = rawAngle;
-        targetScale = 0.92;
-      }
-
-      appliedRotation += (accumulatedRotation - appliedRotation) * 0.25;
+      const targetScale = speed > 0.4 ? 0.92 : 1;
       appliedScale += (targetScale - appliedScale) * 0.2;
 
-      arrow.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%) rotate(${appliedRotation}deg) scale(${appliedScale})`;
+      arrow.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%) rotate(-38deg) scale(${appliedScale})`;
 
       frameId = requestAnimationFrame(loop);
     };
     frameId = requestAnimationFrame(loop);
 
-    const hoverSel = 'a,button,[data-cursor]';
+    const hoverSel = '[data-cursor]';
 
     const onMouseOver = (e: MouseEvent) => {
       const t = (e.target as Element).closest(hoverSel);
       if (!t) return;
-      const mode = t.getAttribute('data-cursor');
-      if (mode === 'view') {
+      if (t.getAttribute('data-cursor') === 'view') {
         document.body.classList.add('cur-view');
         label.textContent = t.getAttribute('data-label') || 'View';
-      } else {
-        document.body.classList.add('cur-hover');
       }
     };
 
     const onMouseOut = (e: MouseEvent) => {
       const t = (e.target as Element).closest(hoverSel);
       if (!t) return;
-      document.body.classList.remove('cur-hover', 'cur-view');
+      document.body.classList.remove('cur-view');
     };
 
     window.addEventListener('mousemove', onMouseMove);
