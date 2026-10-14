@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { getFeaturedProjects } from '@/lib/projects';
-import { WorkCard } from '@/components/WorkCard';
+import { getFeaturedProjects, PROJECTS } from '@/lib/projects';
+import { FeaturedTabs } from '@/components/FeaturedTabs';
 import { Marquee } from '@/components/Marquee';
 import { Footer } from '@/components/Footer';
 import { TransitionLink } from '@/components/TransitionLink';
@@ -21,35 +21,14 @@ export default function HomePage() {
       {/* HERO */}
       <HeroLetters />
 
-      {/* INTRO STATEMENT */}
-      <section className={styles.intro}>
-        <div className={`wrap ${styles.introGrid}`}>
-          <div className={`${styles.introLabel} reveal`}>(Statement)</div>
-          <h2 className={`${styles.introBig} reveal reveal-d1`}>
-            Between the <em className={styles.t}>drawn</em> and the <em className={styles.b}>designed</em>.
-            I move from a single brushstroke to a full identity system without losing the
-            handmade thread that runs through both.
-          </h2>
-        </div>
-      </section>
-
       {/* FEATURED WORKS */}
       <section className={styles.featured}>
         <div className="wrap">
           <div className={`${styles.featuredHead} reveal`}>
             <h2>Selected Works</h2>
-            <TransitionLink href="/works" className="mono" accent="#17150f">
-              All projects ({12}) →
-            </TransitionLink>
           </div>
 
-          <div className={styles.works}>
-            {featured.map((project, i) => {
-              const slots = ['w-a', 'w-b', 'w-c', 'w-d'] as const;
-              if (!slots[i]) return null;
-              return <WorkCard key={project.id} project={project} slot={slots[i]} />;
-            })}
-          </div>
+          <FeaturedTabs projects={featured} totalProjects={PROJECTS.length} />
         </div>
       </section>
 

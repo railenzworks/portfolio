@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useRef } from 'react';
 import styles from './HeroLetters.module.css';
 
-const LINE1 = 'María';
-const LINE2 = 'Railenz';
+const LINE1 = 'MARÍA';
+const LINE2 = 'RAILENZ';
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 999) * 10000;

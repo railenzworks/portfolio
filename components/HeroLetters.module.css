@@ -25,15 +25,15 @@
 
 .line {
   display: block;
-  line-height: 0.92;
+  line-height: 0.6;
 }
 
 .letter {
   display: inline-block;
-  font-family: var(--serif);
-  font-weight: 700;
+  font-family: var(--font-railenz), var(--serif);
+  font-weight: 400;
   letter-spacing: -0.02em;
-  font-size: clamp(2.6rem, 9vw, 8rem);
+  font-size: clamp(3.2rem, 11.5vw, 10.5rem);
   will-change: transform, opacity;
 }
 

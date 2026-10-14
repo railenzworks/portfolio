@@ -1,6 +1,6 @@
 .brand {
-  font-family: var(--serif);
-  font-size: 1.05rem;
+  font-family: var(--font-railenz), var(--serif);
+  font-size: 1.55rem;
   letter-spacing: 0.01em;
   font-weight: 400;
   white-space: nowrap;
@@ -11,13 +11,12 @@
   color: var(--blue);
 }
 
-.brand b {
-  font-style: normal;
-  font-weight: 700;
+.accent {
+  color: var(--blue);
 }
 
 @media (max-width: 540px) {
   .brand {
-    font-size: 0.95rem;
+    font-size: 1.35rem;
   }
 }

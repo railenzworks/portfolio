@@ -115,6 +115,38 @@ body.cur-view .cursor-label { opacity: 1; }
 }
 
 /* ============================================================
+   BOTTOM BLUR — progressive blur band fixed to the bottom edge.
+   Stacked layers, each masked to a lower slice and blurring more,
+   so content softens gradually as it scrolls out of view.
+   ============================================================ */
+.bottom-blur {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 140;
+  height: clamp(80px, 14vh, 140px);
+  pointer-events: none;
+}
+.bottom-blur span { position: absolute; inset: 0; }
+.bottom-blur span:nth-child(1) {
+  backdrop-filter: blur(0.5px); -webkit-backdrop-filter: blur(0.5px);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 50%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 50%, transparent 75%);
+}
+.bottom-blur span:nth-child(2) {
+  backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px);
+  mask-image: linear-gradient(to bottom, transparent 25%, black 50%, black 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 25%, black 50%, black 75%, transparent 100%);
+}
+.bottom-blur span:nth-child(3) {
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  mask-image: linear-gradient(to bottom, transparent 50%, black 75%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 50%, black 75%, black 100%);
+}
+.bottom-blur span:nth-child(4) {
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to bottom, transparent 75%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 75%, black 100%);
+}
+
+/* ============================================================
    PAGE TRANSITION OVERLAY
    ============================================================ */
 .transition {

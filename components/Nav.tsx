@@ -30,7 +30,7 @@ export function Nav() {
   return (
     <nav className="nav" ref={navRef}>
       <TransitionLink href="/" className={styles.brand} accent="#17150f">
-        María <b>Railenz</b>
+        MARÍA <span className={styles.accent}>RAILENZ</span>
       </TransitionLink>
       <div className="links">
         {LINKS.map(({ href, label, accent }) => {

@@ -20,6 +20,14 @@ const valleySans = localFont({
   display: 'swap',
 });
 
+const railenz = localFont({
+  src: './fonts/Railenz-Regular.ttf',
+  weight: '400',
+  style: 'normal',
+  variable: '--font-railenz',
+  display: 'swap',
+});
+
 const parkinsansRead = Parkinsans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
@@ -47,13 +55,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${valleySans.variable} ${parkinsansRead.variable} ${parkinsansMono.variable}`}
+      className={`${valleySans.variable} ${railenz.variable} ${parkinsansRead.variable} ${parkinsansMono.variable}`}
     >
       <body>
         <CustomCursor />
         <PageTransition />
         <Nav />
         {children}
+        <div className="bottom-blur" aria-hidden="true">
+          <span /><span /><span /><span />
+        </div>
         <FloatingCat />
       </body>
     </html>
