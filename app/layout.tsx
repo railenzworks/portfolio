@@ -48,7 +48,12 @@ export const metadata: Metadata = {
     template: '%s — María Railenz',
   },
   description: 'Illustration & Graphic Design. From the mountains.',
-  icons: { icon: '/favicon.png' },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png', sizes: '256x256' },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

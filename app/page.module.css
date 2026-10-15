@@ -21,13 +21,50 @@
 }
 
 .ctaBig {
-  font-family: var(--serif);
-  font-weight: 700;
+  font-family: var(--font-railenz), var(--serif);
+  font-weight: 400;
   font-size: clamp(2.2rem, 7vw, 7rem);
   line-height: 0.98;
 }
 
 .ctaBig em { font-style: normal; }
+
+/* teal ring crossing "vuelta": back half behind the letters, front half over them;
+   tilts the other way on hover */
+.ctaWord { position: relative; display: inline-block; isolation: isolate; }
+.ctaRing {
+  position: absolute;
+  left: 50%; top: 52%;
+  width: 120%; height: auto;
+  overflow: visible; pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  transition: transform 0.8s var(--ease);
+}
+.ctaRingBack { z-index: -1; }
+.ctaRingFront { z-index: 1; }
+.ctaBig:hover .ctaRing { transform: translate(-50%, -50%) rotate(8deg); }
+
+/* on hover a soft teal → blue gradient flows round the ring like a planet's ring.
+   Each arc runs the same colour cycle, offset by its position (--i), so the colour
+   travels along the orbit. It only pauses off-hover, so leaving never jumps. */
+.ctaRingFlow {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.ctaRingFlow path {
+  animation: ringFlow 4s linear infinite paused;
+  animation-delay: calc(var(--i) * -4s);
+}
+.ctaBig:hover .ctaRingFlow { opacity: 1; }
+.ctaBig:hover .ctaRingFlow path { animation-play-state: running; }
+@keyframes ringFlow {
+  0%, 100% { stroke: var(--teal-deep); }
+  50% { stroke: var(--blue); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaRingFlow path { animation: none !important; }
+}
 
 .cta p {
   max-width: 40ch;

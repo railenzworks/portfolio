@@ -97,20 +97,19 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
 
       <div className={styles.card}>
         {!single && (
-        <div className={styles.tabs} role="tablist" aria-label="Selected works">
-          {projects.map((p, i) => (
-            <button
-              key={p.id}
-              type="button"
-              role="tab"
-              aria-selected={i === active}
-              className={`${styles.tab} ${i === active ? styles.tabOn : ''}`}
-              onClick={() => setActive(i)}
-            >
-              {p.title}
-            </button>
-          ))}
-        </div>
+          <div className={styles.nav}>
+            <div className={styles.counter} aria-live="polite">
+              {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
+            </div>
+            <div className={styles.arrows}>
+              <button type="button" className={styles.prev} onClick={prev} aria-label="Previous project">
+                <Arrow left />
+              </button>
+              <button type="button" className={styles.next} onClick={next} aria-label="Next project">
+                <Arrow />
+              </button>
+            </div>
+          </div>
         )}
 
         <div className={styles.body} key={current.id}>
@@ -125,7 +124,7 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
         <div className={styles.actions}>
           <TransitionLink
             href={`/works#${current.id}`}
-            className={styles.primary}
+            className="btn btn--solid"
             data-cursor="view"
             data-label="Open"
           >
@@ -137,22 +136,6 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
           </TransitionLink>
         </div>
       </div>
-
-      {!single && (
-      <div className={styles.nav}>
-        <div className={styles.counter}>
-          {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
-        </div>
-        <div className={styles.arrows}>
-          <button type="button" className={styles.prev} onClick={prev} aria-label="Previous project">
-            <Arrow left />
-          </button>
-          <button type="button" className={styles.next} onClick={next} aria-label="Next project">
-            <Arrow />
-          </button>
-        </div>
-      </div>
-      )}
     </div>
   );
 }

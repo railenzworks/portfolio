@@ -26,7 +26,7 @@ export const PROJECTS: Project[] = [
     disc: 'illustration',
     cat: 'Editorial',
     year: '2025',
-    img: '/images/work/las-caras-de-la-mente.webp',
+    img: '/images/work/las-caras-de-la-mente-libro.jpg',
     role: 'Illustration, Art Direction',
     med: 'Digital · Risograph',
     desc:
@@ -34,6 +34,45 @@ export const PROJECTS: Project[] = [
       'Las caras de la mente es una interpretación de algunos trastornos mentales en forma de ilustración y poesía cuya intención es invitar a la reflexión individual.\n\n' +
       'Para complementar y contextualizar, cada apartado cuenta con un anexo que contiene información de cada trastorno tratado; pero este libro no tiene por finalidad educar o diagnosticar. Las caras de la mente quiere transmitir, provocar y mover emociones.',
   },
+  // ---------- PLANTILLAS de Selected Works: rellenar con el proyecto real ----------
+  // img: guarda la imagen en public/images/work/ y pon aquí su ruta
+  // disc: 'illustration' | 'graphic'
+  // cat: 'Editorial' | 'Character Design' | 'Branding' | 'Posters' | 'Events'
+  // desc: párrafos separados por '\n\n' (en Selected Works solo se ve el primero)
+  {
+    id: 'proyecto-2',
+    title: 'Proyecto 2',
+    disc: 'illustration',
+    cat: 'Editorial',
+    year: '2025',
+    img: '/images/work/ill-2.png', // provisional
+    role: 'Rol',
+    med: 'Técnica · Medio',
+    desc: 'Descripción del proyecto.',
+  },
+  {
+    id: 'proyecto-3',
+    title: 'Proyecto 3',
+    disc: 'graphic',
+    cat: 'Branding',
+    year: '2025',
+    img: '/images/work/gfx-1.png', // provisional
+    role: 'Rol',
+    med: 'Técnica · Medio',
+    desc: 'Descripción del proyecto.',
+  },
+  {
+    id: 'proyecto-4',
+    title: 'Proyecto 4',
+    disc: 'illustration',
+    cat: 'Character Design',
+    year: '2025',
+    img: '/images/work/ill-3.png', // provisional
+    role: 'Rol',
+    med: 'Técnica · Medio',
+    desc: 'Descripción del proyecto.',
+  },
+  // ---------- fin de plantillas ----------
   {
     id: 'paper-creatures',
     title: 'Paper Creatures',
@@ -118,7 +157,7 @@ export const DISC_LABEL: Record<Discipline, string> = {
   graphic: 'Graphic Design',
 };
 
-export const FEATURED_PROJECT_IDS = ['bloom-states'] as const;
+export const FEATURED_PROJECT_IDS = ['bloom-states', 'proyecto-2', 'proyecto-3', 'proyecto-4'] as const;
 
 export function getFeaturedProjects(): Project[] {
   return FEATURED_PROJECT_IDS

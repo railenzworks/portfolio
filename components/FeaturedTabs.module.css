@@ -1,5 +1,5 @@
 /* Asymmetric tabs: big image on the right, floating card overlapping it
-   on the left, counter + arrows bottom-left. */
+   on the left, counter + arrows in the card's top-right corner. */
 .root {
   position: relative;
   height: clamp(520px, 46vw, 660px);
@@ -66,37 +66,9 @@
   overflow: hidden;
 }
 
-.tabs {
-  display: flex;
-  gap: 22px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.tabs::-webkit-scrollbar { display: none; }
-
-.tab {
-  appearance: none;
-  flex-shrink: 0;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  padding: 0 0 8px;
-  font-family: var(--mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  transition: color 0.25s, border-color 0.25s;
-}
-.tab:hover { color: var(--ink); }
-.tabOn {
-  color: var(--ink);
-  border-bottom-color: var(--blue);
-}
-
 .body {
   min-height: 0;
-  padding: 28px 0 20px;
+  padding: 14px 0 20px;
   overflow: hidden;
   animation: bodyIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -153,24 +125,6 @@
   gap: 22px;
 }
 
-.primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 22px;
-  min-height: 44px;
-  padding: 0 18px 0 20px;
-  border-radius: 100px;
-  background: var(--blue);
-  color: var(--cream);
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transition: background 0.3s var(--ease);
-}
-.primary:hover { background: var(--ink); }
-
 .secondary {
   padding: 4px 0;
   border-bottom: 1px solid var(--ink);
@@ -185,19 +139,15 @@
   border-color: var(--blue);
 }
 
-/* ---------- counter + arrows ---------- */
+/* ---------- counter + arrows: top-right corner of the card ---------- */
 .nav {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 5;
+  justify-self: end;
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 16px;
 }
 
 .counter {
-  min-width: 52px;
   font-family: var(--mono);
   font-size: 0.72rem;
   letter-spacing: 0.14em;
@@ -209,31 +159,28 @@
   gap: 8px;
 }
 
+/* same look as the solid "Open project" pill, in teal and blue; black on hover */
 .prev,
 .next {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
   border-radius: 50%;
-  transition: background 0.3s var(--ease), color 0.3s, border-color 0.3s;
-}
-
-.prev {
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-}
-.prev:hover { border-color: var(--blue); color: var(--blue); }
-
-.next {
-  border: 0;
-  background: var(--ink);
   color: var(--cream);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
 }
-.next:hover { background: var(--blue); }
+.prev:hover,
+.next:hover { transform: scale(1.05); }
+
+.prev { background: var(--teal-deep); }
+.next { background: var(--blue); }
+.prev:hover,
+.next:hover { background: var(--ink); }
 
 /* ---------- single project: image left in its native 16:9,
    card bottom-right so it only overlaps the image's empty corner ---------- */
@@ -292,11 +239,6 @@
   .single .card { right: auto; bottom: auto; width: calc(100% - 24px); }
   .single .body { padding-top: 0; }
   .title { font-size: 2rem; }
-  .nav {
-    position: relative;
-    bottom: 0;
-    margin-top: 22px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

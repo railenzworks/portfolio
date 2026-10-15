@@ -98,7 +98,20 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .cursor-arrow svg {
   display: block; width: 100%; height: 100%;
   filter: drop-shadow(0 2px 3px rgba(23, 21, 15, 0.28));
+  transition: opacity 0.2s, transform 0.3s var(--ease);
 }
+/* over anything interactive the arrow morphs into a circle */
+.cursor-ring {
+  position: absolute; left: 50%; top: 50%;
+  width: 12px; height: 12px; margin: -6px 0 0 -6px;
+  background: var(--ink); border-radius: 50%;
+  opacity: 0; transform: scale(0.3);
+  transition: opacity 0.2s, transform 0.35s var(--ease), background-color 0.25s;
+}
+body.cur-hover .cursor-arrow svg { opacity: 0; transform: scale(0.4); }
+body.cur-hover .cursor-ring { opacity: 1; transform: scale(1); }
+/* touching something black, the circle turns blue so it never disappears */
+body.cur-hover.cur-on-dark .cursor-ring { background: var(--blue); }
 .cursor-label {
   position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
   font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -260,16 +273,36 @@ body.cur-view .cursor-label { opacity: 1; }
 .btn:hover::before { transform: translateY(0); }
 .btn:hover span { color: var(--cream); }
 
+/* solid pill: black fill, gentle scale on hover */
+.btn.btn--solid {
+  font-family: var(--read); font-size: 18px; font-weight: 600;
+  letter-spacing: -0.01em; line-height: 1; text-transform: none;
+  border: none; border-radius: 25px; padding: 15px 30px;
+  background: var(--ink); color: var(--cream);
+  overflow: visible;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+.btn.btn--solid::before { content: none; }
+.btn.btn--solid:hover { transform: scale(1.05); background: var(--blue); }
+
 /* marquee */
 .marquee { display: flex; overflow: hidden; white-space: nowrap; user-select: none; }
 .marquee__inner { display: flex; flex-shrink: 0; animation: marq 80s linear infinite; }
-.marquee:hover .marquee__inner { animation-play-state: paused; }
 .marquee span {
   font-family: var(--serif);
   font-size: clamp(1.8rem, 5vw, 4rem);
   padding-inline: 0.35em; font-weight: 700;
 }
 .marquee .dot { align-self: center; }
+.marquee .marquee__item { display: inline-flex; align-items: center; padding-inline: 0; }
+.marquee .marquee__item > span { padding-inline: 0.35em; }
+.marquee__mark {
+  width: 1.15em; height: 1.15em; margin-inline: 0.25em;
+  flex-shrink: 0; overflow: visible;
+  transition: transform 0.6s var(--ease);
+}
+.marquee__item:hover .marquee__mark { transform: rotate(-25deg) scale(1.1); }
 @keyframes marq { to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
