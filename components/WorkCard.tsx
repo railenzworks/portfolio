@@ -58,6 +58,7 @@ export function WorkCard({ project, slot }: WorkCardProps) {
           alt={project.title}
           fill
           sizes="(max-width: 860px) 100vw, 40vw"
+          quality={90}
           style={{ objectFit: 'cover' }}
         />
       </div>

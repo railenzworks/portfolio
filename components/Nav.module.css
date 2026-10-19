@@ -20,3 +20,15 @@
     font-size: 1.35rem;
   }
 }
+
+@media (max-width: 400px) {
+  .brand {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .brand {
+    font-size: 1rem;
+  }
+}

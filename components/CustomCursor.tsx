@@ -83,6 +83,9 @@ export function CustomCursor() {
     const onMouseOver = (e: MouseEvent) => {
       // mouseover fires on every element entered, so this also clears it when leaving one
       document.body.classList.toggle('cur-hover', !!(e.target as Element).closest(interactiveSel));
+      // elements that go black on hover opt into a fixed blue circle, so it doesn't
+      // flicker between black and blue while their colour transitions
+      document.body.classList.toggle('cur-blue', !!(e.target as Element).closest('[data-cursor-blue]'));
 
       const t = (e.target as Element).closest(hoverSel);
       if (!t) return;

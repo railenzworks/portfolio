@@ -2,24 +2,37 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Footer } from '@/components/Footer';
 import { ScrollRevealWrapper } from '@/components/ScrollRevealWrapper';
+import { getDict } from '@/lib/i18n-server';
 import styles from './page.module.css';
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: 'An illustrator who designs, and a designer who draws.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getDict();
+  return { title: t.about.label, description: t.about.metaDesc };
+}
 
-export default function AboutPage() {
+const LETTERS = ['A.', 'B.', 'C.', 'D.'];
+
+const AWARDS = [
+  { yr: '2025', src: 'Type & Image Awards' },
+  { yr: '2024', src: 'Brand New' },
+  { yr: '2023', src: 'Poster Biennale' },
+  { yr: '2022', src: "It's Nice That" },
+];
+
+export default async function AboutPage() {
+  const t = await getDict();
+  const a = t.about;
+
   return (
     <ScrollRevealWrapper>
       <header className={`${styles.aHero} wrap`}>
         <div className={`${styles.top} reveal`}>
-          <span>About</span>
+          <span>{a.label}</span>
           <span>María Railenz</span>
-          <span>Madrid, ES — Est. 2018</span>
+          <span>{a.since}</span>
         </div>
         <h1 className="reveal reveal-d1">
-          An illustrator who designs, and a designer who <em>draws.</em>
+          {a.titlePre}<em>{a.titleEm}</em>
         </h1>
       </header>
 
@@ -28,7 +41,7 @@ export default function AboutPage() {
           <div className={styles.frame}>
             <Image
               src="/images/maria-cut.png"
-              alt="María Railenz — illustrated self-portrait"
+              alt={a.portraitAlt}
               fill
               sizes="(max-width: 820px) 100vw, 40vw"
               style={{ objectFit: 'contain', objectPosition: 'center bottom', padding: '8% 6% 0' }}
@@ -36,44 +49,32 @@ export default function AboutPage() {
           </div>
           <div className={styles.cap}>
             <span>María Railenz</span>
-            <span>Self-portrait</span>
+            <span>{a.selfPortrait}</span>
           </div>
         </div>
         <div className={styles.aBio}>
-          <p className={`${styles.lead} reveal reveal-d1`}>
-            I&apos;m a Madrid-based illustrator and graphic designer working at the seam where pictures meet systems.
-          </p>
+          <p className={`${styles.lead} reveal reveal-d1`}>{a.lead}</p>
           <p className="reveal reveal-d2">
-            For nearly a decade I&apos;ve moved between two crafts that most people keep apart: the warm, hand-drawn world of <em>illustration</em> and the structured, grid-driven world of <em>graphic design</em>. I don&apos;t think they&apos;re opposites — a good identity needs a soul, and a good drawing needs a frame.
+            {a.bio1Pre}<em>{a.bio1Ill}</em>{a.bio1Mid}<em>{a.bio1Gfx}</em>{a.bio1Post}
           </p>
-          <p className="reveal reveal-d3">
-            I work with publishers, studios, festivals and brands who want work that feels made by a person. Everything you see here is a placeholder, ready to be replaced with the real archive.
-          </p>
+          <p className="reveal reveal-d3">{a.bio2}</p>
         </div>
       </section>
 
       <section className={styles.approach}>
         <div className="wrap">
-          <div className={`${styles.lbl} reveal`}>How I work</div>
+          <div className={`${styles.lbl} reveal`}>{a.howLabel}</div>
           <h2 className="reveal reveal-d1">
-            Three habits behind every <em>project</em>, drawn or designed.
+            {a.howPre}<em>{a.howEm}</em>{a.howPost}
           </h2>
           <div className={styles.steps} data-stagger>
-            <div className={`${styles.step} reveal`}>
-              <div className={styles.n}>01</div>
-              <h3>Listen, then sketch</h3>
-              <p>Every project starts on paper. I chase the idea by hand before a single pixel is placed, so the concept leads and the craft follows.</p>
-            </div>
-            <div className={`${styles.step} reveal`}>
-              <div className={styles.n}>02</div>
-              <h3>Build a system</h3>
-              <p>Whether it&apos;s a character or a brand, I look for the underlying rules — a grid, a palette, a logic — so the work can grow without falling apart.</p>
-            </div>
-            <div className={`${styles.step} reveal`}>
-              <div className={styles.n}>03</div>
-              <h3>Keep the hand</h3>
-              <p>I protect the small imperfections that make work feel human. Texture, weight and rhythm survive all the way to the final file.</p>
-            </div>
+            {a.steps.map((s, i) => (
+              <div key={i} className={`${styles.step} reveal`}>
+                <div className={styles.n}>{String(i + 1).padStart(2, '0')}</div>
+                <h3>{s.t}</h3>
+                <p>{s.d}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -81,23 +82,21 @@ export default function AboutPage() {
       <section className={`wrap ${styles.practice}`}>
         <div className={`${styles.practiceRow} reveal`}>
           <div className={`${styles.col} ${styles.colT}`}>
-            <div className={styles.colK}>Discipline 01</div>
-            <h3>Illustration</h3>
+            <div className={styles.colK}>{a.discipline} 01</div>
+            <h3>{t.disc.illustration}</h3>
             <ul>
-              <li><span className={styles.num}>A.</span> Editorial &amp; cover illustration</li>
-              <li><span className={styles.num}>B.</span> Character design</li>
-              <li><span className={styles.num}>C.</span> Lettering &amp; type illustration</li>
-              <li><span className={styles.num}>D.</span> Posters &amp; prints</li>
+              {a.illList.map((item, i) => (
+                <li key={i}><span className={styles.num}>{LETTERS[i]}</span> {item}</li>
+              ))}
             </ul>
           </div>
           <div className={`${styles.col} ${styles.colB}`}>
-            <div className={styles.colK}>Discipline 02</div>
-            <h3>Graphic Design</h3>
+            <div className={styles.colK}>{a.discipline} 02</div>
+            <h3>{t.disc.graphic}</h3>
             <ul>
-              <li><span className={styles.num}>A.</span> Brand &amp; visual identity</li>
-              <li><span className={styles.num}>B.</span> Art direction</li>
-              <li><span className={styles.num}>C.</span> Event &amp; festival design</li>
-              <li><span className={styles.num}>D.</span> Editorial &amp; print</li>
+              {a.gfxList.map((item, i) => (
+                <li key={i}><span className={styles.num}>{LETTERS[i]}</span> {item}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -105,8 +104,8 @@ export default function AboutPage() {
 
       <section className={`wrap ${styles.reco}`}>
         <div className={`${styles.recoHead} reveal`}>
-          <h2>Selected clients</h2>
-          <span className={styles.recoLbl}>A few good people</span>
+          <h2>{a.clients}</h2>
+          <span className={styles.recoLbl}>{a.clientsLabel}</span>
         </div>
         <div className={`${styles.clients} reveal reveal-d1`}>
           <div>Atlas Press</div>
@@ -118,33 +117,23 @@ export default function AboutPage() {
         </div>
 
         <div className={styles.awards}>
-          <div className={`${styles.award} reveal`}>
-            <span className={styles.yr}>2025</span>
-            <span className={styles.awardTitle}>Editorial Illustration — Shortlist</span>
-            <span className={styles.src}>Type &amp; Image Awards</span>
-          </div>
-          <div className={`${styles.award} reveal`}>
-            <span className={styles.yr}>2024</span>
-            <span className={styles.awardTitle}>Identity of the Year — Finalist</span>
-            <span className={styles.src}>Brand New</span>
-          </div>
-          <div className={`${styles.award} reveal`}>
-            <span className={styles.yr}>2023</span>
-            <span className={styles.awardTitle}>Poster Series — Selected</span>
-            <span className={styles.src}>Poster Biennale</span>
-          </div>
-          <div className={`${styles.award} ${styles.awardLast} reveal`}>
-            <span className={styles.yr}>2022</span>
-            <span className={styles.awardTitle}>New Talent — Feature</span>
-            <span className={styles.src}>It&apos;s Nice That</span>
-          </div>
+          {AWARDS.map((aw, i) => (
+            <div
+              key={aw.yr}
+              className={`${styles.award} ${i === AWARDS.length - 1 ? styles.awardLast : ''} reveal`}
+            >
+              <span className={styles.yr}>{aw.yr}</span>
+              <span className={styles.awardTitle}>{a.awards[i].t}</span>
+              <span className={styles.src}>{aw.src}</span>
+            </div>
+          ))}
         </div>
       </section>
 
       <Footer
-        preword="Work"
-        headline="together?"
-        cta={{ label: 'Get in touch', href: '/contact' }}
+        preword={a.footPre}
+        headline={a.footHead}
+        cta={{ label: a.footCta, href: '/contact' }}
       />
     </ScrollRevealWrapper>
   );

@@ -3,7 +3,8 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import type { Project } from '@/lib/projects';
-import { DISC_LABEL } from '@/lib/projects';
+import { loc } from '@/lib/i18n';
+import { useLang } from '../LangProvider';
 import styles from './ProjectOverlay.module.css';
 
 interface ProjectOverlayProps {
@@ -14,6 +15,7 @@ interface ProjectOverlayProps {
 }
 
 export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectOverlayProps) {
+  const { lang, t } = useLang();
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
@@ -32,12 +34,13 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
   }, [onClose]);
 
   const isIll = project?.disc === 'illustration';
-  const tagBg = isIll ? '#3f8d90' : '#3a67f0';
+  const tagBg = isIll ? 'var(--teal-deep)' : 'var(--blue)';
+  const tagFg = isIll ? '#ffffff' : 'var(--on-blue)';
 
   return (
     <div className={`${styles.ov}${project ? ` ${styles.open}` : ''}`} id="ov">
       <div className={styles.scrim} onClick={onClose} />
-      <button className={styles.close} onClick={onClose} aria-label="Close">✕</button>
+      <button className={styles.close} onClick={onClose} aria-label={t.works.close}>✕</button>
       <div className={styles.panel}>
         {project && (
           <>
@@ -47,33 +50,34 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
                 alt={project.title}
                 fill
                 sizes="(max-width: 600px) 100vw, 680px"
+                quality={90}
                 style={{ objectFit: 'cover' }}
               />
             </div>
             <div className={styles.body}>
-              <span className={styles.tag} style={{ background: tagBg }}>
+              <span className={styles.tag} style={{ background: tagBg, color: tagFg }}>
                 <span className={styles.tagPip} />
-                <span>{DISC_LABEL[project.disc]}</span>
+                <span>{t.disc[project.disc]}</span>
               </span>
               <h2>{project.title}</h2>
-              <div className={styles.sub}>{project.cat} — {project.year}</div>
-              <p className={styles.desc}>{project.desc}</p>
+              <div className={styles.sub}>{t.cat[project.cat]} — {project.year}</div>
+              <p className={styles.desc}>{loc(project.desc, lang)}</p>
               <div className={styles.facts}>
-                <div><div className={styles.k}>Year</div><div className={styles.v}>{project.year}</div></div>
-                <div><div className={styles.k}>Category</div><div className={styles.v}>{project.cat}</div></div>
-                <div><div className={styles.k}>Role</div><div className={styles.v}>{project.role}</div></div>
-                <div><div className={styles.k}>Medium</div><div className={styles.v}>{project.med}</div></div>
+                <div><div className={styles.k}>{t.works.year}</div><div className={styles.v}>{project.year}</div></div>
+                <div><div className={styles.k}>{t.works.category}</div><div className={styles.v}>{t.cat[project.cat]}</div></div>
+                <div><div className={styles.k}>{t.works.role}</div><div className={styles.v}>{loc(project.role, lang)}</div></div>
+                <div><div className={styles.k}>{t.works.medium}</div><div className={styles.v}>{loc(project.med, lang)}</div></div>
               </div>
               <div
                 className={styles.next}
                 onClick={onNext}
                 data-cursor="view"
-                data-label="Next"
+                data-label={t.works.nextLabel}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && onNext()}
               >
-                <span className={styles.nextK}>Next project →</span>
+                <span className={styles.nextK}>{t.works.nextProject}</span>
                 <span className={styles.nextT}>{nextTitle}</span>
               </div>
             </div>

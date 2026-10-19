@@ -3,16 +3,18 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { TransitionLink } from './TransitionLink';
+import { useLang } from './LangProvider';
 import styles from './Nav.module.css';
 
 const LINKS = [
-  { href: '/works', label: 'Works' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-];
+  { href: '/works', key: 'works' },
+  { href: '/about', key: 'about' },
+  { href: '/contact', key: 'contact' },
+] as const;
 
 export function Nav() {
   const pathname = usePathname();
+  const { t } = useLang();
   const navRef = useRef<HTMLElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
@@ -77,14 +79,14 @@ export function Nav() {
       </TransitionLink>
       <div className="links" ref={linksRef}>
         <span className="nav-pill" ref={pillRef} aria-hidden="true" />
-        {LINKS.map(({ href, label }) => (
+        {LINKS.map(({ href, key }) => (
           <TransitionLink
             key={href}
             href={href}
             aria-current={href === activeHref ? 'page' : undefined}
             onClick={() => setClicked(href)}
           >
-            {label}
+            {t.nav[key]}
           </TransitionLink>
         ))}
       </div>

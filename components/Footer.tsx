@@ -1,3 +1,4 @@
+import { getDict } from '@/lib/i18n-server';
 import { TransitionLink } from './TransitionLink';
 
 interface FooterProps {
@@ -6,14 +7,20 @@ interface FooterProps {
   cta: { label: string; href: string };
 }
 
-export function Footer({ preword, headline, cta }: FooterProps) {
+export async function Footer({ preword, headline, cta }: FooterProps) {
+  const t = await getDict();
   const isExternal = cta.href.startsWith('mailto:') || cta.href.startsWith('http');
   return (
     <footer className="foot">
       <div className="big">
         <span className="serif-italic">{preword}</span>&nbsp;{headline}&nbsp;
         {isExternal ? (
-          <a href={cta.href}>{cta.label}</a>
+          // an email may wrap on phones: offer a break right after the @
+          <a href={cta.href}>
+            {cta.label.split('@').map((part, i) => (
+              <span key={i}>{i > 0 && <>@<wbr /></>}{part}</span>
+            ))}
+          </a>
         ) : (
           <TransitionLink href={cta.href}>
             {cta.label}
@@ -21,7 +28,7 @@ export function Footer({ preword, headline, cta }: FooterProps) {
         )}
       </div>
       <div className="row">
-        <span>María Railenz — Illustration &amp; Graphic Design</span>
+        <span>{t.footer.tagline}</span>
         <div style={{ display: 'flex', gap: '22px' }}>
           <a href="https://instagram.com/railenz" target="_blank" rel="noreferrer">
             Instagram
@@ -30,7 +37,7 @@ export function Footer({ preword, headline, cta }: FooterProps) {
             Behance
           </a>
         </div>
-        <span>© 2026 — Madrid</span>
+        <span>{t.footer.rights}</span>
       </div>
     </footer>
   );

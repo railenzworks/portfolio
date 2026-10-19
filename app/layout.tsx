@@ -6,6 +6,16 @@ import { Nav } from '@/components/Nav';
 import { CustomCursor } from '@/components/CustomCursor';
 import { FloatingCat } from '@/components/FloatingCat';
 import { BottomBlur } from '@/components/BottomBlur';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { SeasonPicker } from '@/components/SeasonPicker';
+import { LangProvider } from '@/components/LangProvider';
+import { LangToggle } from '@/components/LangToggle';
+import { WipToast } from '@/components/WipToast';
+import { getLang } from '@/lib/i18n-server';
+
+// Runs before first paint so a visitor never sees a flash of the wrong colours:
+// light/dark (saved choice, else the system preference) and the saved season.
+const themeScript = `(function(){try{var d=document.documentElement,t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.dataset.theme=t;var s=localStorage.getItem('season');if(s==='summer'||s==='spring'||s==='autumn'||s==='winter')d.dataset.season=s}catch(e){}})()`;
 
 const valleySans = localFont({
   src: [
@@ -56,18 +66,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const lang = await getLang();
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`${valleySans.variable} ${railenz.variable} ${parkinsansRead.variable} ${parkinsansMono.variable}`}
+      // data-theme is set by themeScript before React hydrates
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
-        <CustomCursor />
-        <Nav />
-        {children}
-        <BottomBlur />
-        <FloatingCat />
+        <LangProvider initial={lang}>
+          <CustomCursor />
+          <Nav />
+          <div className="site-controls">
+            <LangToggle />
+            <SeasonPicker />
+            <ThemeToggle />
+          </div>
+          {children}
+          <BottomBlur />
+          <FloatingCat />
+          <WipToast />
+        </LangProvider>
       </body>
     </html>
   );

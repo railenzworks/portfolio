@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useLang } from '../LangProvider';
 import styles from './ContactForm.module.css';
 
 type Disc = 'illustration' | 'graphic' | 'both' | null;
@@ -13,6 +14,8 @@ interface Errors {
 }
 
 export function ContactForm() {
+  const { t } = useLang();
+  const f = t.contact.form;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [disc, setDisc] = useState<Disc>(null);
@@ -25,16 +28,24 @@ export function ContactForm() {
   const handleDisc = (v: Disc) => {
     setDisc(v);
     setErrors((e) => ({ ...e, disc: undefined }));
-    const ac = v === 'illustration' ? '#3f8d90' : v === 'graphic' ? '#3a67f0' : '#17150f';
-    document.body.style.setProperty('--accent', ac);
+    const ac = v === 'illustration' ? 'var(--teal-deep)' : v === 'graphic' ? 'var(--blue)' : null;
+    // coloured accents carry white text; the default falls back to the theme's ink
+    if (ac) {
+      document.body.style.setProperty('--accent', ac);
+      // the season's blue may be light, so it brings its own text colour
+      document.body.style.setProperty('--on-accent', ac === 'var(--blue)' ? 'var(--on-blue)' : '#ffffff');
+    } else {
+      document.body.style.removeProperty('--accent');
+      document.body.style.removeProperty('--on-accent');
+    }
   };
 
   const validate = () => {
     const errs: Errors = {};
-    if (!name.trim()) errs.name = 'Please tell me your name.';
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errs.email = 'A valid email, please.';
-    if (!disc) errs.disc = 'Pick at least one.';
-    if (!msg.trim()) errs.msg = 'A line or two would help.';
+    if (!name.trim()) errs.name = f.errName;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errs.email = f.errEmail;
+    if (!disc) errs.disc = f.errDisc;
+    if (!msg.trim()) errs.msg = f.errMsg;
     return errs;
   };
 
@@ -52,18 +63,18 @@ export function ContactForm() {
   if (sent) {
     return (
       <div className={styles.sentMsg}>
-        <h2>Thanks — <em>got it.</em></h2>
-        <p>Your message is on its way (well, it would be once this is wired to a real inbox). I&apos;ll get back to you within 48 hours.</p>
+        <h2>{f.thanksA}<em>{f.thanksB}</em></h2>
+        <p>{f.thanksP}</p>
       </div>
     );
   }
 
   return (
     <form className={`${styles.form} reveal`} ref={formRef} onSubmit={handleSubmit} noValidate>
-      <div className={styles.step}>(01 — Tell me about it)</div>
+      <div className={styles.step}>{f.step}</div>
 
       <div className={`${styles.field}${errors.name ? ` ${styles.err}` : ''}`}>
-        <label htmlFor="name">Your name</label>
+        <label htmlFor="name">{f.name}</label>
         <input
           id="name"
           name="name"
@@ -77,7 +88,7 @@ export function ContactForm() {
       </div>
 
       <div className={`${styles.field}${errors.email ? ` ${styles.err}` : ''}`}>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">{f.email}</label>
         <input
           id="email"
           name="email"
@@ -91,12 +102,12 @@ export function ContactForm() {
       </div>
 
       <div className={`${styles.field}${errors.disc ? ` ${styles.err}` : ''}`}>
-        <label>What do you need?</label>
+        <label>{f.need}</label>
         <div className={styles.pills}>
           {([
-            { v: 'illustration', label: 'Illustration' },
-            { v: 'graphic', label: 'Graphic Design' },
-            { v: 'both', label: 'A bit of both' },
+            { v: 'illustration', label: t.disc.illustration },
+            { v: 'graphic', label: t.disc.graphic },
+            { v: 'both', label: f.both },
           ] as { v: Disc; label: string }[]).map(({ v, label }) => (
             <button
               key={v!}
@@ -114,12 +125,12 @@ export function ContactForm() {
       </div>
 
       <div className={`${styles.field}${errors.msg ? ` ${styles.err}` : ''}`}>
-        <label htmlFor="msg">The project</label>
+        <label htmlFor="msg">{f.project}</label>
         <textarea
           id="msg"
           name="msg"
           rows={3}
-          placeholder="Tell me what you're making, the timeline, and anything that excites you about it…"
+          placeholder={f.placeholder}
           value={msg}
           onChange={(e) => { setMsg(e.target.value); setErrors((er) => ({ ...er, msg: undefined })); }}
         />
@@ -127,7 +138,7 @@ export function ContactForm() {
       </div>
 
       <button className={`btn ${styles.submit}`} type="submit">
-        <span>{submitting ? 'Sending…' : 'Send message →'}</span>
+        <span>{submitting ? f.sending : f.send}</span>
       </button>
     </form>
   );

@@ -31,6 +31,68 @@
   --nav-h: 70px;
   --radius: 22px;
   --radius-sm: 12px;
+
+  /* text on coloured fills (blue, teal): white in both themes */
+  --on-color: #ffffff;
+  /* text on --blue fills: each season sets its own, since some of its colours are light */
+  --on-blue: #ffffff;
+  /* text on --accent fills; the discipline filters override both */
+  --on-accent: var(--cream);
+  --glass: rgba(255, 255, 255, 0.55);
+  /* form errors: fixed, so they stay red whatever the season */
+  --error: #e5533a;
+}
+
+/* seasons: swap the two corporate colours, --teal (+ its darker --teal-deep,
+   used for fills and text) and --blue. Set on <html data-season> by layout.tsx,
+   picked in SeasonPicker; "main" has no attribute and keeps the values above */
+:root[data-season="summer"] {
+  --teal: #f5c842;      /* aspen gold */
+  --teal-deep: #c4931c;
+  --blue: #ff6f61;      /* coral */
+  --on-blue: #3a0f0a;
+}
+:root[data-season="spring"] {
+  --teal: #eaa9bd;      /* soft pink */
+  --teal-deep: #c46b8a;
+  --blue: #5e9e3f;      /* grass green */
+  --on-blue: #ffffff;
+}
+:root[data-season="autumn"] {
+  --teal: #e8873a;      /* orange */
+  --teal-deep: #b85c17;
+  --blue: #8b3a2b;      /* mahogany */
+  --on-blue: #ffffff;
+}
+:root[data-season="winter"] {
+  --teal: #a9d3f0;      /* light blue */
+  --teal-deep: #5a8db5;
+  --blue: #5f7891;      /* blue-grey */
+  --on-blue: #ffffff;
+}
+
+/* dark theme: set on <html> by the inline script in layout.tsx (saved choice,
+   else the system preference), toggled by ThemeToggle */
+:root[data-theme="dark"] {
+  --cream: #141317;
+  --paper: #1d1c21;
+  --bg: #141317;
+  --ink: #f1ede4;
+  --ink-70: rgba(241, 237, 228, 0.66);
+  --ink-40: rgba(241, 237, 228, 0.42);
+  --line: rgba(241, 237, 228, 0.16);
+  --accent: #f1ede4;
+  --accent-soft: #26242a;
+  --glass: rgba(29, 28, 33, 0.6);
+  color-scheme: dark;
+}
+/* colours fade instead of snapping while the theme switches
+   ([data-no-fade] keeps its own transitions, e.g. the toggle's knob) */
+html.theme-fade *:not([data-no-fade]),
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition: background-color 0.5s var(--ease), color 0.5s var(--ease),
+    border-color 0.5s var(--ease), fill 0.5s var(--ease) !important;
 }
 
 * {
@@ -57,7 +119,7 @@ body {
 
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
-::selection { background: var(--accent); color: var(--cream); }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 /* ---------- type ---------- */
 .mono {
@@ -111,11 +173,15 @@ h1 em, h2 em, h3 em { font-style: normal; }
 body.cur-hover .cursor-arrow svg { opacity: 0; transform: scale(0.4); }
 body.cur-hover .cursor-ring { opacity: 1; transform: scale(1); }
 /* touching something black, the circle turns blue so it never disappears */
-body.cur-hover.cur-on-dark .cursor-ring { background: var(--blue); }
+/* (light theme only: in dark mode the circle is already light) */
+:root:not([data-theme="dark"]) body.cur-hover.cur-on-dark .cursor-ring,
+body.cur-hover.cur-blue .cursor-ring { background: var(--blue); }
+/* forced blue: skip the colour fade so it never passes through black */
+body.cur-hover.cur-blue .cursor-ring { transition: opacity 0.2s, transform 0.35s var(--ease); }
 .cursor-label {
   position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
   font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--cream); background: var(--accent);
+  color: var(--on-accent); background: var(--accent);
   padding: 0.5em 0.8em; border-radius: 100px; white-space: nowrap;
   transform: translate(-50%, -50%) scale(0.4); opacity: 0;
   transition: transform 0.3s var(--ease), opacity 0.25s, background 0.3s;
@@ -169,7 +235,7 @@ body.cur-view .cursor-label { opacity: 1; }
   display: flex; align-items: center; justify-content: flex-start;
   gap: 0;
   padding: 9px 9px 9px 22px;
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--glass);
   backdrop-filter: blur(10px) saturate(1.4);
   -webkit-backdrop-filter: blur(10px) saturate(1.4);
   border: none;
@@ -188,7 +254,7 @@ body.cur-view .cursor-label { opacity: 1; }
   font-family: var(--mono); font-size: 0.6rem;
   letter-spacing: 0.14em; text-transform: uppercase;
   position: relative; z-index: 1; padding: 8px 14px;
-  border-radius: 100px;
+  border-radius: 100px; white-space: nowrap;
   transition: color 0.3s var(--ease);
 }
 /* one shared pill that slides under the active link (fast, no-bounce spring) */
@@ -205,10 +271,22 @@ body.cur-view .cursor-label { opacity: 1; }
   color: var(--blue);
 }
 .nav .links a[aria-current="page"] {
-  color: var(--cream);
+  color: var(--on-blue);
   font-weight: 700;
 }
 .nav .links a[aria-current="page"]::after { display: none; }
+
+/* season picker + light/dark switch: top-right, centred on the nav (24px pills) */
+.site-controls {
+  position: fixed; z-index: 200;
+  top: calc(clamp(14px, 2.4vw, 28px) + (var(--nav-h) - 24px) / 2);
+  right: var(--pad);
+  display: flex; align-items: center; gap: 8px;
+}
+/* below ~960px the centred nav reaches the controls, so they sit just below it */
+@media (max-width: 960px) {
+  .site-controls { top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px); right: 12px; }
+}
 
 /* ============================================================
    FOOTER
@@ -224,7 +302,9 @@ body.cur-view .cursor-label { opacity: 1; }
   line-height: 1; font-weight: 700;
   display: flex; flex-wrap: wrap; gap: 0 0.3em; align-items: baseline;
 }
-.foot .big a { transition: color 0.3s; }
+/* the home's CTA is the email address: one long word that must be allowed to
+   break on phones, or it widens the whole page */
+.foot .big a { transition: color 0.3s; min-width: 0; overflow-wrap: anywhere; }
 .foot .big a:hover { color: var(--teal); }
 .foot .row {
   display: flex; flex-wrap: wrap; gap: 24px;
@@ -232,7 +312,7 @@ body.cur-view .cursor-label { opacity: 1; }
   margin-top: clamp(40px, 6vw, 90px);
   font-family: var(--mono); font-size: 0.72rem;
   letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: color-mix(in srgb, var(--cream) 60%, transparent);
 }
 .foot .row a:hover { color: var(--teal); }
 
@@ -271,7 +351,7 @@ body.cur-view .cursor-label { opacity: 1; }
   transform: translateY(101%); transition: transform 0.45s var(--ease);
 }
 .btn:hover::before { transform: translateY(0); }
-.btn:hover span { color: var(--cream); }
+.btn:hover span { color: var(--on-accent); }
 
 /* solid pill: black fill, gentle scale on hover */
 .btn.btn--solid {
@@ -284,7 +364,8 @@ body.cur-view .cursor-label { opacity: 1; }
   will-change: transform;
 }
 .btn.btn--solid::before { content: none; }
-.btn.btn--solid:hover { transform: scale(1.05); background: var(--blue); }
+.btn.btn--solid:hover { transform: scale(1.05); background: var(--blue); color: var(--on-blue); }
+.btn.btn--solid:hover span { color: var(--on-blue); }
 
 /* marquee */
 .marquee { display: flex; overflow: hidden; white-space: nowrap; user-select: none; }
@@ -325,6 +406,17 @@ body.cur-view .cursor-label { opacity: 1; }
   .nav .links { margin-left: 10px; }
   .nav .links a { font-size: 0.56rem; letter-spacing: 0.08em; padding: 7px 9px; }
 }
+/* small phones: the longer Spanish labels ("Sobre mí") still fit on one line */
+@media (max-width: 400px) {
+  .nav { padding: 6px 6px 6px 12px; }
+  .nav .links { margin-left: 4px; }
+  .nav .links a { letter-spacing: 0.04em; padding: 7px 7px; }
+}
+@media (max-width: 350px) {
+  .nav { padding: 5px 5px 5px 10px; }
+  .nav .links { margin-left: 2px; }
+  .nav .links a { font-size: 0.52rem; letter-spacing: 0.02em; padding: 7px 5px; }
+}
 
 @media (max-width: 480px) {
   .foot .big { font-size: clamp(1.8rem, 7.5vw, 3.4rem); }
@@ -362,10 +454,10 @@ body.cur-view .cursor-label { opacity: 1; }
 .chip[data-disc="graphic"] .pip { background: var(--blue); }
 .chip.on {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
   border-color: var(--accent);
 }
-.chip.on .pip { background: var(--cream); }
+.chip.on .pip { background: var(--on-accent); }
 
 @media (max-width: 640px) {
   .chip { flex-shrink: 0; font-size: 0.64rem; padding: 0.5em 0.85em; }

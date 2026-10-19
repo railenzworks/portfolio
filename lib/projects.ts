@@ -1,3 +1,5 @@
+import type { Localized } from './i18n';
+
 export type Discipline = 'illustration' | 'graphic';
 
 export type Category =
@@ -14,9 +16,11 @@ export interface Project {
   cat: Category;
   year: string;
   img: string;
-  role: string;
-  med: string;
-  desc: string;
+  // text fields: a plain string reads the same in English and Spanish,
+  // or give both as { en: '...', es: '...' }
+  role: Localized;
+  med: Localized;
+  desc: Localized;
 }
 
 export const PROJECTS: Project[] = [
@@ -27,18 +31,25 @@ export const PROJECTS: Project[] = [
     cat: 'Editorial',
     year: '2025',
     img: '/images/work/las-caras-de-la-mente-libro.jpg',
-    role: 'Illustration, Art Direction',
-    med: 'Digital · Risograph',
-    desc:
-      'Las caras de la mente es un proyecto que surge al unir dos pasiones personales; el interés por el funcionamiento de la mente y el arte.\n\n' +
-      'Las caras de la mente es una interpretación de algunos trastornos mentales en forma de ilustración y poesía cuya intención es invitar a la reflexión individual.\n\n' +
-      'Para complementar y contextualizar, cada apartado cuenta con un anexo que contiene información de cada trastorno tratado; pero este libro no tiene por finalidad educar o diagnosticar. Las caras de la mente quiere transmitir, provocar y mover emociones.',
+    role: { en: 'Illustration, Art Direction', es: 'Ilustración, Dirección de arte' },
+    med: { en: 'Digital · Risograph', es: 'Digital · Risografía' },
+    desc: {
+      en:
+        'Las caras de la mente (The Faces of the Mind) is a project born from bringing together two personal passions: an interest in how the mind works, and art.\n\n' +
+        'Las caras de la mente is an interpretation of several mental disorders through illustration and poetry, meant to invite personal reflection.\n\n' +
+        'To complement and give context, each section comes with an annex about the disorder it covers; but this book does not aim to educate or diagnose. Las caras de la mente wants to convey, provoke and stir emotions.',
+      es:
+        'Las caras de la mente es un proyecto que surge al unir dos pasiones personales; el interés por el funcionamiento de la mente y el arte.\n\n' +
+        'Las caras de la mente es una interpretación de algunos trastornos mentales en forma de ilustración y poesía cuya intención es invitar a la reflexión individual.\n\n' +
+        'Para complementar y contextualizar, cada apartado cuenta con un anexo que contiene información de cada trastorno tratado; pero este libro no tiene por finalidad educar o diagnosticar. Las caras de la mente quiere transmitir, provocar y mover emociones.',
+    },
   },
   // ---------- PLANTILLAS de Selected Works: rellenar con el proyecto real ----------
   // img: guarda la imagen en public/images/work/ y pon aquí su ruta
   // disc: 'illustration' | 'graphic'
   // cat: 'Editorial' | 'Character Design' | 'Branding' | 'Posters' | 'Events'
   // desc: párrafos separados por '\n\n' (en Selected Works solo se ve el primero)
+  // role / med / desc: texto simple, o { en: '...', es: '...' } para traducirlo
   {
     id: 'proyecto-2',
     title: 'Proyecto 2',
@@ -151,11 +162,6 @@ export const PROJECTS: Project[] = [
     desc: 'A monogram-led identity for a design studio. The brandmark is a single letterform that flexes between a stamp, a pattern and a loading state.',
   },
 ];
-
-export const DISC_LABEL: Record<Discipline, string> = {
-  illustration: 'Illustration',
-  graphic: 'Graphic Design',
-};
 
 export const FEATURED_PROJECT_IDS = ['bloom-states', 'proyecto-2', 'proyecto-3', 'proyecto-4'] as const;
 

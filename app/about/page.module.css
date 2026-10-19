@@ -188,7 +188,7 @@
 }
 
 .colT { background: var(--teal); }
-.colB { background: var(--blue); color: var(--cream); }
+.colB { background: var(--blue); color: var(--on-blue); }
 
 .col h3 {
   font-family: var(--serif);
@@ -284,7 +284,7 @@
 
 .clients div:hover {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
 }
 
 @media (max-width: 640px) {

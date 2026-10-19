@@ -76,7 +76,7 @@
 
 .pickerBtnActive {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
 }
 
 @media (hover: none) {

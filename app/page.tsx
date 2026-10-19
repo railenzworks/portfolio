@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getDict } from '@/lib/i18n-server';
 import { getFeaturedProjects, PROJECTS } from '@/lib/projects';
 import { FeaturedTabs } from '@/components/FeaturedTabs';
 import { Marquee } from '@/components/Marquee';
@@ -9,13 +10,14 @@ import { HeroLetters } from '@/components/HeroLetters';
 import { OvalRing } from '@/components/OvalMark';
 import styles from './page.module.css';
 
-export const metadata: Metadata = {
-  title: 'María Railenz — Illustration & Graphic Design',
-  description: 'Illustration & Graphic Design. Two crafts, one hand. From the mountains.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getDict();
+  return { title: { absolute: t.home.metaTitle }, description: t.home.metaDesc };
+}
 
-export default function HomePage() {
+export default async function HomePage() {
   const featured = getFeaturedProjects();
+  const t = await getDict();
 
   return (
     <ScrollRevealWrapper>
@@ -26,7 +28,7 @@ export default function HomePage() {
       <section className={styles.featured}>
         <div className="wrap">
           <div className={`${styles.featuredHead} reveal`}>
-            <h2>Selected Works</h2>
+            <h2>{t.home.selected}</h2>
           </div>
 
           <FeaturedTabs projects={featured} totalProjects={PROJECTS.length} />
@@ -37,23 +39,23 @@ export default function HomePage() {
       <section className={styles.cta}>
         <div className="wrap">
           <h2 className={`${styles.ctaBig} reveal`}>
-            ¿Le damos una{' '}
+            {t.home.ctaPre}
             <em className={styles.ctaWord}>
-              vuelta
+              {t.home.ctaWord}
               <OvalRing
                 backClassName={`${styles.ctaRing} ${styles.ctaRingBack}`}
                 frontClassName={`${styles.ctaRing} ${styles.ctaRingFront}`}
                 flowClassName={styles.ctaRingFlow}
               />
             </em>
-            ?
+            {t.home.ctaPost}
           </h2>
           <p className="reveal reveal-d1">
-            Open for commissions, collaborations and full identity projects from early 2026.
+            {t.home.ctaLead}
           </p>
           <div className="reveal reveal-d2">
             <TransitionLink href="/contact" className="btn btn--solid">
-              <span>Hablemos</span>
+              <span>{t.home.ctaBtn}</span>
             </TransitionLink>
           </div>
         </div>
@@ -63,8 +65,8 @@ export default function HomePage() {
       <Marquee style={{ borderBlock: '1px solid var(--line)', paddingBlock: '18px' }} />
 
       <Footer
-        preword="Say"
-        headline="hello —"
+        preword={t.home.footPre}
+        headline={t.home.footHead}
         cta={{ label: 'railenzworks@gmail.com', href: 'mailto:railenzworks@gmail.com' }}
       />
     </ScrollRevealWrapper>

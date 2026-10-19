@@ -58,14 +58,14 @@
 
 .field.err input,
 .field.err textarea {
-  border-color: var(--coral);
+  border-color: var(--error);
 }
 
 .msg {
   font-family: var(--mono);
   font-size: 0.66rem;
   letter-spacing: 0.08em;
-  color: var(--coral);
+  color: var(--error);
   margin-top: 8px;
 }
 
@@ -105,11 +105,11 @@
 
 .pill.on {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
   border-color: var(--accent);
 }
 
-.pill.on .pip { background: var(--cream) !important; }
+.pill.on .pip { background: var(--on-accent) !important; }
 
 .submit { margin-top: 14px; }
 

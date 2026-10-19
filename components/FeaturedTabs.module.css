@@ -28,9 +28,11 @@
   transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* at rest: no transform at all, so the browser re-renders the image at full
+   resolution instead of keeping the softer bitmap it used while animating */
 .imgOn {
   opacity: 1;
-  transform: scale(1);
+  transform: none;
 }
 
 /* hover: slow zoom-in while the image drifts away from the cursor */
@@ -170,7 +172,7 @@
   justify-content: center;
   border: none;
   border-radius: 50%;
-  color: var(--cream);
+  color: var(--on-color);
   transition: transform 0.25s ease, background-color 0.25s ease;
   will-change: transform;
 }
@@ -178,7 +180,7 @@
 .next:hover { transform: scale(1.05); }
 
 .prev { background: var(--teal-deep); }
-.next { background: var(--blue); }
+.next { background: var(--blue); color: var(--on-blue); }
 .prev:hover,
 .next:hover { background: var(--ink); }
 

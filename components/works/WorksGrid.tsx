@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import type { Project, Discipline, Category } from '@/lib/projects';
-import { DISC_LABEL } from '@/lib/projects';
+import { useLang } from '../LangProvider';
 import { FilterBar } from './FilterBar';
 import { ProjectOverlay } from './ProjectOverlay';
 import styles from './WorksGrid.module.css';
@@ -19,6 +19,7 @@ interface WorksGridProps {
 }
 
 export function WorksGrid({ projects }: WorksGridProps) {
+  const { t } = useLang();
   const [activeDisc, setActiveDisc] = useState<'all' | Discipline>('all');
   const [activeCat, setActiveCat] = useState<Category | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -52,8 +53,16 @@ export function WorksGrid({ projects }: WorksGridProps) {
   const handleDiscChange = useCallback((d: 'all' | Discipline) => {
     setActiveDisc(d);
     setActiveCat(null);
-    const ac = d === 'illustration' ? '#3f8d90' : d === 'graphic' ? '#3a67f0' : '#17150f';
-    document.body.style.setProperty('--accent', ac);
+    const ac = d === 'illustration' ? 'var(--teal-deep)' : d === 'graphic' ? 'var(--blue)' : null;
+    // coloured accents carry white text; the default falls back to the theme's ink
+    if (ac) {
+      document.body.style.setProperty('--accent', ac);
+      // the season's blue may be light, so it brings its own text colour
+      document.body.style.setProperty('--on-accent', ac === 'var(--blue)' ? 'var(--on-blue)' : '#ffffff');
+    } else {
+      document.body.style.removeProperty('--accent');
+      document.body.style.removeProperty('--on-accent');
+    }
   }, []);
 
   const handleCatChange = useCallback((c: Category | null) => {
@@ -101,7 +110,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
 
       <main className={styles.grid} ref={gridRef}>
         {visible.length === 0 && (
-          <div className={styles.empty}>Nothing here yet.</div>
+          <div className={styles.empty}>{t.works.empty}</div>
         )}
         {projects.map((p, i) => {
           const hidden = !visible.includes(p);
@@ -114,7 +123,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
               data-disc={p.disc}
               data-cat={p.cat}
               data-cursor="view"
-              data-label="Open"
+              data-label={t.featured.open}
               onClick={(e) => { e.preventDefault(); handleOpen(p.id); }}
             >
               <div
@@ -123,13 +132,14 @@ export function WorksGrid({ projects }: WorksGridProps) {
               >
                 <span className={styles.cardIdx}>{pad(i + 1)}</span>
                 <span className={`${styles.cardTag} ${p.disc === 'illustration' ? styles.tagIll : styles.tagGfx}`}>
-                  {DISC_LABEL[p.disc]}
+                  {t.disc[p.disc]}
                 </span>
                 <Image
                   src={p.img}
                   alt={p.title}
                   fill
                   sizes="(max-width: 860px) 100vw, 50vw"
+                  quality={90}
                   style={{ objectFit: 'cover' }}
                 />
               </div>
@@ -137,7 +147,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
                 <h3>{p.title}</h3>
                 <span className={styles.yr}>{p.year}</span>
               </div>
-              <div className={styles.cardCat}>{p.cat}</div>
+              <div className={styles.cardCat}>{t.cat[p.cat]}</div>
             </a>
           );
         })}

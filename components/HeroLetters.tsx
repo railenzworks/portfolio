@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+import { useLang } from './LangProvider';
 import styles from './HeroLetters.module.css';
 
 const LINE1 = 'MARÍA';
@@ -33,6 +34,7 @@ function buildScatter(chars: string[]): LetterMeta[] {
 }
 
 export function HeroLetters() {
+  const { t } = useLang();
   const sectionRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
@@ -114,14 +116,14 @@ export function HeroLetters() {
         </div>
 
         <p className={styles.statement} ref={statementRef}>
-          DESIGN<b className={styles.amp}>&amp;</b>ILLUSTRATION
+          {t.hero.design}<b className={styles.amp}>&amp;</b>{t.hero.illustration}
           <br />
-          Arts<b className={styles.amp}>&amp;</b>Cats
+          {t.hero.arts}<b className={styles.amp}>&amp;</b>{t.hero.cats}
         </p>
 
         <div className={styles.scrollIcon} ref={scrollIconRef}>
           <span className={styles.scrollIconMouse} />
-          <span className={styles.scrollIconLabel}>Scroll</span>
+          <span className={styles.scrollIconLabel}>{t.hero.scroll}</span>
         </div>
       </div>
     </section>

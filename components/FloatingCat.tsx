@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { NekoCat, type NekoEmotion } from './NekoCat';
+import { useLang } from './LangProvider';
 import styles from './FloatingCat.module.css';
 
 interface FloatingCatProps {
@@ -10,11 +11,11 @@ interface FloatingCatProps {
   emotion?: NekoEmotion;
 }
 
-const MOODS: { value: NekoEmotion; label: string; face: string }[] = [
-  { value: 'idle', label: 'Idle', face: ':|' },
-  { value: 'happy', label: 'Happy', face: ':)' },
-  { value: 'sad', label: 'Sad', face: ':(' },
-  { value: 'error', label: 'Confused', face: 'x_x' },
+const MOODS: { value: 'idle' | 'happy' | 'sad' | 'error'; face: string }[] = [
+  { value: 'idle', face: ':|' },
+  { value: 'happy', face: ':)' },
+  { value: 'sad', face: ':(' },
+  { value: 'error', face: 'x_x' },
 ];
 
 export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatProps) {
@@ -22,10 +23,13 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
   const [pickerOpen, setPickerOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { t } = useLang();
+  const firstScrollMsg = useRef(t.cat_.firstScroll);
+  firstScrollMsg.current = t.cat_.firstScroll;
 
   useEffect(() => {
     const onFirstScroll = () => {
-      window.dispatchEvent(new CustomEvent('neko', { detail: { message: "hey — I'm Yogur" } }));
+      window.dispatchEvent(new CustomEvent('neko', { detail: { message: firstScrollMsg.current } }));
       window.removeEventListener('scroll', onFirstScroll);
     };
     window.addEventListener('scroll', onFirstScroll, { passive: true });
@@ -81,13 +85,13 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
 
   return (
     <div className={styles.wrap} ref={wrapRef} onClick={() => setPickerOpen((v) => !v)}>
-      <div className={`${styles.picker} ${pickerOpen ? styles.open : ''}`} role="group" aria-label="Change Yogur's mood">
+      <div className={`${styles.picker} ${pickerOpen ? styles.open : ''}`} role="group" aria-label={t.cat_.moodsLabel}>
         {MOODS.map((m) => (
           <button
             key={m.value}
             type="button"
             className={`${styles.pickerBtn} ${emotion === m.value ? styles.pickerBtnActive : ''}`}
-            aria-label={m.label}
+            aria-label={t.cat_.moods[m.value]}
             aria-pressed={emotion === m.value}
             onClick={(e) => {
               e.stopPropagation();
@@ -105,7 +109,7 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
         eyeColor="#3a67f0"
         patchColor="#e3ab7c"
         emotion={emotion}
-        message="hey — scroll around"
+        message={t.cat_.hello}
         font={{ fontFamily: 'var(--read)', fontSize: 14 }}
         textColor="#17150f"
       />

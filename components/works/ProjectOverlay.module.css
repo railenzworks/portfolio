@@ -45,9 +45,9 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid var(--cream);
+  border: 1px solid var(--on-color);
   background: transparent;
-  color: var(--cream);
+  color: var(--on-color);
   cursor: pointer;
   font-family: var(--mono);
   font-size: 1rem;
@@ -68,14 +68,14 @@
   text-transform: uppercase;
   padding: 0.5em 0.9em;
   border-radius: 100px;
-  color: var(--cream);
+  color: var(--on-color);
 }
 
 .tagPip {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--cream);
+  background: currentColor;
 }
 
 .body h2 {

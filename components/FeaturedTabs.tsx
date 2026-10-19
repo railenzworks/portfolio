@@ -4,12 +4,9 @@ import Image from 'next/image';
 import { useCallback, useState, type MouseEvent } from 'react';
 import type { Project, Discipline } from '@/lib/projects';
 import { TransitionLink } from './TransitionLink';
+import { loc } from '@/lib/i18n';
+import { useLang } from './LangProvider';
 import styles from './FeaturedTabs.module.css';
-
-const DISC_LABEL: Record<Discipline, string> = {
-  illustration: 'Illustration',
-  graphic: 'Graphic Design',
-};
 
 const PIP_COLOR: Record<Discipline, string> = {
   illustration: 'var(--teal)',
@@ -44,6 +41,7 @@ interface FeaturedTabsProps {
 }
 
 export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
+  const { lang, t } = useLang();
   const [active, setActive] = useState(0);
   const count = projects.length;
   const current = projects[active];
@@ -71,8 +69,8 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
         href={`/works#${current.id}`}
         className={styles.media}
         data-cursor="view"
-        data-label="Open"
-        aria-label={`Open ${current.title}`}
+        data-label={t.featured.open}
+        aria-label={`${t.featured.openAria} ${current.title}`}
         onMouseMove={onMediaMove}
         onMouseLeave={onMediaLeave}
       >
@@ -86,7 +84,10 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
               src={p.img}
               alt={p.title}
               fill
-              sizes="(max-width: 760px) 100vw, 68vw"
+              sizes="(max-width: 760px) 100vw, 80vw"
+              // the hero of the home: serve the original file untouched, Next's
+              // re-encoding visibly softens these dark, textured mockups
+              unoptimized
               style={{ objectFit: 'cover' }}
               priority={i === 0}
             />
@@ -102,10 +103,10 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
               {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
             </div>
             <div className={styles.arrows}>
-              <button type="button" className={styles.prev} onClick={prev} aria-label="Previous project">
+              <button type="button" className={styles.prev} onClick={prev} aria-label={t.featured.prev} data-cursor-blue>
                 <Arrow left />
               </button>
-              <button type="button" className={styles.next} onClick={next} aria-label="Next project">
+              <button type="button" className={styles.next} onClick={next} aria-label={t.featured.next} data-cursor-blue>
                 <Arrow />
               </button>
             </div>
@@ -115,10 +116,10 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
         <div className={styles.body} key={current.id}>
           <div className={styles.eyebrow}>
             <span className={styles.pip} style={{ background: PIP_COLOR[current.disc] }} />
-            {DISC_LABEL[current.disc]} · {current.cat} · {current.year}
+            {t.disc[current.disc]} · {t.cat[current.cat]} · {current.year}
           </div>
           <h3 className={styles.title}>{current.title}</h3>
-          <p className={styles.desc}>{current.desc.split('\n\n')[0]}</p>
+          <p className={styles.desc}>{loc(current.desc, lang).split('\n\n')[0]}</p>
         </div>
 
         <div className={styles.actions}>
@@ -126,13 +127,13 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
             href={`/works#${current.id}`}
             className="btn btn--solid"
             data-cursor="view"
-            data-label="Open"
+            data-label={t.featured.open}
           >
-            <span>Open project</span>
+            <span>{t.featured.openProject}</span>
             <Arrow />
           </TransitionLink>
           <TransitionLink href="/works" className={styles.secondary}>
-            All projects ({totalProjects})
+            {t.featured.allProjects} ({totalProjects})
           </TransitionLink>
         </div>
       </div>

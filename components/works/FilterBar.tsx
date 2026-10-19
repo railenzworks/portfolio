@@ -1,21 +1,16 @@
 'use client';
 
 import type { Discipline, Category } from '@/lib/projects';
+import { useLang } from '../LangProvider';
 import styles from './FilterBar.module.css';
 
-const DISC_FILTERS = [
-  { value: 'all' as const, label: 'All' },
-  { value: 'illustration' as const, label: 'Illustration', disc: 'illustration' as Discipline },
-  { value: 'graphic' as const, label: 'Graphic Design', disc: 'graphic' as Discipline },
+const DISC_FILTERS: { value: 'all' | Discipline; disc?: Discipline }[] = [
+  { value: 'all' },
+  { value: 'illustration', disc: 'illustration' },
+  { value: 'graphic', disc: 'graphic' },
 ];
 
-const CAT_FILTERS: { value: Category; label: string }[] = [
-  { value: 'Editorial', label: 'Editorial' },
-  { value: 'Character Design', label: 'Character' },
-  { value: 'Branding', label: 'Branding' },
-  { value: 'Posters', label: 'Posters' },
-  { value: 'Events', label: 'Events' },
-];
+const CAT_FILTERS: Category[] = ['Editorial', 'Character Design', 'Branding', 'Posters', 'Events'];
 
 interface FilterBarProps {
   activeDisc: 'all' | Discipline;
@@ -34,11 +29,12 @@ export function FilterBar({
   onDiscChange,
   onCatChange,
 }: FilterBarProps) {
+  const { t } = useLang();
   return (
     <div className={styles.filters} id="filters">
-      <span className={styles.lbl}>Craft</span>
+      <span className={styles.lbl}>{t.works.craft}</span>
       <div className={styles.grp}>
-        {DISC_FILTERS.map(({ value, label, disc }) => (
+        {DISC_FILTERS.map(({ value, disc }) => (
           <button
             key={value}
             className={`chip ${activeDisc === value ? 'on' : ''}`}
@@ -46,19 +42,19 @@ export function FilterBar({
             onClick={() => onDiscChange(value)}
           >
             {disc && <span className="pip" />}
-            {label}
+            {disc ? t.disc[disc] : t.works.all}
           </button>
         ))}
       </div>
-      <span className={styles.lbl} style={{ marginLeft: '18px' }}>Category</span>
+      <span className={styles.lbl} style={{ marginLeft: '18px' }}>{t.works.category}</span>
       <div className={styles.grp}>
-        {CAT_FILTERS.map(({ value, label }) => (
+        {CAT_FILTERS.map((value) => (
           <button
             key={value}
             className={`chip ${activeCat === value ? 'on' : ''}`}
             onClick={() => onCatChange(activeCat === value ? null : value)}
           >
-            {label}
+            {t.works.catShort[value] ?? t.cat[value]}
           </button>
         ))}
       </div>

@@ -71,12 +71,12 @@
   text-transform: uppercase;
   padding: 0.5em 0.8em;
   border-radius: 100px;
-  color: var(--cream);
+  color: var(--on-color);
   z-index: 1;
 }
 
 .tagIll { background: var(--teal-deep); }
-.tagGfx { background: var(--blue); }
+.tagGfx { background: var(--blue); color: var(--on-blue); }
 
 .cardMeta {
   display: flex;

@@ -1,0 +1,29 @@
+/* same look as the cursor's "WIP" label, centred near the bottom of the screen */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  z-index: 300;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--on-accent);
+  background: var(--accent);
+  padding: 0.75em 1.2em;
+  border-radius: 100px;
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.18);
+  opacity: 0;
+  transform: translate(-50%, 12px) scale(0.92);
+  transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+}
+.on {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast { transition-duration: 0.01ms; }
+}
