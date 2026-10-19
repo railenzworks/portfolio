@@ -1,91 +1,74 @@
-.root {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(24px, 4vw, 52px) clamp(24px, 5vw, 80px);
+/* ---- FEATURED WORKS ---- */
+.featured {
+  padding-bottom: clamp(40px, 8vh, 90px);
 }
 
-/* ── Center ── */
-.center {
-  flex: 1;
+.featuredHead {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: clamp(30px, 5vw, 60px);
+}
+
+.featuredHead h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+}
+
+/* ---- CTA ---- */
+.cta {
+  padding: clamp(80px, 14vh, 180px) 0 clamp(50px, 8vh, 110px);
   text-align: center;
-  padding-block: clamp(60px, 12vh, 140px);
 }
 
-.catWrap {
-  margin-bottom: clamp(16px, 3vw, 32px);
+.ctaBig {
+  font-family: var(--font-railenz), var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 7vw, 7rem);
+  line-height: 0.98;
 }
 
-.label {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.ctaBig em { font-style: normal; }
+
+/* teal ring crossing "vuelta": back half behind the letters, front half over them;
+   tilts the other way on hover */
+.ctaWord { position: relative; display: inline-block; isolation: isolate; }
+.ctaRing {
+  position: absolute;
+  left: 50%; top: 52%;
+  width: 120%; height: auto;
+  overflow: visible; pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  transition: transform 0.8s var(--ease);
+}
+.ctaRingBack { z-index: -1; }
+.ctaRingFront { z-index: 1; }
+.ctaBig:hover .ctaRing { transform: translate(-50%, -50%) rotate(8deg); }
+
+/* on hover a soft teal → blue gradient flows round the ring like a planet's ring.
+   Each arc runs the same colour cycle, offset by its position (--i), so the colour
+   travels along the orbit. It only pauses off-hover, so leaving never jumps. */
+.ctaRingFlow {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.ctaRingFlow path {
+  animation: ringFlow 4s linear infinite paused;
+  animation-delay: calc(var(--i) * -4s);
+}
+.ctaBig:hover .ctaRingFlow { opacity: 1; }
+.ctaBig:hover .ctaRingFlow path { animation-play-state: running; }
+@keyframes ringFlow {
+  0%, 100% { stroke: var(--teal-deep); }
+  50% { stroke: var(--blue); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaRingFlow path { animation: none !important; }
+}
+
+.cta p {
+  max-width: 40ch;
+  margin: 26px auto 38px;
   color: var(--ink-70);
-  margin-bottom: clamp(20px, 3vw, 36px);
 }
 
-.heading {
-  font-family: var(--serif);
-  font-weight: 700;
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: clamp(20px, 3vw, 36px);
-}
-
-.heading .accent {
-  color: var(--blue);
-}
-
-.sub {
-  font-family: var(--read);
-  font-size: clamp(0.85rem, 1.6vw, 1.35rem);
-  color: var(--ink-70);
-  line-height: 1.6;
-  max-width: 44ch;
-  white-space: nowrap;
-}
-
-/* ── Bottom bar ── */
-.bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.location {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-70);
-}
-
-.email {
-  font-family: var(--read);
-  font-size: clamp(1rem, 1.8vw, 1.4rem);
-  font-weight: 600;
-  color: var(--ink);
-  transition: color 0.3s;
-}
-
-.email:hover {
-  color: var(--teal-deep);
-}
-
-@media (max-width: 480px) {
-  .heading { letter-spacing: -0.02em; }
-  .bottom { flex-direction: column; gap: 8px; }
-}
-
-@media (max-width: 380px) {
-  .sub { font-size: 0.72rem; }
-}

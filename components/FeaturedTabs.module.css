@@ -1,0 +1,269 @@
+/* Asymmetric tabs: big image on the right, floating card overlapping it
+   on the left, counter + arrows in the card's top-right corner. */
+.root {
+  position: relative;
+  height: clamp(520px, 46vw, 660px);
+}
+
+/* ---------- image panel ---------- */
+.media {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 68%;
+  height: 88%;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--accent-soft);
+  --mx: 0;
+  --my: 0;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.035);
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* at rest: no transform at all, so the browser re-renders the image at full
+   resolution instead of keeping the softer bitmap it used while animating */
+.imgOn {
+  opacity: 1;
+  transform: none;
+}
+
+/* hover: slow zoom-in while the image drifts away from the cursor */
+.media:hover .imgOn {
+  transform: scale(1.06) translate(calc(var(--mx) * -2.4%), calc(var(--my) * -2.4%));
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* split covers (several drawings side by side, see ProjectCover) start a bit
+   to the right so the floating card hides less of the first drawing; the strip
+   left over stays white like the drawings' paper */
+.img:has(> [data-split]) { background: #fff; }
+.img > [data-split] { left: 16%; }
+
+/* hairline frame on top of the images, so a cover with a white background
+   (e.g. a drawing on paper) still reads as a rounded card on the white page */
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+
+/* ---------- floating card ---------- */
+.card {
+  position: absolute;
+  left: 0;
+  top: 11%;
+  z-index: 3;
+  width: 46%;
+  height: 66%;
+  padding: 34px 36px 36px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+  overflow: hidden;
+}
+
+.body {
+  min-height: 0;
+  padding: 14px 0 20px;
+  overflow: hidden;
+  animation: bodyIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bodyIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  max-width: 14ch;
+}
+
+.desc {
+  margin-top: 16px;
+  max-width: 42ch;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-70);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.secondary {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.3s, border-color 0.3s;
+}
+.secondary:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+/* ---------- counter + arrows: top-right corner of the card ---------- */
+.nav {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.counter {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-70);
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+}
+
+/* same look as the solid "Open project" pill, in teal and blue; black on hover */
+.prev,
+.next {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  color: var(--on-color);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+.prev:hover,
+.next:hover { transform: scale(1.05); }
+
+.prev { background: var(--teal-deep); color: var(--on-teal); }
+.next { background: var(--blue); color: var(--on-blue); }
+.prev:hover,
+.next:hover { background: var(--ink); color: var(--cream); }
+
+/* ---------- single project: image left in its native 16:9,
+   card bottom-right so it only overlaps the image's empty corner ---------- */
+.single {
+  height: auto;
+  padding-bottom: clamp(40px, 6vw, 90px);
+}
+.single .media {
+  position: relative;
+  top: 0;
+  width: 72%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.single .card {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  height: auto;
+}
+.single .body { padding-top: 0; }
+
+/* ---------- tablet ---------- */
+@media (max-width: 1000px) {
+  .card { width: 58%; top: 10%; height: 70%; padding: 28px 28px 30px; }
+  .single .card { width: 52%; }
+  /* the wider card overlaps more of the image */
+  .img > [data-split] { left: 28%; }
+}
+
+/* ---------- mobile: stack image, card, nav ---------- */
+@media (max-width: 760px) {
+  /* the card sits below the image here: split covers use the full width */
+  .img > [data-split] { left: 0; }
+  .root {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .media {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .card {
+    position: relative;
+    top: 0;
+    width: calc(100% - 24px);
+    height: auto;
+    margin: -48px auto 0;
+    padding: 24px 22px 26px;
+  }
+  .body { padding: 22px 0 18px; }
+  .single { padding-bottom: 0; }
+  .single .media { width: 100%; aspect-ratio: 16 / 9; }
+  .single .card { right: auto; bottom: auto; width: calc(100% - 24px); }
+  .single .body { padding-top: 0; }
+  .title { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img, .body { transition: none; animation: none; }
+}

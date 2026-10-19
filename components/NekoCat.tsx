@@ -77,7 +77,7 @@ export function NekoCat(props: NekoCatProps) {
     eventName = 'neko',
     showShadow = true,
     speed = 1,
-    showBubble = false,
+    showBubble = true,
     message = 'Hi! I can talk.',
     font,
     textColor = '#17150f',

@@ -1,14 +1,17 @@
 .wrap {
-  position: relative;
-  width: clamp(150px, 20vw, 210px);
-  aspect-ratio: 268 / 214;
-  margin: 0 auto;
+  position: fixed;
+  right: clamp(12px, 3vw, 28px);
+  bottom: 0;
+  width: 128px;
+  height: 210px;
+  z-index: 150;
   pointer-events: none;
 }
 
 .wrap svg[role] {
   pointer-events: auto;
   outline: none;
+  /* no CSS outline here: NekoCat draws its own dark line art */
 }
 
 .wrap svg[role]:focus-visible {
@@ -18,11 +21,11 @@
 
 .picker {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-bottom: 10px;
+  right: 100%;
+  top: 40%;
+  margin-right: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 5px;
   padding: 5px;
   background: rgba(255, 255, 255, 0.92);
@@ -33,15 +36,15 @@
   box-shadow: 0 10px 24px rgba(23, 21, 15, 0.14);
   pointer-events: none;
   opacity: 0;
-  transform: translateX(-50%) translateY(6px) scale(0.92);
-  transform-origin: center bottom;
+  transform: translateY(-50%) translateX(6px) scale(0.92);
+  transform-origin: right center;
   transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
 }
 
 .picker.open {
   pointer-events: auto;
   opacity: 1;
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translateY(-50%) translateX(0) scale(1);
 }
 
 .pickerBtn {
@@ -68,6 +71,15 @@
 
 .pickerBtnActive {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
 }
 
+@media (hover: none) {
+  .wrap { display: none; }
+}
+
+@media (max-width: 640px) {
+  .wrap { width: 96px; height: 170px; }
+  .picker { transform: translateY(-50%) translateX(4px) scale(0.92); }
+  .picker.open { transform: translateY(-50%) translateX(0) scale(1); }
+}

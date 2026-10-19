@@ -1,35 +1,74 @@
 import type { Metadata } from 'next';
+import { getDict } from '@/lib/i18n-server';
+import { getFeaturedProjects, PROJECTS } from '@/lib/projects';
+import { FeaturedTabs } from '@/components/FeaturedTabs';
+import { Marquee } from '@/components/Marquee';
+import { Footer } from '@/components/Footer';
+import { TransitionLink } from '@/components/TransitionLink';
+import { ScrollRevealWrapper } from '@/components/ScrollRevealWrapper';
+import { HeroLetters } from '@/components/HeroLetters';
+import { OvalRing } from '@/components/OvalMark';
 import styles from './page.module.css';
-import { FloatingCat } from '@/components/FloatingCat';
 
-export const metadata: Metadata = {
-  title: 'María Railenz — Coming Soon',
-  description: 'Illustration & Graphic Design. Portfolio coming soon.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getDict();
+  return { title: { absolute: t.home.metaTitle }, description: t.home.metaDesc };
+}
 
-export default function WIPPage() {
+export default async function HomePage() {
+  const featured = getFeaturedProjects();
+  const t = await getDict();
+
   return (
-    <main className={styles.root}>
-      <div className={styles.center}>
-        <div className={styles.catWrap}>
-          <FloatingCat />
-        </div>
-        <p className={styles.label}>Illustration &amp; Graphic Design</p>
-        <h1 className={styles.heading}>
-          New <span className={styles.accent}>portfolio</span> in <span className={styles.accent}>progress</span>.
-        </h1>
-        <p className={styles.sub}>
-          Something worth looking at is on its way.<br />
-          Check back soon.
-        </p>
-      </div>
+    <ScrollRevealWrapper>
+      {/* HERO */}
+      <HeroLetters />
 
-      <div className={styles.bottom}>
-        <span className={styles.location}>Madrid — Arenas de San Pedro</span>
-        <a href="mailto:railenzworks@gmail.com" className={styles.email}>
-          railenzworks@gmail.com
-        </a>
-      </div>
-    </main>
+      {/* FEATURED WORKS */}
+      <section className={styles.featured}>
+        <div className="wrap">
+          <div className={`${styles.featuredHead} reveal`}>
+            <h2>{t.home.selected}</h2>
+          </div>
+
+          <FeaturedTabs projects={featured} totalProjects={PROJECTS.length} />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className={styles.cta}>
+        <div className="wrap">
+          <h2 className={`${styles.ctaBig} reveal`}>
+            {t.home.ctaPre}
+            <em className={styles.ctaWord}>
+              {t.home.ctaWord}
+              <OvalRing
+                backClassName={`${styles.ctaRing} ${styles.ctaRingBack}`}
+                frontClassName={`${styles.ctaRing} ${styles.ctaRingFront}`}
+                flowClassName={styles.ctaRingFlow}
+              />
+            </em>
+            {t.home.ctaPost}
+          </h2>
+          <p className="reveal reveal-d1">
+            {t.home.ctaLead}
+          </p>
+          <div className="reveal reveal-d2">
+            <TransitionLink href="/contact" className="btn btn--solid">
+              <span>{t.home.ctaBtn}</span>
+            </TransitionLink>
+          </div>
+        </div>
+      </section>
+
+      {/* MARQUEE */}
+      <Marquee style={{ borderBlock: '1px solid var(--line)', paddingBlock: '18px' }} />
+
+      <Footer
+        preword={t.home.footPre}
+        headline={t.home.footHead}
+        cta={{ label: 'railenzworks@gmail.com', href: 'mailto:railenzworks@gmail.com' }}
+      />
+    </ScrollRevealWrapper>
   );
 }
