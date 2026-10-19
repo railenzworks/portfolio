@@ -150,6 +150,7 @@ export function NekoCat(props: NekoCatProps) {
   const holeRef = useRef<SVGEllipseElement>(null);
   const lipRef = useRef<SVGPathElement>(null);
   const eyesWrapRef = useRef<SVGGElement>(null);
+  const eyesLineWrapRef = useRef<SVGGElement>(null);
   const eyeLRef = useRef<SVGGElement>(null);
   const eyeRRef = useRef<SVGGElement>(null);
   const eyesOpenRef = useRef<SVGGElement>(null);
@@ -162,6 +163,14 @@ export function NekoCat(props: NekoCatProps) {
   const mouthHappyRef = useRef<SVGGElement>(null);
   const mouthSadRef = useRef<SVGGElement>(null);
   const mouthErrorRef = useRef<SVGGElement>(null);
+  // solid-line duplicates painted on top of the fur — the mask cutouts
+  // above are too thin to read as clean strokes once cut through the fur,
+  // so the actual visible line art lives here instead
+  const eyesHappyLineRef = useRef<SVGGElement>(null);
+  const eyesErrorLineRef = useRef<SVGGElement>(null);
+  const mouthHappyLineRef = useRef<SVGGElement>(null);
+  const mouthSadLineRef = useRef<SVGGElement>(null);
+  const mouthErrorLineRef = useRef<SVGGElement>(null);
 
   const bubbleOnNow = showBubbleNow && !hideCatNow && String(messageNow).trim().length > 0;
 
@@ -320,11 +329,16 @@ export function NekoCat(props: NekoCatProps) {
       });
       setOpacity(eyesOpenRef, s.o.open);
       setOpacity(eyesHappyRef, s.o.happy);
+      setOpacity(eyesHappyLineRef, s.o.happy);
       setOpacity(eyesSadRef, s.o.sad);
       setOpacity(eyesErrorRef, s.o.error);
+      setOpacity(eyesErrorLineRef, s.o.error);
       setOpacity(mouthHappyRef, s.o.mHappy);
+      setOpacity(mouthHappyLineRef, s.o.mHappy);
       setOpacity(mouthSadRef, s.o.mSad);
+      setOpacity(mouthSadLineRef, s.o.mSad);
       setOpacity(mouthErrorRef, s.o.mError);
+      setOpacity(mouthErrorLineRef, s.o.mError);
 
       s.appear = lerp(s.appear, s.appearTarget, 1 - Math.pow(0.004, dt));
       root.style.opacity = String(0.1 + s.appear * 0.9);
@@ -453,6 +467,9 @@ export function NekoCat(props: NekoCatProps) {
       if (eyesWrapRef.current) {
         eyesWrapRef.current.style.transform = `scale(1, ${1 - shut})`;
       }
+      if (eyesLineWrapRef.current) {
+        eyesLineWrapRef.current.style.transform = `scale(1, ${1 - shut})`;
+      }
       if (irisGroupRef.current) {
         irisGroupRef.current.style.transform = `scale(1, ${1 - shut})`;
         irisGroupRef.current.style.opacity = String(s.o.open);
@@ -579,12 +596,6 @@ export function NekoCat(props: NekoCatProps) {
         <defs>
           <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="268" height="214">
             <rect x="0" y="0" width="268" height="214" fill="#fff" />
-            <g stroke="#000" strokeWidth="3.6" strokeLinecap="round">
-              <path d="M32 136 L56 142" />
-              <path d="M32 160 L56 156" />
-              <path d="M184 136 L160 142" />
-              <path d="M184 160 L160 156" />
-            </g>
             <g ref={eyesWrapRef} style={{ transformOrigin: '108px 146px' }}>
               <g ref={eyesOpenRef} opacity={pose.open}>
                 <g ref={eyeLRef} style={{ transformOrigin: '78px 146px' }}>
@@ -640,7 +651,7 @@ export function NekoCat(props: NekoCatProps) {
           cy="192"
           rx="72"
           ry="9"
-          fill={furColor}
+          fill="#17150f"
           opacity={pose.shadow}
           style={{ transformOrigin: '108px 192px' }}
         />
@@ -660,6 +671,9 @@ export function NekoCat(props: NekoCatProps) {
               <path
                 d="M 194.9 112.6 L 193.6 109.9 L 192.6 107.2 L 192.0 104.6 L 191.7 102.0 L 191.7 99.4 L 192.0 96.8 L 192.5 94.3 L 193.4 92.0 L 194.5 89.8 L 195.8 87.7 L 197.3 85.9 L 199.0 84.2 L 200.8 82.8 L 202.8 81.7 L 204.9 80.7 L 207.0 80.1 L 209.1 79.7 L 211.3 79.5 L 213.4 79.6 L 215.5 79.9 L 217.5 80.4 L 219.4 81.2 L 221.1 82.2 L 222.8 83.3 L 224.2 84.6 L 225.5 86.0 L 226.5 87.6 L 227.4 89.2 L 228.1 90.9 L 228.5 92.6 L 228.8 94.4 L 228.9 96.1 L 228.7 97.8 L 228.4 99.4 L 227.9 101.0 L 227.2 102.4 L 226.4 103.8 L 225.5 105.0 L 224.4 106.1 L 223.3 107.0 L 222.0 107.8 L 220.8 108.4 L 219.4 108.9 L 216.9 109.2 L 214.2 109.8 L 211.8 111.1 L 209.8 112.9 L 208.3 115.2 L 207.5 117.9 L 207.4 120.6 L 208.0 123.3 L 209.2 125.7 L 211.1 127.7 L 213.4 129.2 L 216.0 130.0 L 218.8 130.1 L 221.3 130.0 L 225.1 129.4 L 228.9 128.3 L 232.6 126.8 L 236.1 124.8 L 239.4 122.4 L 242.4 119.6 L 245.2 116.5 L 247.5 112.9 L 249.5 109.1 L 251.0 105.0 L 252.1 100.8 L 252.7 96.3 L 252.7 91.8 L 252.2 87.2 L 251.2 82.7 L 249.6 78.3 L 247.5 74.0 L 244.9 70.0 L 241.8 66.2 L 238.2 62.8 L 234.3 59.8 L 229.9 57.2 L 225.3 55.1 L 220.3 53.6 L 215.2 52.6 L 209.9 52.3 L 204.6 52.5 L 199.2 53.4 L 193.9 54.9 L 188.8 57.0 L 183.9 59.7 L 179.3 63.1 L 175.1 66.9 L 171.3 71.3 L 168.0 76.1 L 165.2 81.3 L 163.0 86.9 L 161.5 92.8 L 160.6 98.8 L 160.4 105.0 L 160.9 111.3 L 162.1 117.5 L 163.8 123.4 Z"
                 fill={furColor}
+                stroke="#17150f"
+                strokeWidth="3"
+                strokeLinejoin="round"
               />
               {patchColor && (
                 <g clipPath={`url(#${tailClipId})`}>
@@ -668,7 +682,7 @@ export function NekoCat(props: NekoCatProps) {
                 </g>
               )}
             </g>
-            <g mask={`url(#${maskId})`} fill={furColor}>
+            <g mask={`url(#${maskId})`} fill={furColor} stroke="#17150f" strokeWidth="3" strokeLinejoin="round">
               <path d="M34 106 C30 78 38 50 50 34 Q56 27 61 36 C74 52 84 72 88 96 Z" />
               <path d="M182 106 C186 78 178 50 166 34 Q160 27 155 36 C142 52 132 72 128 96 Z" />
               <path d="M108 56 C166 56 202 96 202 140 C202 172 180 186 146 186 L70 186 C36 186 14 172 14 140 C14 96 50 56 108 56 Z" />
@@ -679,6 +693,34 @@ export function NekoCat(props: NekoCatProps) {
                 <ellipse cx="146" cy="92" rx="19" ry="16" fill={patchColor} />
               </g>
             )}
+            {/* solid line art painted on top of the fur — a cutout hole this
+                thin reads as a hollow double line once outlined, so happy /
+                error eyes and every mouth are drawn here instead of masked */}
+            <g stroke="#17150f" strokeWidth="3.6" strokeLinecap="round">
+              <path d="M32 136 L56 142" />
+              <path d="M32 160 L56 156" />
+              <path d="M184 136 L160 142" />
+              <path d="M184 160 L160 156" />
+            </g>
+            <g ref={eyesLineWrapRef} style={{ transformOrigin: '108px 146px' }}>
+              <g ref={eyesHappyLineRef} opacity={pose.happy} fill="none" stroke="#17150f" strokeWidth="5" strokeLinecap="round">
+                <path d="M68 152 Q78 137 88 152" />
+                <path d="M130 152 Q140 137 150 152" />
+              </g>
+              <g ref={eyesErrorLineRef} opacity={pose.error} stroke="#17150f" strokeWidth="4.5" strokeLinecap="round">
+                <path d="M70 137 L86 155 M86 137 L70 155" />
+                <path d="M132 137 L148 155 M148 137 L132 155" />
+              </g>
+            </g>
+            <g ref={mouthHappyLineRef} opacity={pose.mHappy} fill="none" stroke="#17150f" strokeWidth="4.5" strokeLinecap="round">
+              <path d="M98 167 Q108 178 118 167" />
+            </g>
+            <g ref={mouthSadLineRef} opacity={pose.mSad} fill="none" stroke="#17150f" strokeWidth="4" strokeLinecap="round">
+              <path d="M100 174 Q108 166 116 174" />
+            </g>
+            <g ref={mouthErrorLineRef} opacity={pose.mError}>
+              <ellipse cx="108" cy="171" rx="6" ry="7.5" fill="#17150f" />
+            </g>
             {eyeColor && (
               <g ref={irisGroupRef} opacity={pose.open} style={{ transformOrigin: '108px 146px' }}>
                 <g ref={irisLRef} style={{ transformOrigin: '78px 146px' }}>

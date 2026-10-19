@@ -11,12 +11,7 @@
 .wrap svg[role] {
   pointer-events: auto;
   outline: none;
-  /* thin dark outline so the white cat still reads over light sections */
-  filter:
-    drop-shadow(1px 0 0 #17150f)
-    drop-shadow(-1px 0 0 #17150f)
-    drop-shadow(0 1px 0 #17150f)
-    drop-shadow(0 -1px 0 #17150f);
+  /* no CSS outline here: NekoCat draws its own dark line art */
 }
 
 .wrap svg[role]:focus-visible {
