@@ -1,0 +1,11 @@
+.cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.cell {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}

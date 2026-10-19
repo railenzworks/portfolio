@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import Image from 'next/image';
+import { ProjectCover } from '../ProjectCover';
 import type { Project } from '@/lib/projects';
 import { loc } from '@/lib/i18n';
 import { useLang } from '../LangProvider';
@@ -45,13 +45,11 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
         {project && (
           <>
             <div className={styles.media}>
-              <Image
-                src={project.img}
-                alt={project.title}
-                fill
+              <ProjectCover
+                project={project}
+                alt={loc(project.title, lang)}
                 sizes="(max-width: 600px) 100vw, 680px"
                 quality={90}
-                style={{ objectFit: 'cover' }}
               />
             </div>
             <div className={styles.body}>
@@ -59,7 +57,7 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
                 <span className={styles.tagPip} />
                 <span>{t.disc[project.disc]}</span>
               </span>
-              <h2>{project.title}</h2>
+              <h2>{loc(project.title, lang)}</h2>
               <div className={styles.sub}>{t.cat[project.cat]} — {project.year}</div>
               <p className={styles.desc}>{loc(project.desc, lang)}</p>
               <div className={styles.facts}>

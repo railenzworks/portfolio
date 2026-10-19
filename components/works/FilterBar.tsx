@@ -10,7 +10,7 @@ const DISC_FILTERS: { value: 'all' | Discipline; disc?: Discipline }[] = [
   { value: 'graphic', disc: 'graphic' },
 ];
 
-const CAT_FILTERS: Category[] = ['Editorial', 'Character Design', 'Branding', 'Posters', 'Events'];
+const CAT_FILTERS: Category[] = ['Editorial', 'Character Design', 'Branding', 'Posters', 'Events', 'Sketchbook', 'Merchandising'];
 
 interface FilterBarProps {
   activeDisc: 'all' | Discipline;

@@ -7,15 +7,19 @@ export type Category =
   | 'Character Design'
   | 'Branding'
   | 'Posters'
-  | 'Events';
+  | 'Events'
+  | 'Sketchbook'
+  | 'Merchandising';
 
 export interface Project {
   id: string;
-  title: string;
+  title: Localized;
   disc: Discipline;
   cat: Category;
   year: string;
   img: string;
+  /** extra cover images, shown side by side with img in equal columns */
+  imgs?: string[];
   // text fields: a plain string reads the same in English and Spanish,
   // or give both as { en: '...', es: '...' }
   role: Localized;
@@ -46,42 +50,53 @@ export const PROJECTS: Project[] = [
   },
   // ---------- PLANTILLAS de Selected Works: rellenar con el proyecto real ----------
   // img: guarda la imagen en public/images/work/ y pon aquí su ruta
+  // imgs: (opcional) más imágenes de portada, se ven al lado de img: ['/images/work/otra.jpg']
   // disc: 'illustration' | 'graphic'
-  // cat: 'Editorial' | 'Character Design' | 'Branding' | 'Posters' | 'Events'
+  // cat: 'Editorial' | 'Character Design' | 'Branding' | 'Posters' | 'Events' | 'Sketchbook' | 'Merchandising'
   // desc: párrafos separados por '\n\n' (en Selected Works solo se ve el primero)
   // role / med / desc: texto simple, o { en: '...', es: '...' } para traducirlo
   {
-    id: 'proyecto-2',
-    title: 'Proyecto 2',
-    disc: 'illustration',
-    cat: 'Editorial',
-    year: '2025',
-    img: '/images/work/ill-2.png', // provisional
-    role: 'Rol',
-    med: 'Técnica · Medio',
-    desc: 'Descripción del proyecto.',
+    id: 'diseno-para-eventos',
+    title: { en: 'Event Design', es: 'Diseño para eventos' },
+    disc: 'graphic',
+    cat: 'Events',
+    year: '2026',
+    img: '/images/work/diseno-para-eventos.jpg',
+    role: { en: 'Graphic Design', es: 'Diseño gráfico' },
+    med: { en: 'Posters · Print · Leaflets', es: 'Cartelería · Impresión · Folletos' },
+    desc: {
+      en: 'Posters, materials and leaflets designed for corporate events.',
+      es: 'Cartelería, material y folletos aplicados a eventos corporativos.',
+    },
   },
   {
     id: 'proyecto-3',
-    title: 'Proyecto 3',
-    disc: 'graphic',
-    cat: 'Branding',
-    year: '2025',
-    img: '/images/work/gfx-1.png', // provisional
+    title: 'Inktobers',
+    disc: 'illustration',
+    cat: 'Sketchbook',
+    year: '2023 & 2025',
+    img: '/images/work/proyecto-3-silueta.jpg',
+    imgs: ['/images/work/proyecto-3-descubrir.jpg'],
     role: 'Rol',
     med: 'Técnica · Medio',
-    desc: 'Descripción del proyecto.',
+    desc: {
+      en: '2 years, 31 drawings every October. One drawing a day. All to complete the #inktober challenge.',
+      es: '2 años, 31 dibujos en el mes de octubre. Un dibujo al día. Todo para cumplir el reto de #inktober.',
+    },
   },
   {
     id: 'proyecto-4',
-    title: 'Proyecto 4',
+    title: { en: 'Passions in Bloom', es: 'Pasiones en flor' },
     disc: 'illustration',
-    cat: 'Character Design',
-    year: '2025',
-    img: '/images/work/ill-3.png', // provisional
+    cat: 'Merchandising',
+    year: '2023',
+    img: '/images/work/proyecto-4.jpg',
     role: 'Rol',
     med: 'Técnica · Medio',
-    desc: 'Descripción del proyecto.',
+    desc: {
+      en: 'Bicycle, camera and flute: symbols of three passions, illustrated in line art and adorned with flowers. Designs ready for merch.',
+      es: 'Bicicleta, cámara y flauta: símbolos de tres pasiones, ilustrados a línea y adornados con flores. Diseños preparados para merch.',
+    },
   },
   // ---------- fin de plantillas ----------
   {
@@ -163,7 +178,7 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export const FEATURED_PROJECT_IDS = ['bloom-states', 'proyecto-2', 'proyecto-3', 'proyecto-4'] as const;
+export const FEATURED_PROJECT_IDS = ['bloom-states', 'diseno-para-eventos', 'proyecto-3', 'proyecto-4'] as const;
 
 export function getFeaturedProjects(): Project[] {
   return FEATURED_PROJECT_IDS

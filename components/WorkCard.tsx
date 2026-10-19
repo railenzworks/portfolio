@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { Project, Discipline } from '@/lib/projects';
+import { loc } from '@/lib/i18n';
 import { TransitionLink } from './TransitionLink';
 import styles from './WorkCard.module.css';
 
@@ -55,7 +56,7 @@ export function WorkCard({ project, slot }: WorkCardProps) {
         </span>
         <Image
           src={project.img}
-          alt={project.title}
+          alt={loc(project.title, 'en')}
           fill
           sizes="(max-width: 860px) 100vw, 40vw"
           quality={90}
@@ -63,7 +64,7 @@ export function WorkCard({ project, slot }: WorkCardProps) {
         />
       </div>
       <div className={styles.meta}>
-        <h3>{project.title}</h3>
+        <h3>{loc(project.title, 'en')}</h3>
         <span className={styles.yr}>&apos;{project.year.slice(2)}</span>
       </div>
       <div className={styles.cat}>{SHORT_CAT[project.cat] ?? project.cat}</div>

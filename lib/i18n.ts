@@ -30,6 +30,8 @@ const en = {
     Branding: 'Branding',
     Posters: 'Posters',
     Events: 'Events',
+    Sketchbook: 'Sketchbook',
+    Merchandising: 'Merchandising',
   },
   nav: { works: 'Works', about: 'About', contact: 'Contact' },
   controls: {
@@ -183,6 +185,8 @@ const es: Dict = {
     Branding: 'Branding',
     Posters: 'Carteles',
     Events: 'Eventos',
+    Sketchbook: 'Cuaderno',
+    Merchandising: 'Merchandising',
   },
   nav: { works: 'Proyectos', about: 'Sobre mí', contact: 'Contacto' },
   controls: {

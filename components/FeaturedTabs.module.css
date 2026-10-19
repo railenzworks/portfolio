@@ -51,6 +51,23 @@
   pointer-events: none;
 }
 
+/* split covers (several drawings side by side, see ProjectCover) start a bit
+   to the right so the floating card hides less of the first drawing; the strip
+   left over stays white like the drawings' paper */
+.img:has(> [data-split]) { background: #fff; }
+.img > [data-split] { left: 16%; }
+
+/* hairline frame on top of the images, so a cover with a white background
+   (e.g. a drawing on paper) still reads as a rounded card on the white page */
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+
 /* ---------- floating card ---------- */
 .card {
   position: absolute;
@@ -211,10 +228,14 @@
 @media (max-width: 1000px) {
   .card { width: 58%; top: 10%; height: 70%; padding: 28px 28px 30px; }
   .single .card { width: 52%; }
+  /* the wider card overlaps more of the image */
+  .img > [data-split] { left: 28%; }
 }
 
 /* ---------- mobile: stack image, card, nav ---------- */
 @media (max-width: 760px) {
+  /* the card sits below the image here: split covers use the full width */
+  .img > [data-split] { left: 0; }
   .root {
     height: auto;
     display: flex;

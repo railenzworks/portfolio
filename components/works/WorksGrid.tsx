@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import { ProjectCover } from '../ProjectCover';
 import type { Project, Discipline, Category } from '@/lib/projects';
+import { loc } from '@/lib/i18n';
 import { useLang } from '../LangProvider';
 import { FilterBar } from './FilterBar';
 import { ProjectOverlay } from './ProjectOverlay';
@@ -19,7 +20,7 @@ interface WorksGridProps {
 }
 
 export function WorksGrid({ projects }: WorksGridProps) {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const [activeDisc, setActiveDisc] = useState<'all' | Discipline>('all');
   const [activeCat, setActiveCat] = useState<Category | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -134,17 +135,15 @@ export function WorksGrid({ projects }: WorksGridProps) {
                 <span className={`${styles.cardTag} ${p.disc === 'illustration' ? styles.tagIll : styles.tagGfx}`}>
                   {t.disc[p.disc]}
                 </span>
-                <Image
-                  src={p.img}
-                  alt={p.title}
-                  fill
+                <ProjectCover
+                  project={p}
+                  alt={loc(p.title, lang)}
                   sizes="(max-width: 860px) 100vw, 50vw"
                   quality={90}
-                  style={{ objectFit: 'cover' }}
                 />
               </div>
               <div className={styles.cardMeta}>
-                <h3>{p.title}</h3>
+                <h3>{loc(p.title, lang)}</h3>
                 <span className={styles.yr}>{p.year}</span>
               </div>
               <div className={styles.cardCat}>{t.cat[p.cat]}</div>
@@ -157,7 +156,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
         project={openProject}
         onClose={handleClose}
         onNext={handleNext}
-        nextTitle={nextProject?.title ?? ''}
+        nextTitle={nextProject ? loc(nextProject.title, lang) : ''}
       />
     </>
   );

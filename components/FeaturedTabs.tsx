@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useCallback, useState, type MouseEvent } from 'react';
 import type { Project, Discipline } from '@/lib/projects';
 import { TransitionLink } from './TransitionLink';
+import { ProjectCover } from './ProjectCover';
 import { loc } from '@/lib/i18n';
 import { useLang } from './LangProvider';
 import styles from './FeaturedTabs.module.css';
@@ -70,7 +70,7 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
         className={styles.media}
         data-cursor="view"
         data-label={t.featured.open}
-        aria-label={`${t.featured.openAria} ${current.title}`}
+        aria-label={`${t.featured.openAria} ${loc(current.title, lang)}`}
         onMouseMove={onMediaMove}
         onMouseLeave={onMediaLeave}
       >
@@ -80,15 +80,13 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
             className={`${styles.img} ${i === active ? styles.imgOn : ''}`}
             aria-hidden={i !== active}
           >
-            <Image
-              src={p.img}
-              alt={p.title}
-              fill
+            <ProjectCover
+              project={p}
+              alt={loc(p.title, lang)}
               sizes="(max-width: 760px) 100vw, 80vw"
               // the hero of the home: serve the original file untouched, Next's
               // re-encoding visibly softens these dark, textured mockups
               unoptimized
-              style={{ objectFit: 'cover' }}
               priority={i === 0}
             />
           </div>
@@ -118,7 +116,7 @@ export function FeaturedTabs({ projects, totalProjects }: FeaturedTabsProps) {
             <span className={styles.pip} style={{ background: PIP_COLOR[current.disc] }} />
             {t.disc[current.disc]} · {t.cat[current.cat]} · {current.year}
           </div>
-          <h3 className={styles.title}>{current.title}</h3>
+          <h3 className={styles.title}>{loc(current.title, lang)}</h3>
           <p className={styles.desc}>{loc(current.desc, lang).split('\n\n')[0]}</p>
         </div>
 
