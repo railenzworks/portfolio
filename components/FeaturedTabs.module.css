@@ -196,10 +196,10 @@
 .prev:hover,
 .next:hover { transform: scale(1.05); }
 
-.prev { background: var(--teal-deep); }
+.prev { background: var(--teal-deep); color: var(--on-teal); }
 .next { background: var(--blue); color: var(--on-blue); }
 .prev:hover,
-.next:hover { background: var(--ink); }
+.next:hover { background: var(--ink); color: var(--cream); }
 
 /* ---------- single project: image left in its native 16:9,
    card bottom-right so it only overlaps the image's empty corner ---------- */

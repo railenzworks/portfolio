@@ -35,7 +35,7 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
 
   const isIll = project?.disc === 'illustration';
   const tagBg = isIll ? 'var(--teal-deep)' : 'var(--blue)';
-  const tagFg = isIll ? '#ffffff' : 'var(--on-blue)';
+  const tagFg = isIll ? 'var(--on-teal)' : 'var(--on-blue)';
 
   return (
     <div className={`${styles.ov}${project ? ` ${styles.open}` : ''}`} id="ov">

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getDict } from '@/lib/i18n-server';
-import { WORKS_WIP } from '@/lib/site';
+import { WIP_PAGES } from '@/lib/site';
 import { PROJECTS } from '@/lib/projects';
 import { WorksGrid } from '@/components/works/WorksGrid';
 import { Footer } from '@/components/Footer';
@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function WorksPage() {
-  // unfinished: see WORKS_WIP in lib/site.ts
-  if (WORKS_WIP) redirect('/');
+  // unfinished: see WIP_PAGES in lib/site.ts
+  if (WIP_PAGES['/works']) redirect('/');
   const t = await getDict();
   return (
     <ScrollRevealWrapper>

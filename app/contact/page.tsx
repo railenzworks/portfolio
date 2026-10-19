@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { getDict } from '@/lib/i18n-server';
+import { WIP_PAGES } from '@/lib/site';
 import Image from 'next/image';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { Footer } from '@/components/Footer';
@@ -12,6 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
+  // unfinished: see WIP_PAGES in lib/site.ts
+  if (WIP_PAGES['/contact']) redirect('/');
   const t = await getDict();
   return (
     <ScrollRevealWrapper>

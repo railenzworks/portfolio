@@ -7,7 +7,7 @@ import styles from './WipToast.module.css';
 export const WIP_EVENT = 'wip-toast';
 
 // Touch screens have no cursor to show "WIP" on, so tapping a locked link
-// (see TransitionLink / WORKS_WIP) fires WIP_EVENT and this pill shows briefly.
+// (see TransitionLink / WIP_PAGES in lib/site.ts) fires WIP_EVENT and this pill shows briefly.
 export function WipToast() {
   const { t } = useLang();
   const [shown, setShown] = useState(false);

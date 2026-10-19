@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ComponentPropsWithoutRef } from 'react';
-import { WORKS_WIP, isWorksHref } from '@/lib/site';
+import { isWipHref } from '@/lib/site';
 import { useLang } from './LangProvider';
 import { WIP_EVENT } from './WipToast';
 
@@ -14,8 +14,8 @@ type TransitionLinkProps = ComponentPropsWithoutRef<typeof Link>;
 export function TransitionLink({ href, onClick, children, ...props }: TransitionLinkProps) {
   const pathname = usePathname();
   const { t } = useLang();
-  // links into the unfinished works page: "WIP" on the cursor, clicks do nothing
-  const locked = WORKS_WIP && isWorksHref(href);
+  // links to unfinished pages (WIP_PAGES): "WIP" on the cursor, clicks do nothing
+  const locked = isWipHref(href);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (locked) {

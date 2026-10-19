@@ -1,8 +1,16 @@
-// The works page isn't finished yet: while this is true every link to /works
-// shows "WIP" / "EN PROCESO" on the cursor and does nothing when clicked, and
-// visiting /works directly sends you back home. Set to false to open it.
-export const WORKS_WIP = true;
+// Pages that aren't finished yet. While a page is set to true here, every link
+// to it shows "WIP" / "EN PROCESO" on the cursor (a short notice on touch
+// screens) and does nothing when clicked, and visiting it directly sends you
+// back home. Set a page to false to open it.
+export const WIP_PAGES: Record<string, boolean> = {
+  '/works': true,
+  '/about': true,
+  '/contact': true,
+};
 
-export function isWorksHref(href: unknown): boolean {
-  return typeof href === 'string' && (href === '/works' || href.startsWith('/works#') || href.startsWith('/works?'));
+/** True when `href` points at a page that is still WIP (ignores #hash and ?query). */
+export function isWipHref(href: unknown): boolean {
+  if (typeof href !== 'string') return false;
+  const path = href.split(/[?#]/)[0];
+  return WIP_PAGES[path] === true;
 }

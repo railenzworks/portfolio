@@ -9,7 +9,7 @@ type Season = 'summer' | 'spring' | 'autumn' | 'winter' | 'main';
 // [teal, blue] for the swatches: keep in sync with the
 // :root[data-season] blocks in globals.css
 const SEASONS: { id: Season; colors: [string, string] }[] = [
-  { id: 'summer', colors: ['#f5c842', '#ff6f61'] },
+  { id: 'summer', colors: ['#ffdf3d', '#ff6f61'] },
   { id: 'spring', colors: ['#eaa9bd', '#5e9e3f'] },
   { id: 'autumn', colors: ['#e8873a', '#8b3a2b'] },
   { id: 'winter', colors: ['#a9d3f0', '#5f7891'] },

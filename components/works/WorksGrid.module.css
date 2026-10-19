@@ -75,7 +75,7 @@
   z-index: 1;
 }
 
-.tagIll { background: var(--teal-deep); }
+.tagIll { background: var(--teal-deep); color: var(--on-teal); }
 .tagGfx { background: var(--blue); color: var(--on-blue); }
 
 .cardMeta {

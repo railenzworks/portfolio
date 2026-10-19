@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { Footer } from '@/components/Footer';
 import { ScrollRevealWrapper } from '@/components/ScrollRevealWrapper';
 import { getDict } from '@/lib/i18n-server';
+import { WIP_PAGES } from '@/lib/site';
 import styles from './page.module.css';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,6 +22,8 @@ const AWARDS = [
 ];
 
 export default async function AboutPage() {
+  // unfinished: see WIP_PAGES in lib/site.ts
+  if (WIP_PAGES['/about']) redirect('/');
   const t = await getDict();
   const a = t.about;
 

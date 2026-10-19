@@ -58,8 +58,8 @@ export function WorksGrid({ projects }: WorksGridProps) {
     // coloured accents carry white text; the default falls back to the theme's ink
     if (ac) {
       document.body.style.setProperty('--accent', ac);
-      // the season's blue may be light, so it brings its own text colour
-      document.body.style.setProperty('--on-accent', ac === 'var(--blue)' ? 'var(--on-blue)' : '#ffffff');
+      // the season's colours may be light, so each brings its own text colour
+      document.body.style.setProperty('--on-accent', ac === 'var(--blue)' ? 'var(--on-blue)' : 'var(--on-teal)');
     } else {
       document.body.style.removeProperty('--accent');
       document.body.style.removeProperty('--on-accent');

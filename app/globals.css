@@ -36,6 +36,8 @@
   --on-color: #ffffff;
   /* text on --blue fills: each season sets its own, since some of its colours are light */
   --on-blue: #ffffff;
+  /* text on --teal-deep fills (illustration tags, the prev arrow): same idea */
+  --on-teal: #ffffff;
   /* text on --accent fills; the discipline filters override both */
   --on-accent: var(--cream);
   --glass: rgba(255, 255, 255, 0.55);
@@ -47,8 +49,9 @@
    used for fills and text) and --blue. Set on <html data-season> by layout.tsx,
    picked in SeasonPicker; "main" has no attribute and keeps the values above */
 :root[data-season="summer"] {
-  --teal: #f5c842;      /* aspen gold */
-  --teal-deep: #c4931c;
+  --teal: #ffdf3d;      /* bright aspen gold */
+  --teal-deep: #ffc21a;  /* bright gold */
+  --on-teal: #3a2a00;
   --blue: #ff6f61;      /* coral */
   --on-blue: #3a0f0a;
 }
@@ -283,9 +286,12 @@ body.cur-view .cursor-label { opacity: 1; }
   right: var(--pad);
   display: flex; align-items: center; gap: 8px;
 }
-/* below ~960px the centred nav reaches the controls, so they sit just below it */
+/* below ~960px the centred nav reaches the controls, so they sit centred just below it */
 @media (max-width: 960px) {
-  .site-controls { top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px); right: 12px; }
+  .site-controls {
+    top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px);
+    right: auto; left: 50%; transform: translateX(-50%);
+  }
 }
 
 /* ============================================================
