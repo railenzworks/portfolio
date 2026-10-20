@@ -4,7 +4,7 @@
 // back home. Set a page to false to open it.
 export const WIP_PAGES: Record<string, boolean> = {
   '/works': true,
-  '/about': true,
+  '/about': false,
   '/contact': true,
 };
 

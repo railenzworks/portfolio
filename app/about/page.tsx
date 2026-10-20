@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import Image from 'next/image';
+import { AboutCarousel } from '@/components/AboutCarousel';
 import { Footer } from '@/components/Footer';
 import { ScrollRevealWrapper } from '@/components/ScrollRevealWrapper';
 import { getDict } from '@/lib/i18n-server';
@@ -13,6 +13,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const LETTERS = ['A.', 'B.', 'C.', 'D.'];
+
+// photos in the carousel after the first one (the sunset by the sea)
+const CAROUSEL_PHOTOS: { src: string; sizes?: string; frame?: string }[] = [
+  { src: '/images/about/02-gato-ventana.jpg' },
+  // mirror selfie: María and the cat are on the right, so zoom in and pull them to the middle
+  { src: '/images/about/03-espejo.jpg', sizes: '450px', frame: 'scale(1.5) translate(-16%, -9%)' },
+  { src: '/images/about/04-nieve.jpg' },
+  { src: '/images/about/05-gato-montana.jpg' },
+  { src: '/images/about/06-rio.jpg' },
+  { src: '/images/about/07-mirador.jpg' },
+  { src: '/images/about/08-chefchaouen.jpg' },
+];
 
 const AWARDS = [
   { yr: '2025', src: 'Type & Image Awards' },
@@ -29,41 +41,26 @@ export default async function AboutPage() {
 
   return (
     <ScrollRevealWrapper>
-      <header className={`${styles.aHero} wrap`}>
-        <div className={`${styles.top} reveal`}>
-          <span>{a.label}</span>
-          <span>María Railenz</span>
-          <span>{a.since}</span>
-        </div>
-        <h1 className="reveal reveal-d1">
-          {a.titlePre}<em>{a.titleEm}</em>
-        </h1>
-      </header>
-
-      <section className={`wrap ${styles.aIntro}`}>
-        <div className={`${styles.aPortrait} reveal`}>
-          <div className={styles.frame}>
-            <Image
-              src="/images/maria-cut.png"
-              alt={a.portraitAlt}
-              fill
-              sizes="(max-width: 820px) 100vw, 40vw"
-              style={{ objectFit: 'contain', objectPosition: 'center bottom', padding: '8% 6% 0' }}
-            />
-          </div>
-          <div className={styles.cap}>
-            <span>María Railenz</span>
-            <span>{a.selfPortrait}</span>
-          </div>
-        </div>
+      <AboutCarousel
+        nextLabel={a.nextImage}
+        images={[
+          // landscape photo cropped into a portrait card: it's drawn about
+          // twice as wide as the card, so it needs a bigger file to stay sharp
+          { src: '/images/about/01-atardecer.jpg', alt: a.photoAlt, sizes: '700px' },
+          ...CAROUSEL_PHOTOS.map((p) => ({ ...p, alt: '' })),
+        ]}
+      >
         <div className={styles.aBio}>
-          <p className={`${styles.lead} reveal reveal-d1`}>{a.lead}</p>
-          <p className="reveal reveal-d2">
+          <h1 className={styles.lead}>
+            {a.titlePre}<em>{a.titleEm}</em>
+          </h1>
+          <p>{a.lead}</p>
+          <p>
             {a.bio1Pre}<em>{a.bio1Ill}</em>{a.bio1Mid}<em>{a.bio1Gfx}</em>{a.bio1Post}
           </p>
-          <p className="reveal reveal-d3">{a.bio2}</p>
+          <p>{a.bio2}</p>
         </div>
-      </section>
+      </AboutCarousel>
 
       <section className={styles.approach}>
         <div className="wrap">
