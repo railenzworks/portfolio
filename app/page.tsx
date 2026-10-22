@@ -64,11 +64,7 @@ export default async function HomePage() {
       {/* MARQUEE */}
       <Marquee style={{ borderBlock: '1px solid var(--line)', paddingBlock: '18px' }} />
 
-      <Footer
-        preword={t.home.footPre}
-        headline={t.home.footHead}
-        cta={{ label: 'railenzworks@gmail.com', href: 'mailto:railenzworks@gmail.com' }}
-      />
+      <Footer />
     </ScrollRevealWrapper>
   );
 }

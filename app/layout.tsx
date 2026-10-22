@@ -11,6 +11,7 @@ import { SeasonPicker } from '@/components/SeasonPicker';
 import { LangProvider } from '@/components/LangProvider';
 import { LangToggle } from '@/components/LangToggle';
 import { WipToast } from '@/components/WipToast';
+import { ContactFolder } from '@/components/ContactFolder';
 import { getLang } from '@/lib/i18n-server';
 
 // Runs before first paint so a visitor never sees a flash of the wrong colours:
@@ -91,6 +92,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <BottomBlur />
           <FloatingCat />
           <WipToast />
+          <ContactFolder />
         </LangProvider>
       </body>
     </html>

@@ -1,0 +1,372 @@
+/* fills the footer, behind its text; size container so the drops can fall
+   exactly the footer's height (100cqh) */
+.fx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  container-type: size;
+  z-index: 0;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+:global(:root[data-season="autumn"]) .autumn,
+:global(:root[data-season="winter"]) .winter,
+:global(:root[data-season="spring"]) .spring,
+:global(:root[data-season="summer"]) .summer { display: block; }
+
+/* ---------- falling things (autumn, winter, spring) ---------- */
+.drop {
+  position: absolute;
+  top: 0;
+  width: var(--size);
+  height: var(--size);
+  animation: fall linear infinite;
+  will-change: transform;
+}
+
+@keyframes fall {
+  0%   { transform: translate(0, calc(-1 * var(--size) - 10px)); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translate(var(--sway), 50cqh); }
+  90%  { opacity: 1; }
+  100% { transform: translate(0, calc(100cqh + 10px)); opacity: 0; }
+}
+
+.spin {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: spin ease-in-out infinite alternate;
+}
+.spin svg { display: block; width: 100%; height: 100%; }
+
+@keyframes spin {
+  from { transform: rotate(-40deg); }
+  to   { transform: rotate(40deg); }
+}
+
+/* leaves alternate between the season's orange and mahogany */
+.autumn .drop { color: var(--teal); }
+.autumn .drop:nth-child(3n) { color: var(--teal-deep); }
+.autumn .drop:nth-child(3n + 1) { color: #c9542e; }
+
+/* autumn leaves: bigger, falling from above with a light wind that pushes
+   them sideways in small gusts and lifts them now and then, tumbling in 3D.
+   Three paths so they don't move in step. */
+.autumn .drop {
+  width: calc(var(--size) * 1.5);
+  height: calc(var(--size) * 1.5);
+  animation-timing-function: ease-in-out;
+}
+.autumn .drop:nth-child(3n) { animation-name: windA; }
+.autumn .drop:nth-child(3n + 1) { animation-name: windB; }
+.autumn .drop:nth-child(3n + 2) { animation-name: windC; }
+.autumn .spin {
+  animation-name: tumble;
+  animation-timing-function: linear;
+  animation-direction: normal;
+}
+
+@keyframes windA {
+  0%   { transform: translate(-6cqw, -40px); opacity: 0; }
+  8%   { opacity: 1; }
+  20%  { transform: translate(-4cqw, 16cqh); }
+  32%  { transform: translate(calc(-1cqw + var(--sway) * 0.5), 24cqh); }
+  45%  { transform: translate(0, 42cqh); }
+  58%  { transform: translate(calc(3cqw + var(--sway) * 0.5), 52cqh); }
+  68%  { transform: translate(4cqw, 50cqh); }
+  82%  { transform: translate(5cqw, 74cqh); }
+  90%  { opacity: 1; }
+  100% { transform: translate(7cqw, calc(100cqh + 10px)); opacity: 0; }
+}
+@keyframes windB {
+  0%   { transform: translate(-4cqw, -40px); opacity: 0; }
+  8%   { opacity: 1; }
+  16%  { transform: translate(calc(-1cqw + var(--sway) * 0.5), 12cqh); }
+  28%  { transform: translate(0, 10cqh); }
+  40%  { transform: translate(1cqw, 32cqh); }
+  54%  { transform: translate(calc(5cqw + var(--sway) * 0.5), 42cqh); }
+  68%  { transform: translate(4cqw, 64cqh); }
+  80%  { transform: translate(7cqw, 62cqh); }
+  90%  { opacity: 1; }
+  100% { transform: translate(8cqw, calc(100cqh + 10px)); opacity: 0; }
+}
+@keyframes windC {
+  0%   { transform: translate(-7cqw, -40px); opacity: 0; }
+  10%  { opacity: 1; }
+  24%  { transform: translate(-3cqw, 20cqh); }
+  36%  { transform: translate(-2cqw, 36cqh); }
+  48%  { transform: translate(calc(1cqw + var(--sway) * 0.5), 32cqh); }
+  62%  { transform: translate(2cqw, 56cqh); }
+  76%  { transform: translate(calc(5cqw + var(--sway) * 0.5), 70cqh); }
+  90%  { opacity: 1; }
+  100% { transform: translate(6cqw, calc(100cqh + 10px)); opacity: 0; }
+}
+@keyframes tumble {
+  0%   { transform: rotate(0deg) rotateX(0deg) rotateY(0deg); }
+  25%  { transform: rotate(80deg) rotateX(60deg) rotateY(20deg); }
+  50%  { transform: rotate(150deg) rotateX(0deg) rotateY(160deg); }
+  75%  { transform: rotate(250deg) rotateX(-50deg) rotateY(200deg); }
+  100% { transform: rotate(360deg) rotateX(0deg) rotateY(360deg); }
+}
+
+/* snowflakes: smaller than the leaves and petals */
+.winter .drop {
+  width: calc(var(--size) * 0.65);
+  height: calc(var(--size) * 0.65);
+  color: rgba(255, 255, 255, 0.85);
+}
+.winter .drop:nth-child(2n) { color: var(--teal); }
+.winter .spin { animation-name: spinFull; animation-timing-function: linear; animation-direction: normal; }
+
+@keyframes spinFull {
+  to { transform: rotate(360deg); }
+}
+
+.spring .drop { color: var(--teal); }
+.spring .drop:nth-child(3n) { color: #fff1f5; }
+
+/* light theme: the footer is a pale tint, so white flakes and petals would
+   vanish; use the season's deeper colours instead */
+:global(:root:not([data-theme="dark"])) .autumn .drop { color: var(--blue); }
+:global(:root:not([data-theme="dark"])) .autumn .drop:nth-child(3n) { color: var(--teal-deep); }
+:global(:root:not([data-theme="dark"])) .autumn .drop:nth-child(3n + 1) { color: #a8401f; }
+:global(:root:not([data-theme="dark"])) .winter .drop { color: var(--blue); }
+:global(:root:not([data-theme="dark"])) .winter .drop:nth-child(2n) { color: var(--teal-deep); }
+:global(:root:not([data-theme="dark"])) .spring .drop:nth-child(3n) { color: var(--teal-deep); }
+
+/* ---------- summer: beams of light from the top-right corner ----------
+   White, so they always read lighter than the footer. Two layers of beams
+   with irregular widths and strengths turn slowly in opposite directions and
+   are blurred, so they cross and shimmer like real light. */
+.sun {
+  --beam: 255 255 250;
+  /* centred on the footer's top-right corner */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: max(200cqh, 110cqw);
+  aspect-ratio: 1;
+  translate: 50% -50%;
+  /* beams fade out with distance */
+  -webkit-mask: radial-gradient(circle, #000 4%, rgb(0 0 0 / 0.6) 30%, transparent 70%);
+  mask: radial-gradient(circle, #000 4%, rgb(0 0 0 / 0.6) 30%, transparent 70%);
+  /* glow where the light comes from */
+  background: radial-gradient(circle, rgb(var(--beam) / 0.9) 0 3%, rgb(var(--beam) / 0.35) 10%, transparent 28%);
+}
+.sun::before,
+.sun::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  filter: blur(6px);
+}
+.sun::before {
+  background: conic-gradient(
+    transparent 0deg 6deg,
+    rgb(var(--beam) / 0.55) 9deg 12deg, transparent 17deg 28deg,
+    rgb(var(--beam) / 0.35) 30deg, transparent 32deg 44deg,
+    rgb(var(--beam) / 0.5) 50deg 58deg, transparent 66deg 79deg,
+    rgb(var(--beam) / 0.3) 82deg, transparent 85deg 97deg,
+    rgb(var(--beam) / 0.6) 101deg 104deg, transparent 112deg 131deg,
+    rgb(var(--beam) / 0.4) 135deg 143deg, transparent 148deg 158deg,
+    rgb(var(--beam) / 0.3) 161deg, transparent 163deg 178deg,
+    rgb(var(--beam) / 0.55) 183deg 195deg, transparent 203deg 220deg,
+    rgb(var(--beam) / 0.35) 223deg, transparent 226deg 240deg,
+    rgb(var(--beam) / 0.5) 245deg 249deg, transparent 256deg 275deg,
+    rgb(var(--beam) / 0.4) 280deg 290deg, transparent 297deg 310deg,
+    rgb(var(--beam) / 0.3) 313deg, transparent 316deg 330deg,
+    rgb(var(--beam) / 0.5) 336deg 341deg, transparent 350deg
+  );
+  animation: rays 90s linear infinite;
+}
+.sun::after {
+  background: conic-gradient(
+    transparent 0deg 15deg,
+    rgb(var(--beam) / 0.3) 19deg 24deg, transparent 29deg 52deg,
+    rgb(var(--beam) / 0.45) 55deg, transparent 58deg 70deg,
+    rgb(var(--beam) / 0.25) 76deg 92deg, transparent 100deg 118deg,
+    rgb(var(--beam) / 0.4) 121deg 124deg, transparent 128deg 150deg,
+    rgb(var(--beam) / 0.3) 156deg 166deg, transparent 172deg 205deg,
+    rgb(var(--beam) / 0.45) 208deg, transparent 211deg 228deg,
+    rgb(var(--beam) / 0.25) 233deg 247deg, transparent 255deg 285deg,
+    rgb(var(--beam) / 0.4) 289deg 292deg, transparent 297deg 318deg,
+    rgb(var(--beam) / 0.3) 322deg 330deg, transparent 336deg
+  );
+  animation: rays 140s linear infinite reverse, glow 6s ease-in-out infinite alternate;
+}
+
+/* ---------- summer night (dark theme): stars and fireflies ---------- */
+.night { display: none; position: absolute; inset: 0; }
+:global(:root[data-theme="dark"]) .sun { display: none; }
+:global(:root[data-theme="dark"]) .night { display: block; }
+
+.star {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 4px rgb(255 255 255 / 0.8);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: 0.25; }
+  to   { opacity: 1; }
+}
+
+/* spring day (light theme): swallows instead of falling flowers */
+.day { position: absolute; inset: 0; }
+:global(:root[data-theme="dark"]) .day { display: none; }
+:global(:root:not([data-theme="dark"])) .spring .drop { display: none; }
+
+/* winter night: mountain silhouette on the right, a shade darker than the
+   sky, with tiny flickering orange village lights */
+.mountain {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 80%;
+  width: auto;
+  max-width: 70%;
+  fill: #060a15;
+  /* the far ridge fades into the sky on the left instead of ending in an edge */
+  -webkit-mask: linear-gradient(90deg, transparent, #000 18%);
+  mask: linear-gradient(90deg, transparent, #000 18%);
+}
+.ridge { fill: #0a1020; }
+.village circle {
+  fill: #ffb055;
+  filter: drop-shadow(0 0 1.5px #ff9a3c) drop-shadow(0 0 4px rgb(255 140 50 / 0.6));
+  animation: flicker 3s ease-in-out infinite alternate;
+}
+.village circle:nth-child(3n) { animation-duration: 2.2s; animation-delay: -1s; }
+.village circle:nth-child(3n + 1) { animation-duration: 3.7s; animation-delay: -2.4s; }
+.village circle:nth-child(4n) { fill: #ffd27a; }
+@keyframes flicker {
+  0%, 60% { opacity: 1; }
+  80% { opacity: 0.55; }
+  100% { opacity: 0.9; }
+}
+
+/* autumn night: no falling leaves, just the sky */
+:global(:root[data-theme="dark"]) .autumn .drop { display: none; }
+
+/* autumn night: a small moon with a soft halo */
+.moon {
+  position: absolute;
+  left: 74%;
+  top: 16%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  /* waning crescent: only the left edge lit, as seen from the north */
+  box-shadow: inset 6px -1px 0 0 #f3ead0;
+  rotate: -18deg;
+  filter: drop-shadow(0 0 5px rgb(255 244 214 / 0.55)) drop-shadow(0 0 16px rgb(255 244 214 / 0.2));
+}
+
+/* clouds drifting right across the sky: just a shade lighter than it and
+   half see-through, so they're only sensed as they dim the stars and the
+   moon. Soft, uneven silhouettes (CLOUD_SHAPES) that slowly swell and
+   shrink as they go. */
+.cloud {
+  position: absolute;
+  left: 0;
+  aspect-ratio: 3 / 1;
+  color: #1c2337;
+  filter: blur(7px);
+  opacity: 0.8;
+  animation: drift linear infinite, billow 17s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.cloud svg { display: block; width: 100%; height: 100%; }
+@keyframes billow {
+  from { scale: 1 1; }
+  to   { scale: 1.08 0.9; }
+}
+@keyframes drift {
+  from { transform: translateX(-60cqw); }
+  to   { transform: translateX(110cqw); }
+}
+
+/* a warm dot that wanders around its spot and blinks */
+.firefly {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f4ff9a;
+  box-shadow: 0 0 6px 2px rgb(222 255 90 / 0.7), 0 0 16px 6px rgb(222 255 90 / 0.25);
+  animation-name: wander, blink;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: alternate, alternate;
+}
+@keyframes wander {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(28px, -18px); }
+  50%  { transform: translate(-12px, -34px); }
+  75%  { transform: translate(-30px, -8px); }
+  100% { transform: translate(14px, 12px); }
+}
+@keyframes blink {
+  0%, 30% { opacity: 0.05; }
+  60%, 100% { opacity: 1; }
+}
+
+@keyframes rays {
+  to { transform: rotate(360deg); }
+}
+@keyframes glow {
+  from { opacity: 0.4; }
+  to   { opacity: 1; }
+}
+
+/* ---------- cursor effects (driven by useCursorFx) ---------- */
+/* autumn day: the shove a leaf gets when the cursor is near */
+.push {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* summer night: each firefly's home spot, pulled toward the cursor */
+.spot {
+  position: absolute;
+  transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* soft light that follows the cursor */
+.glow {
+  position: absolute;
+  left: var(--mx, 50%);
+  top: var(--my, 50%);
+  border-radius: 50%;
+  translate: -50% -50%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.fx[data-hover] .glow { opacity: 1; }
+.sunGlow {
+  width: 280px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(255 250 228 / 0.6), rgb(255 240 190 / 0.2) 40%, transparent 70%);
+}
+:global(:root[data-theme="dark"]) .sunGlow { display: none; }
+
+/* the global reduced-motion rule shortens every animation, which would make
+   these flicker: keep only the still sun */
+@media (prefers-reduced-motion: reduce) {
+  .autumn, .winter, .spring { display: none !important; }
+  .sun::before, .sun::after, .star, .cloud, .village circle { animation: none !important; }
+  .day { display: none; }
+  .firefly { display: none; }
+}

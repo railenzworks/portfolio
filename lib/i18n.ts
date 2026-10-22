@@ -21,6 +21,19 @@ export function loc(v: Localized, lang: Lang): string {
 const en = {
   // cursor label on links to the unfinished works page (lib/site.ts)
   wip: 'WIP',
+  // contact folder (ContactFolder): opens from every "Contact" link.
+  // title / body are placeholders until the final copy is decided
+  folder: {
+    label: 'Contact',
+    hint: 'Click to open',
+    coverTitle: 'CONTACT FILE',
+    coverSub: 'Open me',
+    tab: 'OPEN ME',
+    title: 'Hello!',
+    body: 'Text coming soon.',
+    cta: 'Get in touch',
+    close: 'Close',
+  },
   // on touch screens (no cursor) tapping those links shows this instead
   wipToast: 'Work in progress — coming soon',
   disc: { illustration: 'Illustration', graphic: 'Graphic Design' },
@@ -60,8 +73,6 @@ const en = {
     ctaPost: '?',
     ctaLead: 'Open for commissions, collaborations and full identity projects from early 2026.',
     ctaBtn: "Let's talk",
-    footPre: 'Say',
-    footHead: 'hello —',
   },
   featured: {
     open: 'Open',
@@ -176,6 +187,17 @@ export type Dict = typeof en;
 
 const es: Dict = {
   wip: 'EN PROCESO',
+  folder: {
+    label: 'Contacto',
+    hint: 'Haz clic para abrir',
+    coverTitle: 'ARCHIVO DE CONTACTO',
+    coverSub: 'Ábreme',
+    tab: 'ÁBREME',
+    title: '¡Hola!',
+    body: 'Texto próximamente.',
+    cta: 'Contactar',
+    close: 'Cerrar',
+  },
   wipToast: 'En proceso — muy pronto',
   disc: { illustration: 'Ilustración', graphic: 'Diseño gráfico' },
   cat: {
@@ -214,8 +236,6 @@ const es: Dict = {
     ctaPost: '?',
     ctaLead: 'Disponible para encargos, colaboraciones y proyectos de identidad completos a partir de principios de 2026.',
     ctaBtn: 'Hablemos',
-    footPre: 'Di',
-    footHead: 'hola —',
   },
   featured: {
     open: 'Abrir',
