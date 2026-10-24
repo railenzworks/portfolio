@@ -332,9 +332,9 @@ body.cur-view .cursor-label { opacity: 1; }
 }
 /* summer: a clear sky, so the white sun beams show */
 :root:not([data-theme="dark"])[data-season="summer"] .foot { --foot-bg: #87c6ea; --foot-hover: var(--blue); }
-/* summer night (dark theme): deep blue sky for the stars and fireflies */
+/* summer night (dark theme): a clear sky with the Milky Way across it */
 :root[data-theme="dark"][data-season="summer"] .foot {
-  --foot-bg: #0e1a3a;
+  --foot-bg: #0e1019;
   --foot-fg: var(--ink);
   --foot-hover: var(--teal);
 }
@@ -355,6 +355,12 @@ body.cur-view .cursor-label { opacity: 1; }
 :root:not([data-theme="dark"])[data-season="autumn"] .foot {
   --foot-bg: linear-gradient(180deg, #fcc58a 0%, #f9b27c 55%, #f3a077 100%);
   --foot-hover: var(--blue);
+}
+/* spring night (dark theme): deep blue sky for the stars and fireflies */
+:root[data-theme="dark"][data-season="spring"] .foot {
+  --foot-bg: #0e1a3a;
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal);
 }
 /* spring: a soft spring sky for the swallows */
 :root:not([data-theme="dark"])[data-season="spring"] .foot { --foot-bg: #a9d6f0; }

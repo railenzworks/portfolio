@@ -15,7 +15,7 @@
 }
 
 .wrap svg[role]:focus-visible {
-  outline: 2px solid #17150f;
+  outline: 2px solid var(--ink);
   outline-offset: 6px;
 }
 
@@ -28,7 +28,8 @@
   flex-direction: column;
   gap: 5px;
   padding: 5px;
-  background: rgba(255, 255, 255, 0.92);
+  /* the theme's paper, so the faces (var(--ink)) read in both themes */
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--line);

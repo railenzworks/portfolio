@@ -58,8 +58,8 @@ const en = {
     rights: '© 2026 — Madrid',
   },
   cat_: {
-    hello: 'hey — scroll around',
-    firstScroll: "hey — I'm Yogur",
+    hello: 'scroll around',
+    firstScroll: "I'm Yogur",
     moodsLabel: "Change Yogur's mood",
     moods: { idle: 'Idle', happy: 'Happy', sad: 'Sad', error: 'Confused' },
   },
@@ -221,8 +221,8 @@ const es: Dict = {
     rights: '© 2026 — Madrid',
   },
   cat_: {
-    hello: 'hola — explora un poco',
-    firstScroll: 'hola — soy Yogur',
+    hello: 'explora un poco',
+    firstScroll: 'soy Yogur',
     moodsLabel: 'Cambia el humor de Yogur',
     moods: { idle: 'Tranquilo', happy: 'Feliz', sad: 'Triste', error: 'Confundido' },
   },
