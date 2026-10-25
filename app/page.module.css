@@ -40,6 +40,9 @@
   transform: translate(-50%, -50%) rotate(-8deg);
   transition: transform 0.8s var(--ease);
 }
+/* the ring scales with the word, so a short word ("spin") would get a thinner
+   line than a long one ("vuelta"): tie the stroke to the font size instead */
+.ctaRing path { vector-effect: non-scaling-stroke; stroke-width: 0.072em; }
 .ctaRingBack { z-index: -1; }
 .ctaRingFront { z-index: 1; }
 .ctaBig:hover .ctaRing { transform: translate(-50%, -50%) rotate(8deg); }

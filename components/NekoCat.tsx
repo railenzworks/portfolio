@@ -519,12 +519,16 @@ export function NekoCat(props: NekoCatProps) {
           ref={bubbleRef}
           style={{
             position: 'relative',
-            maxWidth: bubbleWidth,
+            width: 'max-content',
             marginBottom: bubbleGap,
             opacity: 0,
             transformOrigin: '26% 118%',
             willChange: 'transform, opacity',
             pointerEvents: 'none',
+            // one shadow for bubble + tail together, so they read as a single shape
+            filter: bubbleShadow
+              ? 'drop-shadow(0 6px 10px rgba(0,0,0,.10)) drop-shadow(0 2px 3px rgba(0,0,0,.07))'
+              : 'none',
           }}
         >
           <svg
@@ -536,11 +540,6 @@ export function NekoCat(props: NekoCatProps) {
               left: '22%',
               top: '100%',
               marginTop: -10,
-              // the bubble uses box-shadow, the tail is a separate SVG:
-              // without a matching filter it vanishes on white
-              filter: bubbleShadow
-                ? 'drop-shadow(0 6px 10px rgba(0,0,0,.10)) drop-shadow(0 2px 3px rgba(0,0,0,.07))'
-                : 'none',
             }}
           >
             <path
@@ -562,9 +561,8 @@ export function NekoCat(props: NekoCatProps) {
               textAlign: 'center',
               lineHeight: 1.3,
               color: textColor,
-              wordBreak: 'break-word',
-              whiteSpace: 'pre-wrap',
-              boxShadow: bubbleShadow ? '0 8px 22px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06)' : 'none',
+              // one line: the bubble grows with the text instead of wrapping it
+              whiteSpace: 'pre',
               ...font,
             }}
           >

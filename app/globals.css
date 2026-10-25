@@ -298,7 +298,10 @@ body.cur-view .cursor-label { opacity: 1; }
    FOOTER
    ============================================================ */
 .foot {
-  background: var(--ink); color: var(--cream);
+  --foot-bg: var(--ink);
+  --foot-fg: var(--cream);
+  --foot-hover: var(--teal);
+  background: var(--foot-bg); color: var(--foot-fg);
   padding: clamp(50px, 8vw, 120px) var(--pad) clamp(30px, 4vw, 48px);
   position: relative;
 }
@@ -311,16 +314,78 @@ body.cur-view .cursor-label { opacity: 1; }
 /* the home's CTA is the email address: one long word that must be allowed to
    break on phones, or it widens the whole page */
 .foot .big a { transition: color 0.3s; min-width: 0; overflow-wrap: anywhere; }
-.foot .big a:hover { color: var(--teal); }
+.foot .big a:hover { color: var(--foot-hover); }
 .foot .row {
   display: flex; flex-wrap: wrap; gap: 24px;
   justify-content: space-between;
   margin-top: clamp(40px, 6vw, 90px);
   font-family: var(--mono); font-size: 0.72rem;
   letter-spacing: 0.14em; text-transform: uppercase;
-  color: color-mix(in srgb, var(--cream) 60%, transparent);
+  color: color-mix(in srgb, var(--foot-fg) 60%, transparent);
 }
-.foot .row a:hover { color: var(--teal); }
+.foot .row a:hover { color: var(--foot-hover); }
+/* phones: the tagline sits at the very top of the footer instead of in the bottom row */
+.foot .tag-top { display: none; }
+@media (max-width: 760px) {
+  .foot .tag-top {
+    display: block;
+    position: relative; z-index: 1;
+    margin-bottom: 28px;
+    font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--foot-fg) 60%, transparent);
+  }
+  .foot .row .tag-row { display: none; }
+  /* ...and the footer's own top padding shrinks, so it sits at the very top */
+  .foot, .foot.foot--slim { padding-top: 24px; }
+  .foot .tag-top { margin-bottom: 40px; }
+  .foot--slim .tag-top { margin-bottom: 64px; }
+}
+/* light theme + a season: a very pale tint of the season's colour instead
+   of the black block, with dark text */
+:root:not([data-theme="dark"])[data-season] .foot {
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal-deep);
+}
+/* summer: a clear sky, so the white sun beams show */
+:root:not([data-theme="dark"])[data-season="summer"] .foot { --foot-bg: #87c6ea; --foot-hover: var(--blue); }
+/* summer night (dark theme): a clear sky with the Milky Way across it */
+:root[data-theme="dark"][data-season="summer"] .foot {
+  --foot-bg: #0e1019;
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal);
+}
+/* autumn night (dark theme): starry sky with a moon and drifting clouds */
+:root[data-theme="dark"][data-season="autumn"] .foot {
+  --foot-bg: #121829;
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal);
+}
+/* winter night (dark theme): starry sky over a mountain and its village */
+:root[data-theme="dark"][data-season="winter"] .foot {
+  --foot-bg: #0d1428;
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal);
+}
+:root:not([data-theme="dark"])[data-season="winter"] .foot { --foot-bg: color-mix(in srgb, #5f7891 14%, #fff); }
+/* autumn: a sunset sky, gold at the top fading to orange and dusky rose */
+:root:not([data-theme="dark"])[data-season="autumn"] .foot {
+  --foot-bg: linear-gradient(180deg, #fcc58a 0%, #f9b27c 55%, #f3a077 100%);
+  --foot-hover: var(--blue);
+}
+/* spring night (dark theme): deep blue sky for the stars and fireflies */
+:root[data-theme="dark"][data-season="spring"] .foot {
+  --foot-bg: #0e1a3a;
+  --foot-fg: var(--ink);
+  --foot-hover: var(--teal);
+}
+/* spring: a soft spring sky for the swallows */
+:root:not([data-theme="dark"])[data-season="spring"] .foot { --foot-bg: #a9d6f0; }
+/* text above the seasonal effect layer (FooterSeasonFx) */
+.foot .big, .foot .row { position: relative; z-index: 1; }
+/* no headline (home): just the row, with room for the effect to show */
+.foot--slim { padding-top: clamp(70px, 10vw, 140px); }
+.foot--slim .row { margin-top: 0; }
 
 /* ============================================================
    REVEAL ANIMATIONS

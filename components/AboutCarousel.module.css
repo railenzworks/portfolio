@@ -1,0 +1,125 @@
+.layout {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(56px, 7vw, 110px);
+}
+
+.carousel {
+  width: clamp(200px, 21vw, 300px);
+  flex: none;
+}
+
+.deck {
+  position: relative;
+  aspect-ratio: 450 / 650;
+}
+
+/* same look as the home page covers: soft background, grain, hairline frame */
+.card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* round "next" button just right of the deck, like the home arrows */
+.next {
+  position: absolute;
+  top: 50%;
+  right: -60px;
+  z-index: 50;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--teal-deep);
+  color: var(--on-teal);
+  transform: translateY(-50%);
+  transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.next:hover {
+  transform: translateY(-50%) scale(1.05);
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* pill dots: the current card is a wide bar */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 30px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
+  background: var(--ink);
+  opacity: 0.25;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.dotOn {
+  width: 22px;
+  opacity: 1;
+}
+
+.text {
+  max-width: 400px;
+}
+.text.wide { max-width: 560px; }
+/* a column for the bento gallery instead of the narrow deck */
+/* as tall as the deck with its dots, so the switch above sits the same on every page */
+.carousel.galleryCol { width: calc(clamp(200px, 21vw, 300px) * 1.2037 + 32px); }
+/* and the text closer to it than to the deck */
+.layout.withGallery { gap: clamp(24px, 3vw, 48px); }
+
+@media (max-width: 760px) {
+  .layout {
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 96px;
+    padding-bottom: 48px;
+  }
+  .carousel { width: clamp(200px, 58vw, 270px); }
+  .carousel.galleryCol { width: min(100%, 340px); }
+  .layout.withGallery { gap: 22px; }
+  .next { right: -54px; width: 40px; height: 40px; }
+  .dots { margin-top: 18px; }
+  /* .wide (Experience) must not stay wider than the screen: same box as the others */
+  .text, .text.wide { width: 100%; max-width: 440px; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .dot { transition: none; }
+}

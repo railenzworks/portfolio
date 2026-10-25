@@ -6,6 +6,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 import { isWipHref } from '@/lib/site';
 import { useLang } from './LangProvider';
 import { WIP_EVENT } from './WipToast';
+import { CONTACT_EVENT } from './ContactFolder';
 
 type TransitionLinkProps = ComponentPropsWithoutRef<typeof Link>;
 
@@ -14,10 +15,17 @@ type TransitionLinkProps = ComponentPropsWithoutRef<typeof Link>;
 export function TransitionLink({ href, onClick, children, ...props }: TransitionLinkProps) {
   const pathname = usePathname();
   const { t } = useLang();
+  // links to /contact open the contact folder (ContactFolder) in place
+  const contact = typeof href === 'string' && href.split(/[?#]/)[0] === '/contact';
   // links to unfinished pages (WIP_PAGES): "WIP" on the cursor, clicks do nothing
-  const locked = isWipHref(href);
+  const locked = !contact && isWipHref(href);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (contact) {
+      e.preventDefault();
+      window.dispatchEvent(new Event(CONTACT_EVENT));
+      return;
+    }
     if (locked) {
       e.preventDefault();
       // no cursor label on touch screens: show the toast instead

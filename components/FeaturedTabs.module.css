@@ -79,7 +79,10 @@
   padding: 34px 36px 36px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  background: var(--paper);
+  /* frosted glass, same as the nav */
+  background: var(--glass);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
   border-radius: var(--radius);
   box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
   overflow: hidden;
