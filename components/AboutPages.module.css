@@ -1,0 +1,36 @@
+/* The switch sits centred just above the picture and the text. It's absolute,
+   so it doesn't move when the content below changes; instead it's placed from
+   the middle of the page, using the height of the picture column (the deck,
+   and the gallery, which is sized to match). */
+.page {
+  position: relative;
+  /* the deck's width, as AboutCarousel sets it */
+  --deck-w: clamp(200px, 21vw, 300px);
+  /* how far everything sits below the middle of the page */
+  --drop: 48px;
+}
+
+.pages {
+  position: absolute;
+  /* middle - half the picture column (deck + dots) - the gap - the switch itself,
+     but never up into the main menu */
+  top: max(112px, calc(50% + var(--drop) - var(--deck-w) * 0.7222 - 19px - 100px));
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.pages > * { pointer-events: auto; }
+
+/* clear of the main menu and the switch, the same above and below so the content stays centred */
+.page > section {
+  padding-top: calc(110px + var(--drop) * 2);
+  padding-bottom: 110px;
+}
+
+@media (max-width: 760px) {
+  .pages { top: 130px; }
+  .page > section { padding-top: 200px; padding-bottom: 48px; }
+}

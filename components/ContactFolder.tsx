@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useLang } from './LangProvider';
 import styles from './ContactFolder.module.css';
@@ -90,6 +91,11 @@ export function ContactFolder() {
 
           <div className={styles.paper}>
             <span className={styles.tab}>{f.tab}</span>
+            {/* María's illustrated portrait, filling the top of the sheet;
+                the text sits below it, just above the button */}
+            <div className={styles.portrait}>
+              <Image src="/images/maria-cut.png" alt="" fill sizes="200px" style={{ objectFit: 'contain' }} />
+            </div>
             <h2 className={styles.title}>{f.title}</h2>
             <p className={styles.body}>{f.body}</p>
             <a
@@ -103,11 +109,11 @@ export function ContactFolder() {
           </div>
 
           <div className={styles.cover}>
-            {/* brand mark: two interlocking ovals, in white */}
-            <svg className={styles.mark} viewBox="0 0 40 30" aria-hidden="true">
-              <ellipse cx="15" cy="15" rx="12" ry="9" />
-              <ellipse cx="25" cy="15" rx="12" ry="9" />
-            </svg>
+            {/* the name, set like the home page's hero, in white */}
+            <div className={styles.name} aria-hidden="true">
+              <span>MARÍA</span>
+              <span>RAILENZ</span>
+            </div>
             <div className={styles.coverText}>
               <span className={styles.coverTitle}>{f.coverTitle}</span>
               <span className={styles.coverSub}>{f.coverSub}</span>

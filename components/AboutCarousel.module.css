@@ -24,7 +24,7 @@
   border-radius: var(--radius);
   background: var(--accent-soft);
   will-change: transform;
-  transition: transform 0.8s cubic-bezier(0.45, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
 }
 
 .card::after {
@@ -60,8 +60,8 @@
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: var(--blue);
-  color: var(--on-blue);
+  background: var(--teal-deep);
+  color: var(--on-teal);
   transform: translateY(-50%);
   transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
 }
@@ -97,6 +97,12 @@
 .text {
   max-width: 400px;
 }
+.text.wide { max-width: 560px; }
+/* a column for the bento gallery instead of the narrow deck */
+/* as tall as the deck with its dots, so the switch above sits the same on every page */
+.carousel.galleryCol { width: calc(clamp(200px, 21vw, 300px) * 1.2037 + 32px); }
+/* and the text closer to it than to the deck */
+.layout.withGallery { gap: clamp(24px, 3vw, 48px); }
 
 @media (max-width: 760px) {
   .layout {
@@ -106,6 +112,8 @@
     padding-bottom: 48px;
   }
   .carousel { width: clamp(150px, 40vw, 200px); }
+  .carousel.galleryCol { width: min(100%, 340px); }
+  .layout.withGallery { gap: 22px; }
   .next { right: -54px; width: 40px; height: 40px; }
   .dots { margin-top: 18px; }
   .text { max-width: 440px; text-align: center; }

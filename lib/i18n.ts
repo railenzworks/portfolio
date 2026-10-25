@@ -18,11 +18,18 @@ export function loc(v: Localized, lang: Lang): string {
   return typeof v === 'string' ? v : v[lang];
 }
 
+/** A job or a course on the About > Experience page; `details` accept **highlights**. */
+export interface TimelineEntry {
+  place: string;
+  role?: string;
+  years: string;
+  details?: string[];
+}
+
 const en = {
   // cursor label on links to the unfinished works page (lib/site.ts)
   wip: 'WIP',
-  // contact folder (ContactFolder): opens from every "Contact" link.
-  // title / body are placeholders until the final copy is decided
+  // contact folder (ContactFolder): opens from every "Contact" link
   folder: {
     label: 'Contact',
     hint: 'Click to open',
@@ -30,7 +37,7 @@ const en = {
     coverSub: 'Open me',
     tab: 'OPEN ME',
     title: 'Hello!',
-    body: 'Text coming soon.',
+    body: "Tell me what you'd like to bring to life and I'll help you make it real.",
     cta: 'Get in touch',
     close: 'Close',
   },
@@ -54,11 +61,11 @@ const en = {
     seasons: { summer: 'Summer', spring: 'Spring', autumn: 'Autumn', winter: 'Winter', main: 'Main' },
   },
   footer: {
-    tagline: 'María Railenz — Illustration & Graphic Design',
+    tagline: 'María Railenz | Design & Illustration',
     rights: '© 2026 — Madrid',
   },
   cat_: {
-    hello: 'scroll around',
+    hello: 'explore the web',
     firstScroll: "I'm Yogur",
     moodsLabel: "Change Yogur's mood",
     moods: { idle: 'Idle', happy: 'Happy', sad: 'Sad', error: 'Confused' },
@@ -104,42 +111,87 @@ const en = {
     footCta: 'Start a project',
   },
   about: {
-    metaDesc: 'An illustrator who designs, and a designer who draws.',
+    metaDesc: 'Who is María Railenz?',
     label: 'About',
-    titlePre: 'An illustrator who designs, and a designer who ',
-    titleEm: 'draws.',
+    titlePre: 'Who is María Railenz? ',
+    titleEm: '',
     nextImage: 'Next image',
     photoAlt: 'María Railenz at sunset by the sea',
-    lead: "I'm a Madrid-based illustrator and graphic designer working at the seam where pictures meet systems.",
-    bio1Pre: "For nearly a decade I've moved between two crafts that most people keep apart: the warm, hand-drawn world of ",
-    bio1Ill: 'illustration',
-    bio1Mid: ' and the structured, grid-driven world of ',
-    bio1Gfx: 'graphic design',
-    bio1Post: ". I don't think they're opposites — a good identity needs a soul, and a good drawing needs a frame.",
-    bio2: 'I work with publishers, studios, festivals and brands who want work that feels made by a person. Everything you see here is a placeholder, ready to be replaced with the real archive.',
-    howLabel: 'How I work',
-    howPre: 'Three habits behind every ',
-    howEm: 'project',
-    howPost: ', drawn or designed.',
-    steps: [
-      { t: 'Listen, then sketch', d: 'Every project starts on paper. I chase the idea by hand before a single pixel is placed, so the concept leads and the craft follows.' },
-      { t: 'Build a system', d: "Whether it's a character or a brand, I look for the underlying rules — a grid, a palette, a logic — so the work can grow without falling apart." },
-      { t: 'Keep the hand', d: 'I protect the small imperfections that make work feel human. Texture, weight and rhythm survive all the way to the final file.' },
+    // **double asterisks** mark the highlighted words (bold, in the accent colour)
+    lead: 'I\'m an **illustrator** and **graphic designer** based in Madrid. My home is Arenas de San Pedro, the village in Ávila where I grew up and studied.',
+    bio1: 'I\'ve always known that **art** would be a big part of my life, even though choosing a path was hard, because I loved dance, music, photography, drawing... art in any of its forms.',
+    bio2: '**Nature** is my muse and my refuge. My cat **Yogur** is the living proof of it. I love to love, and I cry easily.',
+    switchLabel: 'Who I am / why I do it',
+    tabs: { who: 'WHO', why: 'WHY' },
+    // the three inner pages, picked from the switch under the pictures
+    // captions of the Experience gallery, in tile order
+    gallery: ['cAIo Day 26, iKN Spain', 'Retail Forum 25, iKN Spain', 'Art Studies', 'Final project defence', 'Music'],
+    sectionsLabel: 'About pages',
+    sections: { about: 'ABOUT', experience: 'EXPERIENCE', more: 'MORE' },
+    // placeholder copy until the final text is written
+    experience: {
+      title: 'Work **experience**',
+      items: [
+        {
+          place: 'iKN Spain',
+          role: 'Graphic Designer / Marketing Manager',
+          years: '2024/now',
+        },
+        {
+          place: 'Summitify',
+          role: 'Graphic Designer',
+          years: '2022',
+        },
+        {
+          place: 'IESA Technology Communities',
+          role: 'Trainer',
+          years: '2022/24',
+        },
+      ] as TimelineEntry[],
+    },
+    education: {
+      title: '**Education**',
+      items: [
+        {
+          place: 'CEI: School of Design and Marketing',
+          role: 'Graphic Design',
+          years: '2023/24',
+          details: [
+            '**Adobe tools:** Photoshop, Illustrator, InDesign.',
+            '**Graphic production and creativity:** design elements, typography, printing types, finishes, marketing strategy and corporate identity.',
+          ],
+        },
+        {
+          place: 'CRBC School of Art and Design, Ávila',
+          role: 'Higher Technician in Illustration',
+          years: '2020/22',
+        },
+        {
+          place: 'CRBC School of Art and Design, Ávila',
+          role: 'Baccalaureate in Plastic Arts',
+          years: '2018/20',
+        },
+        {
+          place: 'Luigi Boccherini Municipal Music School',
+          role: 'Musician, Flautist',
+          years: '2010/19',
+        },
+      ] as TimelineEntry[],
+    },
+    more: {
+      title: 'A bit **more** about me',
+      paras: [
+        'Here goes something else you would like people to know: **hobbies**, **curiosities**, what inspires you.',
+        'This text is a placeholder, ready to be replaced with the real one.',
+      ],
+    },
+    // placeholder until the final copy is decided
+    whyTitle: 'Why art? Why create?',
+    why: [
+      'Just like nature, art has always been my way out and my way back to myself. It has allowed me, and still allows me, to explore my **inner world** and the **world around me**.',
+      'I feel that **art moves the world**, and even though the world has had plenty of reasons to stop lately, art is still the engine that makes us grow as a society.',
+      'I create to **show my inside**, to **understand the outside** and to **fight** for what I believe has to change.',
     ],
-    discipline: 'Discipline',
-    illList: ['Editorial & cover illustration', 'Character design', 'Lettering & type illustration', 'Posters & prints'],
-    gfxList: ['Brand & visual identity', 'Art direction', 'Event & festival design', 'Editorial & print'],
-    clients: 'Selected clients',
-    clientsLabel: 'A few good people',
-    awards: [
-      { t: 'Editorial Illustration — Shortlist' },
-      { t: 'Identity of the Year — Finalist' },
-      { t: 'Poster Series — Selected' },
-      { t: 'New Talent — Feature' },
-    ],
-    footPre: 'Work',
-    footHead: 'together?',
-    footCta: 'Get in touch',
   },
   contact: {
     metaDesc: 'Start a project — reply within 48 hours.',
@@ -194,7 +246,7 @@ const es: Dict = {
     coverSub: 'Ábreme',
     tab: 'ÁBREME',
     title: '¡Hola!',
-    body: 'Texto próximamente.',
+    body: 'Cuéntame a qué te gustaría darle vida y te ayudaré a hacerlo real.',
     cta: 'Contactar',
     close: 'Cerrar',
   },
@@ -221,7 +273,7 @@ const es: Dict = {
     rights: '© 2026 — Madrid',
   },
   cat_: {
-    hello: 'explora un poco',
+    hello: 'explora la web',
     firstScroll: 'soy Yogur',
     moodsLabel: 'Cambia el humor de Yogur',
     moods: { idle: 'Tranquilo', happy: 'Feliz', sad: 'Triste', error: 'Confundido' },
@@ -267,42 +319,83 @@ const es: Dict = {
     footCta: 'Empecemos un proyecto',
   },
   about: {
-    metaDesc: 'Una ilustradora que diseña, y una diseñadora que dibuja.',
+    metaDesc: '¿Quién es María Railenz?',
     label: 'Sobre mí',
-    titlePre: 'Una ilustradora que diseña, y una diseñadora que ',
-    titleEm: 'dibuja.',
+    titlePre: '¿Quién es María Railenz? ',
+    titleEm: '',
     nextImage: 'Siguiente imagen',
     photoAlt: 'María Railenz en un atardecer junto al mar',
-    lead: 'Soy ilustradora y diseñadora gráfica en Madrid, y trabajo justo donde las imágenes se encuentran con los sistemas.',
-    bio1Pre: 'Durante casi una década me he movido entre dos oficios que casi todo el mundo mantiene separados: el mundo cálido y dibujado a mano de la ',
-    bio1Ill: 'ilustración',
-    bio1Mid: ' y el mundo estructurado y reticular del ',
-    bio1Gfx: 'diseño gráfico',
-    bio1Post: '. No creo que sean opuestos — una buena identidad necesita alma, y un buen dibujo necesita un marco.',
-    bio2: 'Trabajo con editoriales, estudios, festivales y marcas que buscan un trabajo que se note hecho por una persona. Todo lo que ves aquí es provisional, listo para sustituirse por el archivo real.',
-    howLabel: 'Cómo trabajo',
-    howPre: 'Tres hábitos detrás de cada ',
-    howEm: 'proyecto',
-    howPost: ', dibujado o diseñado.',
-    steps: [
-      { t: 'Escuchar, y luego bocetar', d: 'Cada proyecto empieza en papel. Persigo la idea a mano antes de colocar un solo píxel, para que el concepto guíe y el oficio lo siga.' },
-      { t: 'Construir un sistema', d: 'Ya sea un personaje o una marca, busco las reglas de fondo — una retícula, una paleta, una lógica — para que el trabajo pueda crecer sin desmoronarse.' },
-      { t: 'Conservar la mano', d: 'Protejo las pequeñas imperfecciones que hacen que un trabajo se sienta humano. La textura, el peso y el ritmo sobreviven hasta el archivo final.' },
+    lead: 'Soy **ilustradora** y **diseñadora gráfica** en Madrid. Mi hogar se encuentra en Arenas de San Pedro, pueblo de Ávila en el que crecí y estudié.',
+    bio1: 'Siempre he sabido que el **arte** sería una parte importante en mi vida, aunque fue muy difícil escoger un camino, porque me gustaba el baile, la música, la fotografía, el dibujo... el arte en cualquiera de sus formas.',
+    bio2: 'La **naturaleza** es mi musa y refugio. Mi gato **Yogur** es la viva imagen de ello. Amo amar y lloro con facilidad.',
+    switchLabel: 'Quién soy / por qué lo hago',
+    tabs: { who: 'QUIÉN', why: 'POR QUÉ' },
+    gallery: ['cAIo Day 26, iKN Spain', 'Retail Forum 25, iKN Spain', 'Estudios de arte', 'Defensa del proyecto integrado', 'Música'],
+    sectionsLabel: 'Páginas de Sobre mí',
+    sections: { about: 'SOBRE MÍ', experience: 'EXPERIENCIA', more: 'MÁS' },
+    // texto provisional hasta que esté el definitivo
+    experience: {
+      title: 'Experiencia **laboral**',
+      items: [
+        {
+          place: 'iKN Spain',
+          role: 'Diseño gráfico / Marketing Manager',
+          years: '2024/hoy',
+        },
+        {
+          place: 'Summitify',
+          role: 'Diseño gráfico',
+          years: '2022',
+        },
+        {
+          place: 'IESA Comunidades Tecnológicas',
+          role: 'Formadora',
+          years: '2022/24',
+        },
+      ] as TimelineEntry[],
+    },
+    education: {
+      title: 'Datos **académicos**',
+      items: [
+        {
+          place: 'CEI: Escuela de Diseño y Marketing',
+          role: 'Diseño Gráfico',
+          years: '2023/24',
+          details: [
+            '**Adobe Tools:** Photoshop, Illustrator, InDesign.',
+            '**Producción gráfica y creatividad:** elementos del diseño, tipografía, tipos de impresión, acabados, estrategia de marketing e identidad corporativa.',
+          ],
+        },
+        {
+          place: 'Escuela de Arte y Superior de CRBC de Ávila',
+          role: 'Técnico Superior Ilustración',
+          years: '2020/22',
+        },
+        {
+          place: 'Escuela de Arte y Superior de CRBC de Ávila',
+          role: 'Bachillerato de artes plásticas',
+          years: '2018/20',
+        },
+        {
+          place: 'Escuela Municipal de Música Luigi Boccherini',
+          role: 'Músico, Flautista',
+          years: '2010/19',
+        },
+      ] as TimelineEntry[],
+    },
+    more: {
+      title: 'Un poco **más** sobre mí',
+      paras: [
+        'Aquí irá algo más que quieras que la gente sepa: **aficiones**, **curiosidades**, lo que te inspira.',
+        'Este texto es provisional, listo para sustituirlo por el real.',
+      ],
+    },
+    whyTitle: '¿Por qué el arte? ¿Por qué crear?',
+    why: [
+      'Al igual que la naturaleza, el arte siempre ha sido **vía de escape** y **encuentro conmigo misma**. Me ha permitido y me permite explorar mi **interior** y el **exterior**.',
+      'Siento que el **arte mueve el mundo** y, aunque el mundo tenga muchos motivos últimamente para detenerse, el arte sigue siendo el motor que nos hace crecer como sociedad.',
+      'Creo para **mostrar mi interior**, para **entender el exterior** y para **luchar** por lo que creo que tiene que cambiar.',
     ],
-    discipline: 'Disciplina',
-    illList: ['Ilustración editorial y de portada', 'Diseño de personajes', 'Lettering e ilustración tipográfica', 'Carteles y láminas'],
-    gfxList: ['Marca e identidad visual', 'Dirección de arte', 'Diseño de eventos y festivales', 'Editorial e impresión'],
-    clients: 'Clientes',
-    clientsLabel: 'Buena gente',
-    awards: [
-      { t: 'Ilustración editorial — Preseleccionada' },
-      { t: 'Identidad del año — Finalista' },
-      { t: 'Serie de carteles — Seleccionada' },
-      { t: 'Nuevo talento — Destacada' },
-    ],
-    footPre: '¿Trabajamos',
-    footHead: 'juntos?',
-    footCta: 'Escríbeme',
   },
   contact: {
     metaDesc: 'Empecemos un proyecto — respuesta en 48 horas.',

@@ -1,0 +1,69 @@
+.gallery {
+  display: flex;
+  gap: 7px;
+  width: 100%;
+  aspect-ratio: 5 / 6;
+}
+
+/* columns and tiles share the space by flex-grow, which animates when it changes */
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex-basis: 0;
+  min-width: 0;
+  transition: flex-grow 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tile {
+  position: relative;
+  flex-basis: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  outline: none;
+  transition: flex-grow 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s ease;
+}
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+
+/* while one is looked at, the others go grey */
+.dim { filter: grayscale(1) contrast(1.05); }
+
+/* the caption pill of the picture under the cursor */
+.caption {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 1;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(23, 21, 15, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: var(--read);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.captionOn { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .col, .tile, .caption { transition: none; }
+}

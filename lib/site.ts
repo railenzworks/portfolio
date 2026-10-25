@@ -8,6 +8,13 @@ export const WIP_PAGES: Record<string, boolean> = {
   '/contact': true,
 };
 
+// The same for the inner pages of About (the switch under its nav): a page set
+// to true shows "WIP" on the cursor and can't be opened. Set it to false to open it.
+export const WIP_ABOUT_PAGES: Record<string, boolean> = {
+  experience: false,
+  more: true,
+};
+
 /** True when `href` points at a page that is still WIP (ignores #hash and ?query). */
 export function isWipHref(href: unknown): boolean {
   if (typeof href !== 'string') return false;

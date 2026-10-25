@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import styles from './AboutCarousel.module.css';
 
@@ -22,6 +22,12 @@ interface AboutCarouselProps {
   nextLabel: string;
   /** The text shown next to the deck. */
   children: ReactNode;
+  /** Shown under the dots (the switch between the inner pages). */
+  footer?: ReactNode;
+  /** A wider text column, for pages with long lines (Experience). */
+  wide?: boolean;
+  /** Replaces the deck (and its dots) with something else: the Experience page's bento gallery. */
+  gallery?: ReactNode;
 }
 
 // Where each card rests in the fanned deck: the top one straight, the ones
@@ -36,10 +42,13 @@ const SLOTS = [
 ];
 
 // the top card swinging off to the right before it drops to the back
-const OUT = 'translate(48%, -3%) rotate(7deg) scale(0.97)';
+const OUT = 'translate(18%, -1%) rotate(2.5deg) scale(0.985)';
+// where a card starts on first view: just a touch above its place, fading in
+const DROP = 'translate(0, -2%)';
+const INTRO_STEP_MS = 90;
 // how long the card stays out before going behind the deck, and the whole move
-const OUT_MS = 420;
-const MOVE_MS = 900;
+const OUT_MS = 320;
+const MOVE_MS = 700;
 
 const slotTransform = (place: number) => {
   const s = SLOTS[Math.min(place, SLOTS.length - 1)];
@@ -48,12 +57,22 @@ const slotTransform = (place: number) => {
 
 // A fanned deck of cards: "next" swings the top card off to the right and
 // slips it back in at the bottom of the deck, so the pictures go round.
-export function AboutCarousel({ images, nextLabel, children }: AboutCarouselProps) {
+export function AboutCarousel({ images, nextLabel, children, footer, wide, gallery }: AboutCarouselProps) {
   const count = images.length;
   // the card at the top of the deck; card i sits (i - top) places below it
   const [top, setTop] = useState(0);
   const [leaving, setLeaving] = useState<number | null>(null);
   const busy = useRef(false);
+  // on first view the cards drop onto the pile one after another, bottom one
+  // first; `intro` keeps that stagger from delaying the later moves
+  const [shown, setShown] = useState(false);
+  const [intro, setIntro] = useState(true);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
+    const done = setTimeout(() => setIntro(false), INTRO_STEP_MS * count + 900);
+    return () => { cancelAnimationFrame(raf); clearTimeout(done); };
+  }, [count]);
 
   const next = () => {
     if (busy.current || count < 2) return;
@@ -67,8 +86,10 @@ export function AboutCarousel({ images, nextLabel, children }: AboutCarouselProp
   };
 
   return (
-    <section className={`${styles.layout} wrap`}>
-      <div className={styles.carousel}>
+    <section className={`${styles.layout} ${gallery ? styles.withGallery : ''} wrap`}>
+      <div className={`${styles.carousel} ${gallery ? styles.galleryCol : ''}`}>
+        {gallery ?? (
+          <>
         <div className={styles.deck}>
           {images.map((img, i) => {
             const place = (i - top + count) % count;
@@ -79,7 +100,9 @@ export function AboutCarousel({ images, nextLabel, children }: AboutCarouselProp
                 className={styles.card}
                 style={{
                   zIndex: out ? count + 1 : count - place,
-                  transform: out ? OUT : slotTransform(place),
+                  transform: !shown ? DROP : out ? OUT : slotTransform(place),
+                  opacity: shown ? 1 : 0,
+                  transitionDelay: intro ? `${(count - 1 - place) * INTRO_STEP_MS}ms` : undefined,
                 }}
                 aria-hidden={place !== 0}
               >
@@ -122,8 +145,12 @@ export function AboutCarousel({ images, nextLabel, children }: AboutCarouselProp
             <span key={img.src} className={`${styles.dot} ${i === top ? styles.dotOn : ''}`} />
           ))}
         </div>
+          </>
+        )}
+
+        {footer}
       </div>
-      <div className={styles.text}>{children}</div>
+      <div className={`${styles.text} ${wide ? styles.wide : ''}`}>{children}</div>
     </section>
   );
 }
