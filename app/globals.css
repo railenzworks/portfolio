@@ -324,6 +324,23 @@ body.cur-view .cursor-label { opacity: 1; }
   color: color-mix(in srgb, var(--foot-fg) 60%, transparent);
 }
 .foot .row a:hover { color: var(--foot-hover); }
+/* phones: the tagline sits at the very top of the footer instead of in the bottom row */
+.foot .tag-top { display: none; }
+@media (max-width: 760px) {
+  .foot .tag-top {
+    display: block;
+    position: relative; z-index: 1;
+    margin-bottom: 28px;
+    font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--foot-fg) 60%, transparent);
+  }
+  .foot .row .tag-row { display: none; }
+  /* ...and the footer's own top padding shrinks, so it sits at the very top */
+  .foot, .foot.foot--slim { padding-top: 24px; }
+  .foot .tag-top { margin-bottom: 40px; }
+  .foot--slim .tag-top { margin-bottom: 64px; }
+}
 /* light theme + a season: a very pale tint of the season's colour instead
    of the black block, with dark text */
 :root:not([data-theme="dark"])[data-season] .foot {

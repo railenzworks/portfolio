@@ -32,5 +32,5 @@
 
 @media (max-width: 760px) {
   .pages { top: 130px; }
-  .page > section { padding-top: 200px; padding-bottom: 48px; }
+  .page > section { padding: 200px 30px 48px; }
 }

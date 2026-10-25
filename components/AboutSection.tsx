@@ -21,7 +21,12 @@ export function AboutSection({ page }: { page: 'experience' | 'more' }) {
                   <li key={it.years + it.place + it.role}>
                     <span className={styles.heading}>
                       <strong>{it.role ?? it.place}</strong>
-                      {it.role && <span className={styles.place}> | {it.place}</span>}
+                      {it.role && (
+                        <>
+                          <span className={styles.sep}> | </span>
+                          <span className={styles.place}>{it.place}</span>
+                        </>
+                      )}
                     </span>
                     <span className={styles.years}>{it.years}</span>
                     {it.details?.map((d, i) => (

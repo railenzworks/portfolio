@@ -111,12 +111,13 @@
     padding-top: 96px;
     padding-bottom: 48px;
   }
-  .carousel { width: clamp(150px, 40vw, 200px); }
+  .carousel { width: clamp(200px, 58vw, 270px); }
   .carousel.galleryCol { width: min(100%, 340px); }
   .layout.withGallery { gap: 22px; }
   .next { right: -54px; width: 40px; height: 40px; }
   .dots { margin-top: 18px; }
-  .text { max-width: 440px; text-align: center; }
+  /* .wide (Experience) must not stay wider than the screen: same box as the others */
+  .text, .text.wide { width: 100%; max-width: 440px; text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {

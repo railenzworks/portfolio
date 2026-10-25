@@ -55,6 +55,16 @@
 .block + .block { margin-top: 1.1em; }
 
 @media (max-width: 760px) {
-  .heading { white-space: normal; }
+  /* the text is centred on phones, so the WHO / WHY switch is too */
+  .switchGap { display: flex; justify-content: center; }
+  /* phones: the role on one line and the company below it, without the bar */
+  .heading { display: flex; flex-direction: column; white-space: normal; }
+  .sep { display: none; }
+  .place { font-size: 0.9em; }
+  /* Experience: the titles and every entry stay left-aligned on phones too */
+  .block { text-align: left; }
+  .timeline li { align-items: flex-start; text-align: left; font-size: 1rem; line-height: 1.35; }
+  .years { font-size: 0.8em; }
+  .bio, .text { width: 100%; }
   .text p, .ghost p { font-size: 0.9rem; line-height: 1.5; }
 }

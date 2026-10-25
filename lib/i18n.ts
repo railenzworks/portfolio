@@ -62,6 +62,8 @@ const en = {
   },
   footer: {
     tagline: 'María Railenz | Design & Illustration',
+    // on phones the tagline goes at the top of the footer, in this form in both languages
+    taglineTop: 'María Railenz | Design & Illustration',
     rights: '© 2026 — Madrid',
   },
   cat_: {
@@ -270,6 +272,7 @@ const es: Dict = {
   },
   footer: {
     tagline: 'María Railenz — Ilustración y Diseño gráfico',
+    taglineTop: 'María Railenz | Design & Illustration',
     rights: '© 2026 — Madrid',
   },
   cat_: {

@@ -14,6 +14,7 @@ export async function Footer({ preword, headline, cta }: FooterProps) {
   return (
     <footer className={`foot${cta ? '' : ' foot--slim'}`}>
       <FooterSeasonFx />
+      <p className="tag-top">{t.footer.taglineTop}</p>
       {cta && (
         <div className="big">
           <span className="serif-italic">{preword}</span>&nbsp;{headline}&nbsp;
@@ -32,7 +33,7 @@ export async function Footer({ preword, headline, cta }: FooterProps) {
         </div>
       )}
       <div className="row">
-        <span>{t.footer.tagline}</span>
+        <span className="tag-row">{t.footer.tagline}</span>
         <div style={{ display: 'flex', gap: '22px' }}>
           <a href="https://instagram.com/railenz" target="_blank" rel="noreferrer">
             Instagram
