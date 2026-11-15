@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { NekoCat, type NekoEmotion } from './NekoCat';
 import { useLang } from './LangProvider';
+import { CALENDAR_EVENT } from './CalendarPopup';
 import styles from './FloatingCat.module.css';
 
 interface FloatingCatProps {
@@ -28,12 +29,19 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
   firstScrollMsg.current = t.cat_.firstScroll;
 
   useEffect(() => {
+    // The bubble normally invites you to reserve the calendar; on the first
+    // scroll the cat introduces itself for a moment, then goes back to that.
+    let back: number | undefined;
     const onFirstScroll = () => {
       window.dispatchEvent(new CustomEvent('neko', { detail: { message: firstScrollMsg.current } }));
       window.removeEventListener('scroll', onFirstScroll);
+      back = window.setTimeout(() => window.dispatchEvent(new CustomEvent('neko', { detail: { reset: true } })), 3500);
     };
     window.addEventListener('scroll', onFirstScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onFirstScroll);
+    return () => {
+      window.removeEventListener('scroll', onFirstScroll);
+      window.clearTimeout(back);
+    };
   }, []);
 
   // The cat rides fixed to the bottom of the screen until the word marquee
@@ -109,7 +117,8 @@ export function FloatingCat({ emotion: initialEmotion = 'idle' }: FloatingCatPro
         eyeColor="#3a67f0"
         patchColor="#e3ab7c"
         emotion={emotion}
-        message={t.cat_.hello}
+        message={t.calendar.catMsg}
+        onBubbleClick={() => window.dispatchEvent(new Event(CALENDAR_EVENT))}
         font={{ fontFamily: 'var(--read)', fontSize: 14 }}
         textColor="#17150f"
       />

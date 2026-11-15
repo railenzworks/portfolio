@@ -1,0 +1,423 @@
+/* Same backdrop as the contact folder: the page blurs and dims behind.
+   The calendar's poster is treated like the folder's sheet (a paper slightly
+   tilted with a soft shadow), titles use the site's type (Railenz hand for the
+   question, Valley Sans for headings, Parkinsans mono for labels) and the price
+   is a sticker in the season's --blue, echoing the poster's "PREVENTA" label. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 510;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s var(--ease), visibility 0s linear 0.4s;
+}
+.shown {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s var(--ease), visibility 0s;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-height: calc(100dvh - 48px);
+  /* the sheet is sized to fit without scrolling; this is only a safety net
+     for very short windows */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius);
+  outline: none;
+  box-shadow: 0 30px 60px rgba(10, 20, 50, 0.3), 0 6px 16px rgba(10, 20, 50, 0.16);
+  transform: translateY(26px) scale(0.96);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shown .card { transform: none; }
+.ask { max-width: 680px; }
+.wide { max-width: 1120px; }
+
+/* ---------- close: sticks to the card's top-right corner ---------- */
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  height: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.close {
+  margin: 14px 14px 0 0;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.close:hover { transform: scale(1.06); }
+.close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* ---------- shared bits ---------- */
+.eyebrow {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  margin-bottom: 12px;
+}
+
+/* the poster, as a paper sheet laid on the card */
+.sheet,
+.askSheet {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 -2px 1px -1.5px rgba(0, 0, 0, 0.12), 0 22px 36px -10px rgba(10, 20, 50, 0.32),
+    0 4px 10px rgba(10, 20, 50, 0.08);
+  transition: transform 0.7s var(--ease);
+}
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- step 1: the question ---------- */
+.askBody {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  align-items: center;
+  gap: 40px;
+  padding: 44px 48px 44px 44px;
+}
+.askSheet { transform: rotate(-5deg); }
+.askBody:hover .askSheet { transform: rotate(-2deg) scale(1.02); }
+
+.askTitle {
+  font-family: var(--font-railenz), var(--serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.2vw, 2.7rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: min(100%, 250px);
+  margin-top: 28px;
+}
+.actions :global(.btn) { justify-content: center; }
+/* the outline button, sized like the solid one */
+.secondary {
+  font-family: var(--read);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-transform: none;
+  border-radius: 25px;
+  padding: 14px 30px;
+}
+
+/* ---------- step 2: poster + price + form | text ----------
+   Sized so the whole sheet fits the window without scrolling: the poster's
+   width follows the window's height (--pw) and everything else is compact. */
+.layout {
+  --pw: clamp(150px, calc(80dvh - 430px), 300px);
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'side content'
+    'form content';
+  gap: 20px 48px;
+  padding: clamp(24px, 4.2dvh, 40px) 44px clamp(24px, 4.2dvh, 40px) 40px;
+}
+.side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sheet { width: var(--pw); transform: rotate(-2.5deg); }
+
+/* price: a tilted sticker in the season's blue, overlapping the poster's foot */
+.price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -22px;
+  position: relative;
+  z-index: 1;
+}
+.priceTag {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 20px 8px;
+  background: var(--blue);
+  color: var(--on-blue);
+  border-radius: var(--radius-sm);
+  transform: rotate(3deg);
+  box-shadow: 0 12px 24px -8px rgba(10, 20, 50, 0.35);
+}
+.priceLabel {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.priceValue {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.priceNote {
+  margin-top: 12px;
+  max-width: 32ch;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--ink-70);
+}
+
+.content { grid-area: content; align-self: center; }
+.title {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 2.7vw, 2.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: 14px;
+}
+.content p {
+  font-size: clamp(0.86rem, 0.95vw, 0.96rem);
+  line-height: 1.5;
+  color: var(--ink-70);
+  margin-bottom: 0.75em;
+}
+/* the greeting reads like About's lead */
+.content p.lead {
+  font-weight: 500;
+  font-size: clamp(1rem, 1.2vw, 1.14rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.8em;
+}
+.list {
+  list-style: none;
+  margin: 14px 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+/* ---------- the form ---------- */
+.form {
+  grid-area: form;
+  align-self: start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  padding: 18px 20px 20px;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+}
+:root:not([data-theme='dark']) .form { background: #f5f3ef; }
+.formTitle {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.field { margin-bottom: 14px; min-width: 0; }
+.fieldWide { grid-column: 1 / -1; }
+.field label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+.field input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink-40);
+  border-radius: 0;
+  font-family: var(--read);
+  font-size: 1.05rem;
+  color: var(--ink);
+  padding: 4px 0 6px;
+  transition: border-color 0.3s;
+}
+.field input:hover { border-color: var(--ink); }
+.field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 1px 0 var(--blue); }
+.field.err input { border-color: var(--error); }
+.msg {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--error);
+  margin-top: 5px;
+}
+.sendErr { grid-column: 1 / -1; margin: 0 0 12px; line-height: 1.5; }
+.form p.consent {
+  grid-column: 1 / -1;
+  margin: 0 0 14px;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--ink-70);
+}
+.form button[type='submit'] { grid-column: 1 / -1; justify-content: center; }
+.form button[type='submit']:disabled { opacity: 0.6; pointer-events: none; }
+
+/* honeypot, pushed off-screen rather than display:none so bots still fill it */
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* phones-only controls */
+.next { display: none; }
+.back {
+  display: none;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--glass);
+  color: var(--ink);
+  cursor: pointer;
+}
+.back svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* thank-you: centred beside the poster */
+.content:has(.sentMsg) { align-self: center; }
+.sentMsg p { max-width: 42ch; margin-bottom: 26px; font-size: 1rem; }
+
+/* ---------- narrower windows and phones: two screens, neither scrolls ----------
+   1) the story: poster + price in a row, then the text and a button on;
+   2) the form: poster + price in a compact row, then the fields. */
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: 'side' 'content' 'form';
+    gap: 16px;
+    padding: 52px 24px 24px;
+  }
+  .content { align-self: start; }
+  .layout[data-view='info'] .form { display: none; }
+  .layout[data-view='form'] .content { display: none; }
+
+  .side {
+    flex-direction: row;
+    justify-content: center;
+    gap: 18px;
+  }
+  .sheet { width: 104px; flex: none; transform: rotate(-3deg); }
+  .layout[data-view='form'] .sheet { width: 84px; }
+  .price { margin-top: 0; align-items: flex-start; }
+  .priceNote { text-align: left; margin-top: 10px; font-size: 0.76rem; }
+
+  .next {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 14px;
+    /* always in reach, even if the text is taller than the screen */
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 0 0 8px var(--paper);
+  }
+  .back { display: grid; }
+}
+
+@media (max-width: 640px) {
+  .askBody {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 26px;
+    padding: 44px 24px 28px;
+    text-align: center;
+  }
+  .askSheet { width: 170px; }
+  .actions { width: 100%; margin-inline: auto; }
+}
+
+@media (max-width: 480px) {
+  .overlay { padding: 12px; }
+  .card { max-height: calc(100dvh - 24px); }
+  .layout { padding: 46px 18px 16px; gap: 10px; }
+  .sheet { width: 88px; }
+  .layout[data-view='form'] .sheet { width: 76px; }
+  .eyebrow { display: none; }
+  .title { font-size: 1.4rem; margin-bottom: 8px; }
+  .content p { font-size: 0.8rem; line-height: 1.38; margin-bottom: 0.5em; }
+  .content p.lead { font-size: 0.92rem; }
+  .list { margin: 8px 0; }
+  .list li { padding: 5px 0; font-size: 0.82rem; line-height: 1.3; }
+  .next { margin-top: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .askSheet, .sheet { transition: none; }
+  .card { transform: none; }
+}

@@ -293,6 +293,11 @@ body.cur-view .cursor-label { opacity: 1; }
     right: auto; left: 50%; transform: translateX(-50%);
   }
 }
+/* touch screens have the calendar button (Nav.module.css) on its own row under the nav,
+   so the controls drop one row lower */
+@media (max-width: 960px) and (hover: none) {
+  .site-controls { top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px + 44px); }
+}
 
 /* ============================================================
    FOOTER

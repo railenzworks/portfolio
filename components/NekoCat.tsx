@@ -44,6 +44,8 @@ export interface NekoCatProps {
   bubbleGap?: number;
   hideCat?: boolean;
   style?: CSSProperties;
+  /** Makes the speech bubble a button: it can be clicked (or focused + Enter) while it is showing. */
+  onBubbleClick?: () => void;
 }
 
 interface NekoExternalDetail {
@@ -88,6 +90,7 @@ export function NekoCat(props: NekoCatProps) {
     bubbleGap = 2,
     hideCat = false,
     style,
+    onBubbleClick,
   } = props;
 
   // external control: window.dispatchEvent(new CustomEvent(eventName, { detail: {...} }))
@@ -115,6 +118,8 @@ export function NekoCat(props: NekoCatProps) {
 
   const emotionNow = ext.emotion ?? emotion;
   const messageNow = ext.message ?? message;
+  // the bubble is a button only while it shows its own message (not a temporary one)
+  const bubbleAction = ext.message === undefined ? onBubbleClick : undefined;
   const hideCatNow = ext.hideCat ?? hideCat;
   const showBubbleNow = ext.showBubble ?? showBubble;
 
@@ -144,6 +149,8 @@ export function NekoCat(props: NekoCatProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
+  const clickableRef = useRef(false);
+  clickableRef.current = !!bubbleAction;
   const bodyRef = useRef<SVGGElement>(null);
   const tailRef = useRef<SVGGElement>(null);
   const shadowRef = useRef<SVGEllipseElement>(null);
@@ -434,6 +441,8 @@ export function NekoCat(props: NekoCatProps) {
         const v = s.bubV;
         const sc = 0.72 + 0.28 * v + 0.07 * Math.sin(Math.PI * v);
         bubbleRef.current.style.opacity = String(v);
+        // a clickable bubble only takes clicks while it is actually showing
+        if (clickableRef.current) bubbleRef.current.style.pointerEvents = v > 0.6 ? 'auto' : 'none';
         bubbleRef.current.style.transform = `translate(0px, ${s.bubY + (1 - v) * 12}px) rotate(${s.bubR}deg) scale(${sc})`;
       }
       if (tailRef.current) {
@@ -517,6 +526,23 @@ export function NekoCat(props: NekoCatProps) {
       {showBubbleNow && (
         <div
           ref={bubbleRef}
+          {...(bubbleAction
+            ? {
+                role: 'button',
+                tabIndex: 0,
+                'aria-label': String(messageNow).replace(/\s*\n\s*/g, ' '),
+                onClick: (e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  bubbleAction();
+                },
+                onKeyDown: (e: React.KeyboardEvent) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    bubbleAction();
+                  }
+                },
+              }
+            : {})}
           style={{
             position: 'relative',
             width: 'max-content',
@@ -557,7 +583,7 @@ export function NekoCat(props: NekoCatProps) {
               background: bubbleColor,
               borderRadius: bubbleRadius,
               // padding in em so it scales with whatever size the font is set to
-              padding: '0.85em 1.25em',
+              padding: bubbleAction ? '0.7em 0.85em' : '0.85em 1.25em',
               textAlign: 'center',
               lineHeight: 1.3,
               color: textColor,
@@ -566,7 +592,7 @@ export function NekoCat(props: NekoCatProps) {
               ...font,
             }}
           >
-            {messageNow}
+            {bubbleAction ? <span data-bubble-cta="">{messageNow}</span> : messageNow}
           </div>
         </div>
       )}

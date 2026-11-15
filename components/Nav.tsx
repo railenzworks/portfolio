@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { TransitionLink } from './TransitionLink';
 import { useLang } from './LangProvider';
+import { CALENDAR_EVENT } from './CalendarPopup';
 import styles from './Nav.module.css';
 
 const LINKS = [
@@ -31,6 +32,8 @@ export function Nav() {
     if (!nav) return;
     const sync = () => {
       document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+      // the calendar button sits beside the nav, so it needs the nav's width
+      document.documentElement.style.setProperty('--nav-w', nav.offsetWidth + 'px');
     };
     sync();
     const ro = new ResizeObserver(sync);
@@ -73,23 +76,29 @@ export function Nav() {
   }, [activeHref]);
 
   return (
-    <nav className="nav" ref={navRef}>
-      <TransitionLink href="/" className={styles.brand}>
-        MARÍA <span className={styles.accent}>RAILENZ</span>
-      </TransitionLink>
-      <div className="links" ref={linksRef}>
-        <span className="nav-pill" ref={pillRef} aria-hidden="true" />
-        {LINKS.map(({ href, key }) => (
-          <TransitionLink
-            key={href}
-            href={href}
-            aria-current={href === activeHref ? 'page' : undefined}
-            onClick={() => setClicked(href)}
-          >
-            {t.nav[key]}
-          </TransitionLink>
-        ))}
-      </div>
-    </nav>
+    <>
+      <nav className="nav" ref={navRef}>
+        <TransitionLink href="/" className={styles.brand}>
+          MARÍA <span className={styles.accent}>RAILENZ</span>
+        </TransitionLink>
+        <div className="links" ref={linksRef}>
+          <span className="nav-pill" ref={pillRef} aria-hidden="true" />
+          {LINKS.map(({ href, key }) => (
+            <TransitionLink
+              key={href}
+              href={href}
+              aria-current={href === activeHref ? 'page' : undefined}
+              onClick={() => setClicked(href)}
+            >
+              {t.nav[key]}
+            </TransitionLink>
+          ))}
+        </div>
+      </nav>
+      {/* reopens the 2027 calendar pre-order popup after it has been closed */}
+      <button type="button" className={styles.calBtn} onClick={() => window.dispatchEvent(new Event(CALENDAR_EVENT))}>
+        <span>{t.calendar.navBtn}</span>
+      </button>
+    </>
   );
 }

@@ -19,6 +19,28 @@
   outline-offset: 6px;
 }
 
+/* The calendar invitation inside the cat's speech bubble: a small pill in the
+   site's main colour (the season's --blue), like the other solid buttons, with
+   a clear ring of white bubble around it. It grows a little on hover (the
+   bubble's padding in NekoCat leaves room for that). */
+.wrap [data-bubble-cta] {
+  display: block;
+  font-size: 0.88em;
+  line-height: 1.22;
+  padding: 0.5em 0.95em 0.46em;
+  border-radius: 14px;
+  background: var(--blue);
+  color: var(--on-blue);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+.wrap div[role='button']:hover [data-bubble-cta],
+.wrap div[role='button']:focus-visible [data-bubble-cta] {
+  transform: scale(1.06);
+}
+.wrap div[role='button']:focus-visible { outline: none; }
+
 .picker {
   position: absolute;
   right: 100%;
@@ -81,6 +103,9 @@
 
 @media (max-width: 640px) {
   .wrap { width: 96px; height: 170px; }
+  /* the smaller cat is narrower than its speech bubble ("¡Reserva el Calendario 2027!"),
+     so nudge the bubble left to keep it on screen */
+  .wrap > div > div[role='button'] { margin-right: 60px; }
   .picker { transform: translateY(-50%) translateX(4px) scale(0.92); }
   .picker.open { transform: translateY(-50%) translateX(0) scale(1); }
 }
