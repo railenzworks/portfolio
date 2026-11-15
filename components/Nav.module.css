@@ -32,3 +32,52 @@
     font-size: 1rem;
   }
 }
+
+/* "Reserve 2027 calendar", for touch screens (no cat there): a solid pill in the season's blue, level with the
+   nav and to its left (controls are on the right), echoing the poster's
+   "PREVENTA" label. Below 960px, where the nav spans the screen, it moves to its
+   own row under the nav and the controls drop below it (see .site-controls). */
+.calBtn {
+  /* devices with a cursor have the cat's speech bubble instead (FloatingCat) */
+  display: none;
+  position: fixed;
+  z-index: 200;
+  top: clamp(14px, 2.4vw, 28px);
+  right: calc(50% + var(--nav-w, 386px) / 2 + 12px);
+  height: var(--nav-h, 56px);
+  padding: 0 22px;
+  align-items: center;
+  border: none;
+  border-radius: 100px;
+  background: var(--blue);
+  color: var(--on-blue);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+  transform: rotate(-2deg);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.calBtn:hover {
+  transform: rotate(0) scale(1.04);
+  box-shadow: 0 10px 28px rgba(23, 21, 15, 0.2);
+}
+
+@media (hover: none) {
+  .calBtn { display: inline-flex; }
+}
+
+@media (max-width: 960px) {
+  .calBtn {
+    right: auto;
+    left: 50%;
+    top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h, 56px) + 10px);
+    height: 34px;
+    padding: 0 18px;
+    transform: translateX(-50%) rotate(-2deg);
+  }
+  .calBtn:hover { transform: translateX(-50%) rotate(0) scale(1.04); }
+}
