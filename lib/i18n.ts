@@ -5,7 +5,7 @@
 
 export type Lang = 'en' | 'es';
 export const LANG_COOKIE = 'lang';
-export const DEFAULT_LANG: Lang = 'en';
+export const DEFAULT_LANG: Lang = 'es';
 
 export function isLang(v: unknown): v is Lang {
   return v === 'en' || v === 'es';
@@ -58,6 +58,11 @@ const en = {
     close: 'Close',
     imageAlt: 'Illustrated calendar 2027 — 12 creators, 12 months of art',
     title: 'A calendar made by 12 creators? 👀',
+    // phones: a short version of the text, with "Read more" to open the full one
+    summary:
+      '12 creators from the Kollectiv group, 12 original illustrations: an illustrated 2027 calendar made with lots of care. Sign up for the pre-order to get one or give it as a gift 💙',
+    more: 'Read more',
+    less: 'Read less',
     // each string is one paragraph
     intro: [
       "👋🏻 Hi! I'm excited to tell you I've created a super project together with 11 other women from the Kollectiv group.",
@@ -316,6 +321,10 @@ const es: Dict = {
     close: 'Cerrar',
     imageAlt: 'Calendario ilustrado 2027 — 12 creativas, 12 meses de arte',
     title: '¿Un calendario hecho por 12 creativas? 👀',
+    summary:
+      '12 creadoras del grupo Kollectiv, 12 ilustraciones originales: un calendario ilustrado 2027 hecho con mucho cariño. Apúntate a la prerreserva para tener uno o regalarlo 💙',
+    more: 'Saber más',
+    less: 'Ver menos',
     intro: [
       '👋🏻 Hola, estoy emocionada de darte la noticia de que he creado un súper proyecto junto con 11 chicas más del grupo Kollectiv.',
       'Somos 12 creadoras con estilos diferentes, que nos hemos unido para dar vida a un calendario muy especial. Cada mes contiene una parte de nuestra identidad y muchas horas de trabajo, ilusión y cariño.',

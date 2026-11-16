@@ -52,8 +52,10 @@ export function CustomCursor() {
     };
 
     const loop = () => {
-      rx += (mx - rx) * 0.22;
-      ry += (my - ry) * 0.22;
+      // follow the pointer exactly, with no easing, so the arrow moves at the
+      // user's own mouse speed/sensitivity
+      rx = mx;
+      ry = my;
 
       const dx = rx - lastRx;
       const dy = ry - lastRy;
