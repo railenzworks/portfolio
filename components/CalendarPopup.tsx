@@ -38,6 +38,7 @@ export function CalendarPopup() {
   const [shown, setShown] = useState(false);
   const [step, setStep] = useState<Step>('ask');
   const [view, setView] = useState<View>('info');
+  const [expanded, setExpanded] = useState(false); // phones: full text open
   const pathname = usePathname();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -117,6 +118,7 @@ export function CalendarPopup() {
   const goTo = (next: Step, nextView: View = 'info') => {
     setStep(next);
     setView(nextView);
+    setExpanded(false);
     cardRef.current?.scrollTo({ top: 0 });
   };
 
@@ -267,19 +269,32 @@ export function CalendarPopup() {
                 <>
                   <span className={styles.eyebrow}>{c.eyebrow}</span>
                   <h2 className={styles.title}>{c.title}</h2>
-                  {c.intro.map((p, i) => (
-                    <p key={p} className={i === 0 ? styles.lead : undefined}>
-                      {p}
-                    </p>
-                  ))}
-                  <ul className={styles.list}>
-                    {c.list.map((li) => (
-                      <li key={li}>{li}</li>
+                  {/* phones only: a summary, with the full text behind "Read more" */}
+                  {!expanded && <p className={`${styles.lead} ${styles.summary}`}>{c.summary}</p>}
+                  <div id="calendar-full-text" className={styles.full} data-open={expanded || undefined}>
+                    {c.intro.map((p, i) => (
+                      <p key={p} className={i === 0 ? styles.lead : undefined}>
+                        {p}
+                      </p>
                     ))}
-                  </ul>
-                  {c.outro.map((p) => (
-                    <p key={p}>{p}</p>
-                  ))}
+                    <ul className={styles.list}>
+                      {c.list.map((li) => (
+                        <li key={li}>{li}</li>
+                      ))}
+                    </ul>
+                    {c.outro.map((p) => (
+                      <p key={p}>{p}</p>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.more}
+                    aria-expanded={expanded}
+                    aria-controls="calendar-full-text"
+                    onClick={() => setExpanded((v) => !v)}
+                  >
+                    {expanded ? c.less : c.more}
+                  </button>
                   {/* phones only: on to the form screen */}
                   <button
                     type="button"

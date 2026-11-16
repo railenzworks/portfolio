@@ -146,6 +146,31 @@
   padding: 14px 30px;
 }
 
+/* popup buttons: the season's blue (main actions) and teal (the "no"),
+   both turning black on hover */
+.card :global(.btn.btn--solid),
+.card .secondary:global(.btn) {
+  border: none;
+  background: var(--blue);
+  color: var(--on-blue);
+  overflow: visible;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+.card .secondary:global(.btn) {
+  background: var(--teal-deep);
+  color: var(--on-teal);
+}
+.card .secondary:global(.btn)::before { content: none; }
+.card :global(.btn) span { color: inherit; }
+.card :global(.btn.btn--solid):hover,
+.card .secondary:global(.btn):hover {
+  transform: scale(1.05);
+  background: #000;
+  color: #fff;
+}
+.card :global(.btn.btn--solid):hover span,
+.card .secondary:global(.btn):hover span { color: #fff; }
+
 /* ---------- step 2: poster + price + form | text ----------
    Sized so the whole sheet fits the window without scrolling: the poster's
    width follows the window's height (--pw) and everything else is compact. */
@@ -326,6 +351,24 @@
 
 /* phones-only controls */
 .next { display: none; }
+/* summary + "Read more": phones only; desktop always shows the full text */
+.summary,
+.more { display: none; }
+.more {
+  margin: 2px 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.more:hover { color: var(--ink); }
 .back {
   display: none;
   width: 30px;
@@ -388,6 +431,11 @@
     box-shadow: 0 0 0 8px var(--paper);
   }
   .back { display: grid; }
+
+  /* the long text folds into a summary; "Read more" opens it in place */
+  .content p.summary { display: block; }
+  .more { display: inline-block; }
+  .full:not([data-open]) { display: none; }
 }
 
 @media (max-width: 640px) {
