@@ -26,7 +26,9 @@ interface Errors {
   firstName?: string;
   lastName?: string;
   email?: string;
+  kollektiv?: string;
 }
+type YesNo = '' | 'yes' | 'no';
 
 // A card that pops up as soon as someone lands on the site and asks whether they
 // want to pre-order the 2027 calendar. "Yes" opens the calendar's picture, text
@@ -43,6 +45,7 @@ export function CalendarPopup() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [kollektiv, setKollektiv] = useState<YesNo>('');
   const [website, setWebsite] = useState(''); // honeypot, left empty by people
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -127,6 +130,7 @@ export function CalendarPopup() {
     if (!firstName.trim()) errs.firstName = c.errFirstName;
     if (!lastName.trim()) errs.lastName = c.errLastName;
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) errs.email = c.errEmail;
+    if (!kollektiv) errs.kollektiv = c.errKollektiv;
     return errs;
   };
 
@@ -143,12 +147,13 @@ export function CalendarPopup() {
       const res = await fetch('/api/calendar-reservation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, website }),
+        body: JSON.stringify({ firstName, lastName, email, kollektiv, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setFirstName('');
       setLastName('');
       setEmail('');
+      setKollektiv('');
       goTo('sent');
     } catch {
       setSendError(true);
@@ -331,6 +336,32 @@ export function CalendarPopup() {
                 {field('firstName', c.firstName, firstName, setFirstName, { autoComplete: 'given-name' })}
                 {field('lastName', c.lastName, lastName, setLastName, { autoComplete: 'family-name' })}
                 {field('email', c.email, email, setEmail, { type: 'email', autoComplete: 'email', wide: true })}
+
+                <fieldset
+                  className={`${styles.field} ${styles.fieldWide} ${styles.choice}${errors.kollektiv ? ` ${styles.err}` : ''}`}
+                  aria-invalid={!!errors.kollektiv}
+                >
+                  <legend>{c.kollektiv}</legend>
+                  <div className={styles.options}>
+                    {(['yes', 'no'] as const).map((v) => (
+                      <label key={v}>
+                        <input
+                          type="radio"
+                          name="kollektiv"
+                          value={v}
+                          required
+                          checked={kollektiv === v}
+                          onChange={() => {
+                            setKollektiv(v);
+                            setErrors((er) => ({ ...er, kollektiv: undefined }));
+                          }}
+                        />
+                        <span>{v === 'yes' ? c.yes : c.no}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.kollektiv && <div className={styles.msg}>{errors.kollektiv}</div>}
+                </fieldset>
 
                 {/* honeypot: off-screen, so people never see or fill it */}
                 <div className={styles.trap} aria-hidden="true">
