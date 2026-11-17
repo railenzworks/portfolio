@@ -38,7 +38,9 @@ export async function POST(req: Request) {
   const lastName = clean(body.lastName);
   const email = clean(body.email);
 
-  if (!firstName || !lastName || !email) return fail(400, 'invalid');
+  const kollektiv = body.kollektiv === 'yes' ? 'Sí' : body.kollektiv === 'no' ? 'No' : '';
+
+  if (!firstName || !lastName || !email || !kollektiv) return fail(400, 'invalid');
   if ([firstName, lastName, email].some((v) => v.length > MAX_LEN)) return fail(400, 'invalid');
   if (!EMAIL_RE.test(email)) return fail(400, 'invalid');
 
@@ -58,11 +60,12 @@ export async function POST(req: Request) {
       // hitting "reply" answers the person who pre-ordered
       reply_to: email,
       subject: `Prerreserva calendario 2027 — ${fullName}`.replace(/[\r\n]/g, ' '),
-      text: `Nueva prerreserva del calendario 2027\n\nNombre: ${firstName}\nApellidos: ${lastName}\nEmail: ${email}\n`,
+      text: `Nueva prerreserva del calendario 2027\n\nNombre: ${firstName}\nApellidos: ${lastName}\nEmail: ${email}\n¿Viene de parte de Kollektiv?: ${kollektiv}\n`,
       html: `<h2>Nueva prerreserva del calendario 2027</h2>
 <p><strong>Nombre:</strong> ${escapeHtml(firstName)}<br>
 <strong>Apellidos:</strong> ${escapeHtml(lastName)}<br>
-<strong>Email:</strong> ${escapeHtml(email)}</p>`,
+<strong>Email:</strong> ${escapeHtml(email)}<br>
+<strong>¿Viene de parte de Kollektiv?:</strong> ${kollektiv}</p>`,
     }),
   }).catch(() => null);
 
