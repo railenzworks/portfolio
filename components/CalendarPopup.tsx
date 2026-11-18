@@ -342,7 +342,8 @@ export function CalendarPopup() {
                   aria-invalid={!!errors.kollektiv}
                 >
                   <legend>{c.kollektiv}</legend>
-                  <div className={styles.options}>
+                  <p className={styles.hint} id="kollektiv-hint">{c.kollektivHint.split('**').map((s, i) => (i % 2 ? <strong key={i}>{s}</strong> : s))}</p>
+                  <div className={styles.options} role="radiogroup" aria-describedby="kollektiv-hint">
                     {(['yes', 'no'] as const).map((v) => (
                       <label key={v}>
                         <input
