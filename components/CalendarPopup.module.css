@@ -333,6 +333,15 @@
   text-transform: uppercase;
   color: var(--ink-70);
 }
+.hint {
+  margin: 6px 0 0;
+  font-family: var(--read);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--ink-70);
+  white-space: pre-line;
+}
+.hint strong { color: var(--ink); font-weight: 600; }
 .options { display: flex; gap: 22px; padding-top: 8px; }
 .options label {
   display: inline-flex;

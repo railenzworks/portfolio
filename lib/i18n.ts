@@ -87,6 +87,8 @@ const en = {
     lastName: 'Last name',
     email: 'Email',
     kollektiv: 'Are you coming from Kollektiv?',
+    kollektivHint:
+      'Choose **Yes** if you found this through a Kollektiv post or message.\nChoose **No** if you came via María or someone sent you the link.',
     yes: 'Yes',
     no: 'No',
     errKollektiv: 'Please choose an option',
@@ -352,6 +354,8 @@ const es: Dict = {
     lastName: 'Apellidos',
     email: 'Email',
     kollektiv: '¿Vienes de parte de Kollektiv?',
+    kollektivHint:
+      'Marca **Sí** si te llegó por una publicación o mensaje de Kollektiv.\nMarca **No** si llegaste por María o porque alguien te pasó el enlace.',
     yes: 'Sí',
     no: 'No',
     errKollektiv: 'Elige una opción',
