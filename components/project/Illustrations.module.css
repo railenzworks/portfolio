@@ -1,0 +1,103 @@
+/* The illustrations carousel: the same pieces as the home's (round arrows, counter)
+   and the About page's (dots). */
+/* the pair of drawings is not meant to be stretched across the whole page: centred */
+.wrap { max-width: 940px; margin-inline: auto; }
+
+/* name on the left, counter and arrows on the right */
+.bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: clamp(16px, 2.5vh, 24px);
+}
+
+.title { display: flex; flex-direction: column; gap: 4px; }
+.short {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tone);
+}
+.name {
+  font-family: var(--read);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.controls { display: flex; align-items: center; gap: 8px; }
+.counter {
+  margin-right: 8px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+}
+
+/* the home's carousel buttons: teal back, blue forward, black on hover */
+.prev,
+.next {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+.prev { background: var(--teal-deep); color: var(--on-teal); }
+.next { background: var(--blue); color: var(--on-blue); }
+.prev:hover,
+.next:hover { transform: scale(1.05); background: var(--ink); color: var(--cream); }
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.6vw, 20px);
+  animation: pairIn 0.45s var(--ease);
+}
+@keyframes pairIn {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* pill dots: the current one is a wide bar */
+.dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 26px;
+}
+.dot {
+  position: relative;
+  height: 8px;
+  width: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: var(--ink);
+  opacity: 0.25;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+/* the dot is tiny: an invisible margin makes it easier to hit */
+.dot::before { content: ""; position: absolute; inset: -10px -4px; }
+.dotOn { width: 22px; opacity: 1; }
+
+@media (max-width: 760px) {
+  /* the counter and the arrows go under the name every time, not only when a long
+     name pushes them down: the same on every disorder */
+  .bar { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .prev, .next { width: 40px; height: 40px; }
+  .dots { margin-top: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pair { animation: none; }
+  .dot { transition: none; }
+}

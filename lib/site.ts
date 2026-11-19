@@ -15,6 +15,21 @@ export const WIP_ABOUT_PAGES: Record<string, boolean> = {
   more: true,
 };
 
+// The same for each project of the Works page (by project id). A project set to
+// true — or missing here — stays behind frosted glass with "WIP" on the cursor
+// and its page (/works/<id>) can't be opened. Set it to false to open it.
+export const WIP_PROJECTS: Record<string, boolean> = {
+  'bloom-states': false, // Las Caras de la Mente
+  'diseno-para-eventos': true,
+  'proyecto-3': true, // Inktobers
+  'proyecto-4': true, // Passions in Bloom
+};
+
+/** True when the project's page isn't ready yet (projects not listed count as WIP). */
+export function isWipProject(id: string): boolean {
+  return WIP_PROJECTS[id] !== false;
+}
+
 /** True when `href` points at a page that is still WIP (ignores #hash and ?query). */
 export function isWipHref(href: unknown): boolean {
   if (typeof href !== 'string') return false;

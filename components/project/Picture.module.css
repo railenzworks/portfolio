@@ -1,0 +1,159 @@
+.fig { margin: 0; min-width: 0; }
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ratio);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--accent-soft);
+}
+/* hairline frame, so a picture on a white background still reads as a card */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+/* beside a text: as tall as the space it is given, not as its ratio says */
+.fill { height: 100%; display: flex; flex-direction: column; }
+@media (min-width: 761px) {
+  .fill .frame { aspect-ratio: auto; flex: 1 1 auto; min-height: 0; }
+}
+/* under the cursor the picture grows a little inside its frame (which clips it),
+   slow and soft like the home's cover; touch screens have no hover */
+.img { transition: transform 0.7s var(--ease); will-change: transform; }
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover .img { transform: scale(1.05); }
+}
+/* the ones that stay still under the cursor */
+.frame.still:hover .img { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .img { transition: none; }
+  .frame:hover .img { transform: none; }
+}
+/* diagrams and cut-outs: shown whole, on paper */
+.contain { background: var(--paper); }
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* ---------- empty slot ---------- */
+.hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  color: var(--ink);
+}
+.icon { margin-bottom: 4px; }
+.label {
+  padding: 0.45em 1em;
+  border-radius: 100px;
+  background: var(--glass);
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.what {
+  max-width: 28ch;
+  font-family: var(--read);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+.file {
+  margin-top: 6px;
+  padding: 0.3em 0.8em;
+  border-radius: 100px;
+  background: var(--glass);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.caption {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---------- the picture enlarged: whole, over the blurred page ---------- */
+.zoomable { cursor: pointer; }
+.zoomable:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.lb {
+  position: fixed;
+  inset: 0;
+  /* over the contact folder (500) and the calendar (510) */
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: rgba(23, 21, 15, 0.38);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  animation: lbIn 0.3s var(--ease);
+}
+@keyframes lbIn { from { opacity: 0; } }
+
+/* as large as the window allows (92% wide, 86% tall), at most 1.6 times its own pixels */
+.lbImg {
+  width: min(92vw, calc(86vh * var(--r)), calc(var(--nw) * 1.6px));
+  height: auto;
+  max-width: 100%;
+  border-radius: var(--radius);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  background: var(--paper);
+  animation: lbPop 0.4s var(--ease);
+}
+@keyframes lbPop { from { opacity: 0; transform: scale(0.96); } }
+
+/* glass, like the nav */
+.lbClose {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.18);
+  color: var(--ink);
+  transition: transform 0.25s ease;
+}
+.lbClose:hover { transform: scale(1.05); }
+.lbClose:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lb, .lbImg { animation: none; }
+}

@@ -24,6 +24,8 @@ export interface Project {
   // or give both as { en: '...', es: '...' }
   role: Localized;
   med: Localized;
+  /** what `med` is called on the project's card; defaults to "Medium" / "Técnica" */
+  medLabel?: Localized;
   desc: Localized;
 }
 
@@ -33,10 +35,11 @@ export const PROJECTS: Project[] = [
     title: 'Las Caras de la Mente',
     disc: 'illustration',
     cat: 'Editorial',
-    year: '2025',
+    year: '2022 & 2025',
     img: '/images/work/las-caras-de-la-mente-libro.jpg',
-    role: { en: 'Illustration, Art Direction', es: 'Ilustración, Dirección de arte' },
-    med: { en: 'Digital · Risograph', es: 'Digital · Risografía' },
+    role: { en: 'Editing, Design, Layout', es: 'Edición, Diseño, Maquetación' },
+    med: 'Adobe Photoshop, Adobe Illustrator, Adobe InDesign',
+    medLabel: { en: 'Software', es: 'Programas' },
     desc: {
       en:
         'Las caras de la mente (The Faces of the Mind) is a project born from bringing together two personal passions: an interest in how the mind works, and art.\n\n' +

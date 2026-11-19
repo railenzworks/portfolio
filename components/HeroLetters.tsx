@@ -1,11 +1,16 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useLang } from './LangProvider';
 import styles from './HeroLetters.module.css';
 
 const LINE1 = 'MARÍA';
 const LINE2 = 'RAILENZ';
+
+// Set once the scroll intro has been played all the way through. It lasts as
+// long as the tab, so coming back to the home shows the finished hero (the name
+// assembled, no scroll needed) instead of playing it again.
+const SEEN_KEY = 'heroSeen';
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 999) * 10000;
@@ -45,6 +50,15 @@ export function HeroLetters() {
   const line1 = scatter.slice(0, LINE1.length);
   const line2 = scatter.slice(LINE1.length);
 
+  // Coming back to the home by a link (no page load, so the script in layout.tsx
+  // didn't run): mark <html> before the first paint, so the hero's scroll
+  // distance is already gone. The CSS does the rest (see HeroLetters.module.css).
+  useLayoutEffect(() => {
+    try {
+      if (sessionStorage.getItem(SEEN_KEY) === '1') document.documentElement.dataset.heroSeen = '1';
+    } catch {}
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current;
     const l1 = line1Ref.current;
@@ -66,6 +80,14 @@ export function HeroLetters() {
       const total = rect.height - window.innerHeight;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1;
       const ip = 1 - p;
+
+      // Played to the end: remember it for the rest of the tab. It only takes effect
+      // the next time the home is shown, so the page doesn't shrink under the reader.
+      if (p >= 1) {
+        try {
+          sessionStorage.setItem(SEEN_KEY, '1');
+        } catch {}
+      }
 
       // Letters stay fully hidden until scrolling begins, then fade in over
       // the first slice of progress so there's no jump cut.

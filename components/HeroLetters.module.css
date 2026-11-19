@@ -3,6 +3,13 @@
   height: 260vh;
 }
 
+/* The intro has been played already (data-hero-seen on <html>, see layout.tsx and
+   HeroLetters.tsx): no scroll distance left, so the hero is just its finished
+   screen. With nothing to scroll through, the script shows the end state. */
+:global(:root[data-hero-seen]) .scrub {
+  height: 100svh;
+}
+
 .sticky {
   position: sticky;
   top: 0;

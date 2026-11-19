@@ -115,7 +115,7 @@ export function ProjectOverlay({ project, onClose, onNext, nextTitle }: ProjectO
                 <div><dt className={styles.k}>{t.works.year}</dt><dd className={styles.v}>{project.year}</dd></div>
                 <div><dt className={styles.k}>{t.works.category}</dt><dd className={styles.v}>{t.cat[project.cat]}</dd></div>
                 <div><dt className={styles.k}>{t.works.role}</dt><dd className={styles.v}>{loc(project.role, lang)}</dd></div>
-                <div><dt className={styles.k}>{t.works.medium}</dt><dd className={styles.v}>{loc(project.med, lang)}</dd></div>
+                <div><dt className={styles.k}>{project.medLabel ? loc(project.medLabel, lang) : t.works.medium}</dt><dd className={styles.v}>{loc(project.med, lang)}</dd></div>
               </dl>
               <button
                 type="button"

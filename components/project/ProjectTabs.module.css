@@ -1,0 +1,57 @@
+/* The switch between a project's sections: AboutSwitch's glass pill, centred.
+   It stays pinned under the main menu while the page scrolls, so another section
+   is one click away from anywhere. On narrow screens it is wider than the window
+   and scrolls sideways (no scrollbar); the padding leaves room for the pill's
+   shadow, which the scroll area would otherwise cut off. */
+.scroll {
+  --below-menu: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 12px);
+
+  position: sticky;
+  top: calc(var(--below-menu) - 12px);
+  /* under the menu and the controls (z-index 200), over the page */
+  z-index: 20;
+  margin: clamp(48px, 8vh, 96px) -12px -40px;
+  padding: 12px 12px 40px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* a jump to it (the "read again" link) lands clear of the floating menu */
+  scroll-margin-top: calc(var(--below-menu) - 12px);
+  /* the padding that holds the shadow must not catch clicks meant for the content under it */
+  pointer-events: none;
+}
+.scroll::-webkit-scrollbar { display: none; }
+.sw [role="group"] { pointer-events: auto; }
+
+/* below ~960px the language / season / theme controls sit in a row under the menu
+   (globals.css): the switch goes under them */
+@media (max-width: 960px) {
+  .scroll { --below-menu: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px + 24px + 12px); }
+}
+
+/* centred when it fits, starting at the left edge when it doesn't */
+.sw {
+  width: max-content;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* changing section: the one on screen fades out (.out), the next takes its place
+   and fades back in. The out time is FADE_OUT in ProjectTabs.tsx */
+.panels { transition: opacity 0.45s var(--ease); }
+.out { opacity: 0; transition-duration: 0.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .panels { transition: none; }
+}
+
+/* Phones: no menu with sections. Everything is one scroll: the switch goes away and
+   every section is shown, one after the other (this beats the `hidden` attribute
+   that ProjectTabs puts on the ones not picked). */
+@media (max-width: 760px) {
+  .scroll { display: none; }
+  .panels { margin-top: clamp(40px, 7vh, 64px); }
+  .panels > div { display: block; scroll-margin-top: calc(var(--nav-h) + 90px); }
+  .panels > div + div { margin-top: clamp(56px, 9vh, 80px); }
+  .out { opacity: 1; }
+}
