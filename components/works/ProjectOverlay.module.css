@@ -116,22 +116,32 @@
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-70);
 }
 
 .v {
   font-family: var(--read);
   font-size: 1.05rem;
-  margin-top: 4px;
+  margin: 4px 0 0;
 }
 
+/* the title takes focus when a project opens: no ring needed on a heading */
+.body h2:focus { outline: none; }
+
+/* "next project" is a real button now: strip the default button look */
 .next {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   margin-top: 36px;
+  border: 0;
   border-top: 1px solid var(--line);
-  padding-top: 22px;
+  padding: 22px 0 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: none;
 }
 

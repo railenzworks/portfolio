@@ -19,6 +19,7 @@ export default async function WorksPage() {
   const t = await getDict();
   return (
     <ScrollRevealWrapper>
+      <main id="main">
       <header className={`${styles.wHero} wrap`}>
         <div className={`${styles.top} reveal`}>
           <span>{t.works.archive.replace('{n}', String(PROJECTS.length))}</span>
@@ -32,6 +33,7 @@ export default async function WorksPage() {
       </header>
 
       <WorksGrid projects={PROJECTS} />
+      </main>
 
       <Footer
         preword={t.works.footPre}

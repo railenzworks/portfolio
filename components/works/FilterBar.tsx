@@ -31,34 +31,42 @@ export function FilterBar({
 }: FilterBarProps) {
   const { t } = useLang();
   return (
-    <div className={styles.filters} id="filters">
-      <span className={styles.lbl}>{t.works.craft}</span>
-      <div className={styles.grp}>
+    <div className={styles.filters} id="filters" role="group" aria-label={t.works.filters}>
+      <span className={styles.lbl} id="filter-craft">{t.works.craft}</span>
+      <div className={styles.grp} role="group" aria-labelledby="filter-craft">
         {DISC_FILTERS.map(({ value, disc }) => (
           <button
             key={value}
+            type="button"
             className={`chip ${activeDisc === value ? 'on' : ''}`}
+            aria-pressed={activeDisc === value}
             {...(disc ? { 'data-disc': disc } : {})}
             onClick={() => onDiscChange(value)}
           >
-            {disc && <span className="pip" />}
+            {disc && <span className="pip" aria-hidden="true" />}
             {disc ? t.disc[disc] : t.works.all}
           </button>
         ))}
       </div>
-      <span className={styles.lbl} style={{ marginLeft: '18px' }}>{t.works.category}</span>
-      <div className={styles.grp}>
+      <span className={styles.lbl} id="filter-category" style={{ marginLeft: '18px' }}>{t.works.category}</span>
+      <div className={styles.grp} role="group" aria-labelledby="filter-category">
         {CAT_FILTERS.map((value) => (
           <button
             key={value}
+            type="button"
             className={`chip ${activeCat === value ? 'on' : ''}`}
+            aria-pressed={activeCat === value}
             onClick={() => onCatChange(activeCat === value ? null : value)}
           >
             {t.works.catShort[value] ?? t.cat[value]}
           </button>
         ))}
       </div>
-      <span className={styles.count}>{shown} / {total}</span>
+      {/* "3 / 7" for the eye; the full sentence is announced when a filter changes the result */}
+      <span className={styles.count} aria-hidden="true">{shown} / {total}</span>
+      <span className="sr-only" role="status" aria-live="polite">
+        {t.works.showing.replace('{shown}', String(shown)).replace('{total}', String(total))}
+      </span>
     </div>
   );
 }

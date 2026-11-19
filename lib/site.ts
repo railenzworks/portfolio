@@ -3,7 +3,7 @@
 // screens) and does nothing when clicked, and visiting it directly sends you
 // back home. Set a page to false to open it.
 export const WIP_PAGES: Record<string, boolean> = {
-  '/works': true,
+  '/works': false,
   '/about': false,
   '/contact': true,
 };
