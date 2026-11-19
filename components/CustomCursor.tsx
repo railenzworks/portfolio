@@ -1,10 +1,19 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 export function CustomCursor() {
   const arrowRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  // A new page replaces what was under the pointer, and the old element never
+  // reports the pointer leaving: clear the label and the circle. If the pointer
+  // is over something interactive on the new page, the next mouseover sets them again.
+  useEffect(() => {
+    document.body.classList.remove('cur-view', 'cur-label-blue', 'cur-hover', 'cur-blue', 'cur-on-dark');
+  }, [pathname]);
 
   useEffect(() => {
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -90,17 +99,23 @@ export function CustomCursor() {
       document.body.classList.toggle('cur-blue', !!(e.target as Element).closest('[data-cursor-blue]'));
 
       const t = (e.target as Element).closest(hoverSel);
-      if (!t) return;
-      if (t.getAttribute('data-cursor') === 'view') {
+      if (t?.getAttribute('data-cursor') === 'view') {
         document.body.classList.add('cur-view');
+        // elements with data-label-blue show their label in the season's blue
+        document.body.classList.toggle('cur-label-blue', t.hasAttribute('data-label-blue'));
         label.textContent = t.getAttribute('data-label') || 'View';
+      } else {
+        // not over a "view" element: make sure no label is left over. mouseout alone
+        // isn't enough, it never fires when the element under the pointer is removed
+        // (e.g. after clicking a link that changes the page)
+        document.body.classList.remove('cur-view', 'cur-label-blue');
       }
     };
 
     const onMouseOut = (e: MouseEvent) => {
       const t = (e.target as Element).closest(hoverSel);
       if (!t) return;
-      document.body.classList.remove('cur-view');
+      document.body.classList.remove('cur-view', 'cur-label-blue');
     };
 
     window.addEventListener('mousemove', onMouseMove);

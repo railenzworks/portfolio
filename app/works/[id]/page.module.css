@@ -1,0 +1,175 @@
+/* A project page. */
+
+/* ---------- page: clear of the floating menu (and, on small screens, of the
+   controls under it), then the cover card and the text, on the same margins ---------- */
+.wrap {
+  padding-top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 16px);
+  padding-bottom: clamp(60px, 10vh, 120px);
+}
+/* The whole project (cover, texts and every module) lives in this box, a bit
+   narrower than the rest of the site (1560px) so the page breathes: the same
+   space on both sides, centred. 1480px = 1320px of content + the 80px side
+   padding; on a 1881px-wide window that leaves ~280px on each side. */
+.wrap.wrap {
+  max-width: 1480px;
+}
+
+/* ---------- header: the cover, a wide rounded card ---------- */
+.hero {
+  position: relative;
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  /* never so short that the facts card would crowd the back pill */
+  min-height: 260px;
+  max-height: 46vh;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--accent-soft);
+}
+/* hairline frame, so a cover on a white background still reads as a card */
+.media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* back to the works: glass pill over the image's top-left corner, like the nav */
+.back {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.85em 1.4em;
+  border-radius: 100px;
+  background: var(--glass);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.3s, transform 0.25s ease;
+}
+.back:hover { color: var(--blue); transform: scale(1.04); }
+
+/* frosted glass, same as the nav and the home's card */
+.card {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  width: min(36%, 460px);
+  min-width: 260px;
+  padding: 26px 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+  background: var(--glass);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(23, 21, 15, 0.12);
+}
+.card dt {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.card dd {
+  margin: 5px 0 0;
+  font-family: var(--read);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* ---------- text ---------- */
+.story {
+  margin-top: clamp(48px, 8vh, 96px);
+}
+
+/* the title, in the project's colour (teal for illustration, blue for graphic
+   design, following the season) */
+.title {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.4vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--tone);
+}
+
+.more {
+  max-width: 64ch;
+  margin-top: 28px;
+}
+.more p {
+  font-family: var(--read);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.more p + p { margin-top: 1.1em; }
+
+.actions {
+  margin-top: clamp(56px, 8vh, 96px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+/* "read again": back up to the index; same look as the home's secondary link */
+.reread {
+  padding: 4px 0;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.reread:hover { color: var(--blue); }
+/* on phones the sections are all one scroll, with no switch to go back up to */
+@media (max-width: 760px) {
+  .reread { display: none; }
+}
+
+/* ---------- smaller screens ---------- */
+/* below ~960px the site controls sit in a row under the menu (globals.css) */
+@media (max-width: 960px) {
+  .wrap { padding-top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px + 24px + 16px); }
+  .card { padding: 22px 24px; }
+}
+
+/* phones: a less extreme crop, with the card under the image overlapping its edge */
+@media (max-width: 760px) {
+  .media { aspect-ratio: 16 / 9; min-height: 0; }
+  .card {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: calc(100% - 24px);
+    margin: -48px auto 0;
+  }
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getDict } from '@/lib/i18n-server';
-import { getFeaturedProjects, PROJECTS } from '@/lib/projects';
+import { getFeaturedProjects } from '@/lib/projects';
 import { FeaturedTabs } from '@/components/FeaturedTabs';
 import { Marquee } from '@/components/Marquee';
 import { Footer } from '@/components/Footer';
@@ -31,7 +31,7 @@ export default async function HomePage() {
             <h2>{t.home.selected}</h2>
           </div>
 
-          <FeaturedTabs projects={featured} totalProjects={PROJECTS.length} />
+          <FeaturedTabs projects={featured} totalProjects={featured.length} />
         </div>
       </section>
 

@@ -24,7 +24,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
   const [activeDisc, setActiveDisc] = useState<'all' | Discipline>('all');
   const [activeCat, setActiveCat] = useState<Category | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
-  const gridRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const visible = projects.filter((p) => {
     const okD = activeDisc === 'all' || p.disc === activeDisc;
@@ -109,9 +109,9 @@ export function WorksGrid({ projects }: WorksGridProps) {
         onCatChange={handleCatChange}
       />
 
-      <main className={styles.grid} ref={gridRef}>
+      <div className={styles.grid} ref={gridRef}>
         {visible.length === 0 && (
-          <div className={styles.empty}>{t.works.empty}</div>
+          <div className={styles.empty} role="status">{t.works.empty}</div>
         )}
         {projects.map((p, i) => {
           const hidden = !visible.includes(p);
@@ -120,6 +120,7 @@ export function WorksGrid({ projects }: WorksGridProps) {
               key={p.id}
               className={`card reveal${hidden ? ' hide' : ''}`}
               href={'#' + p.id}
+              aria-haspopup="dialog"
               data-id={p.id}
               data-disc={p.disc}
               data-cat={p.cat}
@@ -131,26 +132,27 @@ export function WorksGrid({ projects }: WorksGridProps) {
                 className={styles.cardMedia}
                 style={{ aspectRatio: ASPECT_MAP[i % 3] }}
               >
-                <span className={styles.cardIdx}>{pad(i + 1)}</span>
+                <span className={styles.cardIdx} aria-hidden="true">{pad(i + 1)}</span>
                 <span className={`${styles.cardTag} ${p.disc === 'illustration' ? styles.tagIll : styles.tagGfx}`}>
                   {t.disc[p.disc]}
                 </span>
+                {/* the title right below already names the project, so the image needs no alt */}
                 <ProjectCover
                   project={p}
-                  alt={loc(p.title, lang)}
+                  alt=""
                   sizes="(max-width: 860px) 100vw, 50vw"
                   quality={90}
                 />
               </div>
               <div className={styles.cardMeta}>
-                <h3>{loc(p.title, lang)}</h3>
+                <h2>{loc(p.title, lang)}</h2>
                 <span className={styles.yr}>{p.year}</span>
               </div>
               <div className={styles.cardCat}>{t.cat[p.cat]}</div>
             </a>
           );
         })}
-      </main>
+      </div>
 
       <ProjectOverlay
         project={openProject}

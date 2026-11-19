@@ -16,8 +16,10 @@ import { CalendarPopup } from '@/components/CalendarPopup';
 import { getLang } from '@/lib/i18n-server';
 
 // Runs before first paint so a visitor never sees a flash of the wrong colours:
-// light/dark (saved choice, else the system preference) and the saved season.
-const themeScript = `(function(){try{var d=document.documentElement,t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.dataset.theme=t;var s=localStorage.getItem('season');if(s==='summer'||s==='spring'||s==='autumn'||s==='winter')d.dataset.season=s}catch(e){}})()`;
+// light/dark (saved choice, else the system preference) and the saved season;
+// data-hero-seen is set once the home's scroll intro has been played in this
+// tab (see HeroLetters), so it doesn't have to be scrolled again.
+const themeScript = `(function(){try{var d=document.documentElement,t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.dataset.theme=t;var s=localStorage.getItem('season');if(s==='summer'||s==='spring'||s==='autumn'||s==='winter')d.dataset.season=s;if(sessionStorage.getItem('heroSeen')==='1')d.dataset.heroSeen='1'}catch(e){}})()`;
 
 const valleySans = localFont({
   src: [

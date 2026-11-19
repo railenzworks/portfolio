@@ -149,16 +149,14 @@
 
 .secondary {
   padding: 4px 0;
-  border-bottom: 1px solid var(--ink);
   font-family: var(--mono);
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  transition: color 0.3s, border-color 0.3s;
+  transition: color 0.3s;
 }
 .secondary:hover {
   color: var(--blue);
-  border-color: var(--blue);
 }
 
 /* ---------- counter + arrows: top-right corner of the card ---------- */

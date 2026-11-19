@@ -1,4 +1,6 @@
 .gallery {
+  position: relative;
+  container-type: inline-size;
   display: flex;
   gap: 7px;
   width: 100%;
@@ -25,6 +27,8 @@
   outline: none;
   transition: flex-grow 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s ease;
 }
+/* a tile that is a link */
+a.tile { display: block; color: inherit; text-decoration: none; }
 .tile::after {
   content: "";
   position: absolute;
@@ -36,6 +40,18 @@
 
 /* while one is looked at, the others go grey */
 .dim { filter: grayscale(1) contrast(1.05); }
+
+/* the picture(s) of a tile: one filling it, or several in equal columns */
+.pics {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.pic {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
 
 /* the caption pill of the picture under the cursor */
 .caption {
@@ -64,6 +80,146 @@
 }
 .captionOn { opacity: 1; transform: none; }
 
+/* ---------- unfinished content (wip): pictures behind frosted glass ---------- */
+.glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04) 55%);
+  backdrop-filter: blur(7px) saturate(1.2);
+  -webkit-backdrop-filter: blur(7px) saturate(1.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+  transition: opacity 0.45s ease, backdrop-filter 0.45s ease, -webkit-backdrop-filter 0.45s ease;
+}
+/* the tile under the cursor clears up; with a finger (no hover) it stays blurred,
+   a tap would otherwise clear it for good */
+@media (hover: hover) and (pointer: fine) {
+  .on .glass {
+    opacity: 0;
+    backdrop-filter: blur(0) saturate(1);
+    -webkit-backdrop-filter: blur(0) saturate(1);
+  }
+}
+
+/* "WIP" / "En proceso" in the middle of an unfinished tile, for screens with no
+   cursor to show it (it is the cursor's label otherwise): small, no box */
+.wipTag {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(23, 21, 15, 0.55);
+  pointer-events: none;
+}
+@media (hover: none), (max-width: 760px) {
+  .wipTag { display: block; }
+}
+
+/* ---------- card text over a tile (GalleryCard) ---------- */
+/* The tile's overlay: the colour fade plus the text, anchored to the corners
+   (tag top right, text bottom left) so it follows the tile when it grows. */
+.card {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 12px 12px 15px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, transparent 41%, var(--tint) 100%);
+  color: var(--on-tint);
+  pointer-events: none;
+}
+
+/* craft label, top right: a small glass pill */
+.tag {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #17150f;
+  font-family: var(--read);
+  font-size: 0.75rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* The text takes about the left half of the card. Its width comes from the
+   gallery (which never changes on hover), not from the tile, so the lines
+   don't re-wrap while a tile grows or shrinks. */
+.cardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: min(100%, 26cqw);
+  /* the card pushes its children to the right (for the tag): this one stays left */
+  align-self: flex-start;
+}
+
+.cardTitle {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.2vw, 2rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.cardDesc {
+  font-family: var(--read);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.cardMeta {
+  font-family: var(--read);
+  font-size: 0.875rem;
+  line-height: 1.1;
+  opacity: 0.65;
+}
+
+/* Description and year only show under the cursor. At rest this block has no
+   height, so the title sits at the bottom of the card; when it opens, the
+   title rises to make room for it. */
+.cardMore {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+}
+.cardMoreInner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cardDesc { margin-top: 5px; }
+.on .cardMore { grid-template-rows: 1fr; opacity: 1; }
+
+/* small screens: tiles are narrow, so only tag, title and year */
+@media (max-width: 760px) {
+  .cardDesc { display: none; }
+  /* the tiles are narrow here, so half would squeeze the title */
+  .cardBottom { width: 100%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .col, .tile, .caption { transition: none; }
+  .col, .tile, .caption, .glass, .cardMore { transition: none; }
 }

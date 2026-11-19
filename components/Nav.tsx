@@ -32,8 +32,6 @@ export function Nav() {
     if (!nav) return;
     const sync = () => {
       document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
-      // the calendar button sits beside the nav, so it needs the nav's width
-      document.documentElement.style.setProperty('--nav-w', nav.offsetWidth + 'px');
     };
     sync();
     const ro = new ResizeObserver(sync);

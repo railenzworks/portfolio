@@ -122,6 +122,25 @@ body {
 
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
+
+/* keyboard focus: a visible ring on everything interactive (mouse clicks don't show it) */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* visually hidden, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 ::selection { background: var(--accent); color: var(--on-accent); }
 
 /* ---------- type ---------- */
@@ -190,6 +209,8 @@ body.cur-hover.cur-blue .cursor-ring { transition: opacity 0.2s, transform 0.35s
   transition: transform 0.3s var(--ease), opacity 0.25s, background 0.3s;
 }
 body.cur-view .cursor-label { opacity: 1; }
+/* a label that is blue (the projects that can be opened) */
+body.cur-label-blue .cursor-label { background: var(--blue); color: var(--on-blue); }
 /* the custom arrow is the only cursor on mouse devices — never let links,
    buttons or component styles bring back the native hand */
 @media (hover: hover) and (pointer: fine) {
@@ -293,11 +314,6 @@ body.cur-view .cursor-label { opacity: 1; }
     right: auto; left: 50%; transform: translateX(-50%);
   }
 }
-/* touch screens have the calendar button (Nav.module.css) on its own row under the nav,
-   so the controls drop one row lower */
-@media (max-width: 960px) and (hover: none) {
-  .site-controls { top: calc(clamp(14px, 2.4vw, 28px) + var(--nav-h) + 10px + 44px); }
-}
 
 /* ============================================================
    FOOTER
@@ -386,6 +402,11 @@ body.cur-view .cursor-label { opacity: 1; }
 }
 /* spring: a soft spring sky for the swallows */
 :root:not([data-theme="dark"])[data-season="spring"] .foot { --foot-bg: #a9d6f0; }
+/* touch screens: the calendar button (Nav.module.css) floats over the bottom of the
+   screen, so the footer keeps room under its last line for it */
+@media (hover: none) {
+  .foot { padding-bottom: calc(clamp(30px, 4vw, 48px) + 72px); }
+}
 /* text above the seasonal effect layer (FooterSeasonFx) */
 .foot .big, .foot .row { position: relative; z-index: 1; }
 /* no headline (home): just the row, with room for the effect to show */
