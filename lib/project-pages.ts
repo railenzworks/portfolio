@@ -349,7 +349,9 @@ const caras: ProjectPage = {
 
     // ------------------------------------------------------------ Publicidad (crowdfunding, carteles, pósters, marcapáginas)
     {
-      id: 'publicidad',
+      // not 'publicidad' / 'advertising': ad blockers hide any element with that id (EasyList has the
+      // rule ###publicidad), and the whole section vanished on desktop browsers that use one
+      id: 'material',
       title: { es: 'Publicidad', en: 'Advertising' },
       blocks: [
         {

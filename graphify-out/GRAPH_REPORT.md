@@ -1,7 +1,7 @@
 # Graph Report - portfolio  (2026-11-19)
 
 ## Corpus Check
-- 65 files · ~38,492 words
+- 65 files · ~38,522 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 54 file(s) not represented in the graph (top: .css 31, .ttf 19, (none) 2)
 - WARNING: 54 of 249 files seen (22%) have no supported extractor and are missing from this graph entirely. It may look complete while representing only part of the codebase.
@@ -12,7 +12,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2343a9ff`
+- Built from commit: `7e00f656`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
