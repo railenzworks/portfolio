@@ -26,8 +26,10 @@ interface Errors {
   firstName?: string;
   lastName?: string;
   email?: string;
+  quantity?: string;
   kollektiv?: string;
 }
+const MAX_QUANTITY = 20;
 type YesNo = '' | 'yes' | 'no';
 
 // A card that pops up as soon as someone lands on the site and asks whether they
@@ -45,6 +47,7 @@ export function CalendarPopup() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [quantity, setQuantity] = useState('1'); // string so it can be edited freely
   const [kollektiv, setKollektiv] = useState<YesNo>('');
   const [website, setWebsite] = useState(''); // honeypot, left empty by people
   const [errors, setErrors] = useState<Errors>({});
@@ -130,8 +133,16 @@ export function CalendarPopup() {
     if (!firstName.trim()) errs.firstName = c.errFirstName;
     if (!lastName.trim()) errs.lastName = c.errLastName;
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) errs.email = c.errEmail;
+    const qty = Number(quantity);
+    if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QUANTITY) errs.quantity = c.errQuantity;
     if (!kollektiv) errs.kollektiv = c.errKollektiv;
     return errs;
+  };
+
+  const stepQuantity = (delta: number) => {
+    const current = Number.isInteger(Number(quantity)) ? Number(quantity) : 1;
+    setQuantity(String(Math.min(MAX_QUANTITY, Math.max(1, current + delta))));
+    setErrors((er) => ({ ...er, quantity: undefined }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -147,12 +158,13 @@ export function CalendarPopup() {
       const res = await fetch('/api/calendar-reservation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, kollektiv, website }),
+        body: JSON.stringify({ firstName, lastName, email, quantity: Number(quantity), kollektiv, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setFirstName('');
       setLastName('');
       setEmail('');
+      setQuantity('1');
       setKollektiv('');
       goTo('sent');
     } catch {
@@ -247,6 +259,9 @@ export function CalendarPopup() {
 
         {step !== 'ask' && (
           <div className={styles.layout} data-view={view}>
+            {/* desktop: two independent columns (poster, price and list | text and form);
+                on phones the wrappers vanish and the pieces stack as before */}
+            <div className={styles.colLeft}>
             {/* poster + price, together like a product card */}
             <div className={styles.side}>
               <div className={styles.sheet}>
@@ -268,7 +283,18 @@ export function CalendarPopup() {
                 <span className={styles.priceNote}>{c.priceNote}</span>
               </div>
             </div>
+            {/* desktop: the list sits under the poster and price (on phones it is
+                inside the text, above) */}
+            {step === 'form' && (
+              <ul className={`${styles.list} ${styles.listSide}`}>
+                {c.list.map((li) => (
+                  <li key={li}>{li}</li>
+                ))}
+              </ul>
+            )}
+            </div>
 
+            <div className={styles.colRight}>
             <div className={styles.content}>
               {step === 'form' ? (
                 <>
@@ -282,7 +308,8 @@ export function CalendarPopup() {
                         {p}
                       </p>
                     ))}
-                    <ul className={styles.list}>
+                    {/* phones: the list reads inside the text */}
+                    <ul className={`${styles.list} ${styles.listInline}`}>
                       {c.list.map((li) => (
                         <li key={li}>{li}</li>
                       ))}
@@ -321,7 +348,7 @@ export function CalendarPopup() {
               )}
             </div>
 
-            {/* under the poster on desktop, after the text on phones */}
+            {/* beside the list on desktop, after the text on phones */}
             {step === 'form' && (
               <form className={styles.form} onSubmit={handleSubmit} noValidate>
                 <h3 className={styles.formTitle}>
@@ -335,7 +362,46 @@ export function CalendarPopup() {
                 </h3>
                 {field('firstName', c.firstName, firstName, setFirstName, { autoComplete: 'given-name' })}
                 {field('lastName', c.lastName, lastName, setLastName, { autoComplete: 'family-name' })}
-                {field('email', c.email, email, setEmail, { type: 'email', autoComplete: 'email', wide: true })}
+                {field('email', c.email, email, setEmail, { type: 'email', autoComplete: 'email' })}
+
+                <div
+                  className={`${styles.field} ${styles.qty}${errors.quantity ? ` ${styles.err}` : ''}`}
+                >
+                  <label htmlFor="cal-quantity">{c.quantity}</label>
+                  <div className={styles.stepper}>
+                    <button
+                      type="button"
+                      onClick={() => stepQuantity(-1)}
+                      disabled={Number(quantity) <= 1}
+                      aria-label={c.quantityLess}
+                    >
+                      −
+                    </button>
+                    <input
+                      id="cal-quantity"
+                      name="quantity"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      value={quantity}
+                      maxLength={2}
+                      aria-invalid={!!errors.quantity}
+                      onChange={(e) => {
+                        setQuantity(e.target.value.replace(/\D/g, ''));
+                        setErrors((er) => ({ ...er, quantity: undefined }));
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => stepQuantity(1)}
+                      disabled={Number(quantity) >= MAX_QUANTITY}
+                      aria-label={c.quantityMore}
+                    >
+                      +
+                    </button>
+                  </div>
+                  {errors.quantity && <div className={styles.msg}>{errors.quantity}</div>}
+                </div>
 
                 <fieldset
                   className={`${styles.field} ${styles.fieldWide} ${styles.choice}${errors.kollektiv ? ` ${styles.err}` : ''}`}
@@ -389,6 +455,7 @@ export function CalendarPopup() {
                 </button>
               </form>
             )}
+            </div>
           </div>
         )}
       </div>

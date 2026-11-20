@@ -86,6 +86,10 @@ const en = {
     firstName: 'First name',
     lastName: 'Last name',
     email: 'Email',
+    quantity: 'How many calendars do you want to reserve?',
+    quantityLess: 'One less',
+    quantityMore: 'One more',
+    errQuantity: 'Choose a number between 1 and 20',
     kollektiv: 'Are you coming from Kollektiv?',
     kollektivHint:
       'Choose **Yes** if you found this through a Kollektiv post or message.\nChoose **No** if you came via María or someone sent you the link.',
@@ -371,6 +375,10 @@ const es: Dict = {
     firstName: 'Nombre',
     lastName: 'Apellidos',
     email: 'Email',
+    quantity: '¿Cuántos calendarios quieres reservar?',
+    quantityLess: 'Uno menos',
+    quantityMore: 'Uno más',
+    errQuantity: 'Elige un número entre 1 y 20',
     kollektiv: '¿Vienes de parte de Kollektiv?',
     kollektivHint:
       'Marca **Sí** si te llegó por una publicación o mensaje de Kollektiv.\nMarca **No** si llegaste por María o porque alguien te pasó el enlace.',

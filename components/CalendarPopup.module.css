@@ -178,13 +178,14 @@
   --pw: clamp(150px, calc(80dvh - 430px), 300px);
   display: grid;
   grid-template-columns: 330px minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  grid-template-areas:
-    'side content'
-    'form content';
+  align-items: start;
   gap: 20px 48px;
   padding: clamp(24px, 4.2dvh, 40px) 44px clamp(24px, 4.2dvh, 40px) 40px;
 }
+/* desktop: two columns that stack their own pieces; phones: see the media query */
+.colLeft,
+.colRight { display: flex; flex-direction: column; min-width: 0; }
+.colRight { gap: 14px; }
 .side {
   grid-area: side;
   display: flex;
@@ -235,7 +236,7 @@
   color: var(--ink-70);
 }
 
-.content { grid-area: content; align-self: center; }
+.content { grid-area: content; }
 .title {
   font-family: var(--serif);
   font-weight: 800;
@@ -273,6 +274,9 @@
   font-size: 0.92rem;
   line-height: 1.35;
 }
+/* desktop: the list lives under the poster; phones: inside the text */
+.listSide { grid-area: list; margin: 12px 0 0; }
+.listInline { display: none; }
 
 /* ---------- the form ---------- */
 .form {
@@ -281,11 +285,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 16px;
-  padding: 18px 20px 20px;
+  padding: 16px 20px 18px;
   border-radius: var(--radius);
-  background: var(--accent-soft);
+  /* the season's colour, much lighter */
+  background: color-mix(in srgb, var(--blue) 12%, transparent);
 }
-:root:not([data-theme='dark']) .form { background: #f5f3ef; }
 .formTitle {
   grid-column: 1 / -1;
   display: flex;
@@ -295,9 +299,9 @@
   font-weight: 800;
   font-size: 1.35rem;
   line-height: 1;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
-.field { margin-bottom: 14px; min-width: 0; }
+.field { margin-bottom: 10px; min-width: 0; }
 .fieldWide { grid-column: 1 / -1; }
 .field label {
   display: block;
@@ -323,6 +327,28 @@
 .field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 1px 0 var(--blue); }
 .field.err input { border-color: var(--error); }
 
+/* number of calendars: [−] 1 [+] */
+.stepper { display: inline-flex; align-items: center; gap: 12px; padding-top: 6px; }
+.stepper button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink-40);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--read);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.3s, opacity 0.3s;
+}
+.stepper button:hover:not(:disabled) { border-color: var(--ink); }
+.stepper button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.stepper button:disabled { opacity: 0.35; cursor: default; }
+.field .stepper input { width: 3ch; text-align: center; padding: 4px 0; }
+
 /* "Are you coming from Kollektiv?" yes/no */
 .choice { border: 0; padding: 0; min-inline-size: 0; }
 .choice legend {
@@ -336,13 +362,13 @@
 .hint {
   margin: 6px 0 0;
   font-family: var(--read);
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.35;
   color: var(--ink-70);
   white-space: pre-line;
 }
 .hint strong { color: var(--ink); font-weight: 600; }
-.options { display: flex; gap: 22px; padding-top: 8px; }
+.options { display: flex; gap: 22px; padding-top: 6px; }
 .options label {
   display: inline-flex;
   align-items: center;
@@ -371,7 +397,7 @@
 .sendErr { grid-column: 1 / -1; margin: 0 0 12px; line-height: 1.5; }
 .form p.consent {
   grid-column: 1 / -1;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   font-size: 0.74rem;
   line-height: 1.4;
   color: var(--ink-70);
@@ -431,7 +457,7 @@
 }
 
 /* thank-you: centred beside the poster */
-.content:has(.sentMsg) { align-self: center; }
+.colRight:has(.sentMsg) { align-self: center; }
 .sentMsg p { max-width: 42ch; margin-bottom: 26px; font-size: 1rem; }
 
 /* ---------- narrower windows and phones: two screens, neither scrolls ----------
@@ -440,12 +466,15 @@
 @media (max-width: 860px) {
   .layout {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
     grid-template-areas: 'side' 'content' 'form';
     gap: 16px;
     padding: 52px 24px 24px;
   }
+  .colLeft,
+  .colRight { display: contents; }
   .content { align-self: start; }
+  .listSide { display: none; }
+  .listInline { display: block; }
   .layout[data-view='info'] .form { display: none; }
   .layout[data-view='form'] .content { display: none; }
 
