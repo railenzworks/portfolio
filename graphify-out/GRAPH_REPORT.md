@@ -1,7 +1,7 @@
-# Graph Report - portfolio  (2026-11-19)
+# Graph Report - portfolio  (2026-11-20)
 
 ## Corpus Check
-- 65 files · ~38,522 words
+- 65 files · ~38,723 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 54 file(s) not represented in the graph (top: .css 31, .ttf 19, (none) 2)
 - WARNING: 54 of 249 files seen (22%) have no supported extractor and are missing from this graph entirely. It may look complete while representing only part of the codebase.
@@ -12,7 +12,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7e00f656`
+- Built from commit: `d78899e6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -50,14 +50,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `7. Selector de ilustraciones (`components/project/Illustrations.tsx` + `.module.css`)` --references--> `FeaturedTabs()`  [INFERRED]
   docs/plan-estetica-las-caras-de-la-mente.md → components/FeaturedTabs.tsx
-- `FeaturedTabsProps` --references--> `Project`  [EXTRACTED]
-  components/FeaturedTabs.tsx → lib/projects.ts
-- `ProjectCoverProps` --references--> `Project`  [EXTRACTED]
-  components/ProjectCover.tsx → lib/projects.ts
-- `WorkCardProps` --references--> `Project`  [EXTRACTED]
-  components/WorkCard.tsx → lib/projects.ts
-- `ProjectOverlayProps` --references--> `Project`  [EXTRACTED]
-  components/works/ProjectOverlay.tsx → lib/projects.ts
+- `ProjectSections()` --calls--> `loc()`  [EXTRACTED]
+  components/project/ProjectSections.tsx → lib/i18n.ts
+- `WorkCard()` --calls--> `loc()`  [EXTRACTED]
+  components/WorkCard.tsx → lib/i18n.ts
+- `ProjectOverlay()` --calls--> `loc()`  [EXTRACTED]
+  components/works/ProjectOverlay.tsx → lib/i18n.ts
+- `WorksGrid()` --calls--> `loc()`  [EXTRACTED]
+  components/works/WorksGrid.tsx → lib/i18n.ts
 
 ## Import Cycles
 - None detected.
